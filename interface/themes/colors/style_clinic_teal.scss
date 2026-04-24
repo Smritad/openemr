@@ -1,0 +1,57 @@
+/*
+ * OpenCMS Clinic Teal – Custom Brand Theme
+ *
+ * To compile: run `npm run build` or `gulp` from the project root.
+ * The compiled CSS will be output to public/themes/style_clinic_teal.css
+ * and can then be selected as the active theme in
+ *   Admin > Config > Globals > Appearance > CSS Style Sheet
+ *
+ * Brand palette
+ * ─────────────────────────────
+ *   navy     #0f2744   darkest navbar background
+ *   dark     #1d4ed8   primary / button colour
+ *   mid      #3b82f6   hover states
+ *   midpale  #60a5fa   lighter accents
+ *   pale     #93c5fd   borders / focus rings
+ *   paler    #dbeafe   table stripes / subtle bg
+ *   sky      #0ea5e9   active tabs / accent
+ *   green    #059669   success states
+ */
+
+$colorname: "Clinic Teal";
+
+/* ── Core palette for OpenEMR color system ─── */
+$darkest:     #0f2744;
+$darker:      #1d4ed8;
+$dark:        #3b82f6;
+$mid:         #60a5fa;
+$midpale:     #93c5fd;
+$pale:        #bfdbfe;
+$midpalepale: #dbeafe;
+$palepale:    #eff6ff;
+$palepurple:  #f5f3ff;
+$paler:       #f8faff;
+$midnightblue:#0f2744;
+$white:       #fff;
+
+/* ── Override Bootstrap primary ─────────────── */
+$primary: $darker;
+$info:    #0ea5e9;
+$success: #059669;
+
+/* ── Login-page specific overrides ──────────── */
+$login-color-1:        $darkest;
+$login-color-2:        #0ea5e9;
+$login-color-3:        $darker;
+$login-text-color:     $white;
+$login-form-bg-color:  $white;
+$login-button-primary: true;
+
+/* ── Bring in shared variable defaults ──────── */
+@import "utilities/default_variables";
+
+// Bootstrap 4 SCSS – replaced by gulp, do not touch this comment:
+// bs4import
+
+/* ── Import the base colour engine ──────────── */
+@import "../color_base";

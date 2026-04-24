@@ -1,0 +1,12 @@
+---
+# Custom brand overrides – loaded on every page via Header::includeAsset
+# This file is automatically picked up if it exists at custom/assets/custom.yaml
+assets:
+    brand-theme:
+        basePath: '%webroot%/custom/assets/'
+        link: css/brand_theme.css
+        autoload: true
+    brand-scripts:
+        basePath: '%webroot%/custom/assets/'
+        script: js/brand_init.js
+        autoload: true

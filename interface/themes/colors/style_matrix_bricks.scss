@@ -1,0 +1,60 @@
+/*
+ * Matrix Bricks – Brand Color Theme
+ *
+ * Brand palette inspired by Matrix Bricks logo (red · yellow · white · black)
+ * ──────────────────────────────────────────────────────────────────────────
+ *   $darkest      #1a0000   near-black red  – deepest borders / dark accents
+ *   $darker       #7b0000   dark red        – navbar links / primary heading
+ *   $dark         #cc0000   vivid red       – title bars / active buttons
+ *   $mid          #e85c1a   amber-red       – hover / badge accents
+ *   $midpale      #f5a800   golden amber    – lighter accents / icons
+ *   $pale         #ffd000   bright yellow   – borders / focus rings
+ *   $midpalepale  #fff0b3   light yellow    – alternating table rows
+ *   $palepale     #fff8d9   cream yellow    – panel / card backgrounds
+ *   $palepurple   #fff9f2   warm off-white  – secondary panels
+ *   $paler        #fffcf0   near-white      – page background strips
+ *   $midnightblue #1a0000   deep dark red   – logo bar background
+ *   $white        #ffffff   white           – base background / text on dark
+ *
+ * To compile: run `npm run build` or `npx gulp -b` from the project root.
+ * Output: public/themes/style_matrix_bricks.css
+ * Select via: Admin › Config › Globals › Appearance › CSS Style Sheet
+ */
+
+$colorname: "Matrix Bricks";
+
+/* ── Core OpenEMR colour palette ─────────────── */
+$darkest:     #1a0000;
+$darker:      #7b0000;
+$dark:        #cc0000;
+$mid:         #e85c1a;
+$midpale:     #f5a800;
+$pale:        #ffd000;
+$midpalepale: #fff0b3;
+$palepale:    #fff8d9;
+$palepurple:  #fff9f2;
+$paler:       #fffcf0;
+$midnightblue:#1a0000;
+$white:       #fff;
+
+/* ── Bootstrap overrides ─────────────────────── */
+$primary:  $dark;      /* vivid red */
+$warning:  $pale;      /* bright yellow */
+$danger:   $darker;    /* dark red */
+
+/* ── Login page ──────────────────────────────── */
+$login-color-1:       $darkest;
+$login-color-2:       $pale;
+$login-color-3:       $dark;
+$login-text-color:    $white;
+$login-form-bg-color: $white;
+$login-button-primary: true;
+
+/* ── Pull in shared variable defaults ────────── */
+@import "utilities/default_variables";
+
+// Bootstrap 4 SCSS – replaced by gulp, do not touch this comment:
+// bs4import
+
+/* ── Import the base colour engine ───────────── */
+@import "../color_base";

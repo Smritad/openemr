@@ -1,0 +1,803 @@
+/*
+ * OpenCMS Custom Brand Theme
+ * Injected automatically via custom/assets/custom.yaml
+ *
+ * Brand Palette
+ *   --brand-navy    : #0f2744  (dark navy – navbar bg)
+ *   --brand-blue    : #1d4ed8  (primary / buttons)
+ *   --brand-sky     : #0ea5e9  (accent / hover / active tab)
+ *   --brand-green   : #059669  (success states)
+ *   --brand-body-bg : #f0f5ff  (page canvas)
+ *   --brand-surface : #ffffff  (cards / modals)
+ *   --brand-text    : #1e293b  (body text)
+ *   --brand-muted   : #64748b  (secondary text / icons)
+ */
+
+/* ─────────────────────────────────────────────
+   1. CSS CUSTOM PROPERTIES (override oe- vars)
+   ───────────────────────────────────────────── */
+:root {
+    /* page canvas */
+    --oe-body-bg:                  #f0f5ff;
+    --oe-body-color:               #1e293b;
+
+    /* surface / cards / modals */
+    --oe-surface-bg:               #ffffff;
+    --oe-panel-bg:                 #ffffff;
+    --oe-fieldset-bg:              #eef2ff;
+
+    /* top navbar */
+    --oe-navbar-bg:                #0f2744;
+    --oe-navbar-color:             #e0f2fe;
+    --oe-navbar-link-hover-bg:     #0ea5e9;
+    --oe-navbar-link-hover-color:  #ffffff;
+    --oe-navbar-link-active-bg:    #1d4ed8;
+    --oe-navbar-link-active-color: #ffffff;
+
+    /* search bar */
+    --oe-search-bg:                #1a3a5f;
+
+    /* brand colours directly usable by other custom CSS */
+    --brand-navy:   #0f2744;
+    --brand-blue:   #1d4ed8;
+    --brand-sky:    #0ea5e9;
+    --brand-green:  #059669;
+    --brand-text:   #1e293b;
+    --brand-muted:  #64748b;
+}
+
+/* ─────────────────────────────────────────────
+   2. GLOBAL BODY / BACKGROUND
+   ───────────────────────────────────────────── */
+html, body {
+    background-color: var(--oe-body-bg) !important;
+    color: var(--oe-body-color) !important;
+}
+
+.body_main,
+.body_main_widescreen {
+    background-color: var(--oe-body-bg) !important;
+}
+
+/* ─────────────────────────────────────────────
+   3. TOP NAVIGATION BAR
+   ───────────────────────────────────────────── */
+nav.navbar,
+.navbar.bg-light,
+.navbar.navbar-light {
+    background-color: var(--brand-navy) !important;
+    border-bottom: 3px solid var(--brand-sky) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Navbar brand / logo area */
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: #ffffff !important;
+    opacity: 1;
+}
+
+/* Hamburger toggler */
+.navbar-toggler {
+    border-color: rgba(224, 242, 254, 0.4) !important;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(224,242,254,0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* ─────────────────────────────────────────────
+   4. APP MENU (DROPDOWN NAVIGATION)
+   ───────────────────────────────────────────── */
+/* Top-level menu labels */
+.appMenu .menuLabel,
+.appMenu > div > .menuLabel,
+.appMenu .menuSection > .menuLabel {
+    color: #e0f2fe !important;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 0.45rem 0.6rem !important;
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.appMenu .menuLabel:hover,
+.appMenu > div:hover > .menuLabel,
+.appMenu .menuSection:hover > .menuLabel {
+    background-color: var(--brand-sky) !important;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+/* Dropdown caret icons */
+.appMenu .fa.closeButton {
+    color: #7dd3fc !important;
+}
+
+/* Dropdown menus */
+.appMenu .menuEntries.dropdown-menu,
+.appMenu .dropdown-menu {
+    background-color: #0f2744 !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    padding: 4px 0 !important;
+    min-width: 200px;
+}
+
+/* Dropdown items */
+.appMenu .menuEntries li .menuLabel,
+.appMenu .dropdown-menu li .menuLabel {
+    color: #bae6fd !important;
+    padding: 0.4rem 1rem !important;
+    font-size: 0.875rem;
+    font-weight: 400;
+    border-radius: 0 !important;
+}
+
+.appMenu .menuEntries li:hover .menuLabel,
+.appMenu .dropdown-menu li:hover .menuLabel {
+    background-color: var(--brand-sky) !important;
+    color: #ffffff !important;
+}
+
+/* Disabled menu items */
+.menuDisabled {
+    color: #4a6275 !important;
+    pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   5. TAB STRIP (bottom of navbar)
+   ───────────────────────────────────────────── */
+.tabControls {
+    background-color: #1a3a5f !important;
+    border-bottom: 2px solid var(--brand-sky) !important;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+}
+
+/* Individual tab */
+.tabSpan,
+.tabSpan.bgcolor2 {
+    background-color: #1e3e66 !important;
+    border: 1px solid rgba(14, 165, 233, 0.25) !important;
+    border-bottom: none !important;
+    border-radius: 4px 4px 0 0 !important;
+    color: #93c5fd !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 3px 10px !important;
+    margin: 2px 2px 0 !important;
+    font-size: 0.8rem;
+    transition: background 0.15s ease, color 0.15s ease;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tabSpan:hover,
+.tabSpan.bgcolor2:hover {
+    background-color: var(--brand-sky) !important;
+    color: #ffffff !important;
+    border-color: var(--brand-sky) !important;
+}
+
+/* Active / visible tab */
+.tabSpan:not(.tabsNoHover):not([style*="display: none"]) {
+    background-color: var(--brand-blue) !important;
+    color: #ffffff !important;
+    border-color: rgba(29, 78, 216, 0.6) !important;
+}
+
+/* Tab title text */
+.tabTitle {
+    color: inherit !important;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 130px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tabHidden {
+    color: #4a6275 !important;
+}
+
+/* Tab icons (refresh, lock, close) */
+.tabSpan .fa-sync,
+.tabSpan .fa-unlock,
+.tabSpan .fa-lock,
+.tabSpan .fa-times {
+    color: inherit !important;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.tabSpan .fa-sync:hover,
+.tabSpan .fa-unlock:hover,
+.tabSpan .fa-lock:hover,
+.tabSpan .fa-times:hover {
+    opacity: 1;
+}
+
+/* Patient toggle caret */
+#patient_caret.fa.menu_arrow {
+    color: #7dd3fc !important;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 1.1rem;
+    transition: color 0.15s;
+}
+#patient_caret.fa.menu_arrow:hover {
+    color: var(--brand-sky) !important;
+}
+
+/* ─────────────────────────────────────────────
+   6. FRAME / CONTENT AREA
+   ───────────────────────────────────────────── */
+.mainFrames,
+#mainFrames_div,
+#framesDisplay {
+    background-color: var(--oe-body-bg) !important;
+}
+
+.frameDisplay {
+    background-color: var(--oe-body-bg) !important;
+}
+
+/* ─────────────────────────────────────────────
+   7. PATIENT / ATTENDANT PANEL
+   ───────────────────────────────────────────── */
+#attendantData,
+.body_title.acck {
+    background-color: #e8f4fd !important;
+    border-bottom: 2px solid var(--brand-sky) !important;
+    color: var(--brand-text) !important;
+    padding: 4px 12px !important;
+    font-size: 0.875rem;
+}
+
+/* ─────────────────────────────────────────────
+   8. PRIMARY BUTTONS
+   ───────────────────────────────────────────── */
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+    background-color: var(--brand-blue) !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #1e40af !important;
+    box-shadow: 0 0 0 0.2rem rgba(29, 78, 216, 0.35) !important;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+    color: var(--brand-text) !important;
+}
+
+.btn-success,
+.btn-success:hover {
+    background-color: var(--brand-green) !important;
+    border-color: #047857 !important;
+    color: #ffffff !important;
+}
+
+.btn-info,
+.btn-info:hover {
+    background-color: var(--brand-sky) !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+.btn-outline-primary {
+    color: var(--brand-blue) !important;
+    border-color: var(--brand-blue) !important;
+}
+.btn-outline-primary:hover {
+    background-color: var(--brand-blue) !important;
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   9. SEARCH BAR
+   ───────────────────────────────────────────── */
+#anySearchBox,
+.form-control-sm.form-control[name="anySearchBox"] {
+    background-color: #1a3a5f !important;
+    color: #e0f2fe !important;
+    border: 1px solid rgba(14, 165, 233, 0.4) !important;
+    border-radius: 4px !important;
+}
+
+#anySearchBox::placeholder {
+    color: rgba(148, 196, 233, 0.65) !important;
+}
+
+#anySearchBox:focus {
+    background-color: #1a3a5f !important;
+    border-color: var(--brand-sky) !important;
+    box-shadow: 0 0 0 0.15rem rgba(14, 165, 233, 0.4) !important;
+    color: #e0f2fe !important;
+}
+
+#search_globals,
+button#search_globals {
+    background-color: var(--brand-sky) !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   10. USER DROPDOWN
+   ───────────────────────────────────────────── */
+#userData,
+#userdropdown,
+.dropdown-menu {
+    background-color: #0f2744 !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+}
+
+#userData a,
+#userData button,
+#userdropdown .dropdown-item {
+    color: #bae6fd !important;
+}
+
+#userdropdown .dropdown-item:hover,
+#userdropdown .dropdown-item:focus {
+    background-color: var(--brand-sky) !important;
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   11. CARDS, PANELS, MODALS
+   ───────────────────────────────────────────── */
+.card,
+.panel,
+.panel-default,
+.modal-content {
+    background-color: #ffffff !important;
+    border: 1px solid #dbeafe !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    color: var(--brand-text) !important;
+}
+
+.card-header,
+.panel-heading {
+    background-color: #eff6ff !important;
+    border-bottom: 1px solid #bfdbfe !important;
+    color: var(--brand-navy) !important;
+    font-weight: 600;
+}
+
+/* Modal header */
+.modal-header {
+    background-color: var(--brand-navy) !important;
+    color: #e0f2fe !important;
+    border-radius: 7px 7px 0 0 !important;
+}
+
+.modal-header .modal-title {
+    color: #e0f2fe !important;
+}
+
+.modal-header .close {
+    color: #e0f2fe !important;
+    opacity: 0.8;
+}
+
+/* ─────────────────────────────────────────────
+   12. TABLES
+   ───────────────────────────────────────────── */
+.table {
+    color: var(--brand-text) !important;
+    background-color: #ffffff !important;
+}
+
+.table thead th {
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+    border-color: #1e40af !important;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f0f5ff !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #dbeafe !important;
+}
+
+.table-bordered,
+.table-bordered th,
+.table-bordered td {
+    border-color: #bfdbfe !important;
+}
+
+/* ─────────────────────────────────────────────
+   13. FORM CONTROLS / INPUTS
+   ───────────────────────────────────────────── */
+.form-control,
+select,
+textarea,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="search"],
+.input-group-text {
+    background-color: #ffffff !important;
+    color: var(--brand-text) !important;
+    border-color: #93c5fd !important;
+    border-radius: 5px !important;
+}
+
+.form-control:focus,
+select:focus,
+textarea:focus,
+input:focus {
+    background-color: #ffffff !important;
+    color: var(--brand-text) !important;
+    border-color: var(--brand-blue) !important;
+    box-shadow: 0 0 0 0.15rem rgba(29, 78, 216, 0.25) !important;
+}
+
+label {
+    color: var(--brand-text) !important;
+    font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────
+   14. FIELDSETS & SECTION HEADERS
+   ───────────────────────────────────────────── */
+fieldset,
+.oe-fieldset {
+    background-color: #f8faff !important;
+    border: 1px solid #bfdbfe !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+}
+
+fieldset legend,
+.oe-fieldset legend {
+    color: var(--brand-navy) !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background-color: #eff6ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────
+   15. BADGES, ALERTS, PILLS
+   ───────────────────────────────────────────── */
+.badge-primary { background-color: var(--brand-blue) !important; color: #fff !important; }
+.badge-success { background-color: var(--brand-green) !important; color: #fff !important; }
+.badge-info    { background-color: var(--brand-sky) !important; color: #fff !important; }
+
+.alert-primary {
+    background-color: #dbeafe !important;
+    border-color: #93c5fd !important;
+    color: #1e3a8a !important;
+}
+
+.alert-success {
+    background-color: #d1fae5 !important;
+    border-color: #6ee7b7 !important;
+    color: #065f46 !important;
+}
+
+/* ─────────────────────────────────────────────
+   16. TABS (Bootstrap tab component inside pages)
+   ───────────────────────────────────────────── */
+.nav-tabs {
+    border-bottom: 2px solid #bfdbfe !important;
+}
+
+.nav-tabs .nav-link {
+    color: var(--brand-blue) !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    border-bottom-color: var(--brand-sky) !important;
+    color: var(--brand-sky) !important;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid var(--brand-blue) !important;
+    color: var(--brand-navy) !important;
+    font-weight: 700;
+    background-color: transparent !important;
+}
+
+ul.tabNav a {
+    color: var(--brand-blue) !important;
+}
+
+/* ─────────────────────────────────────────────
+   17. SIDEBAR / LEFT NAV
+   ───────────────────────────────────────────── */
+#oe-nav-sidebar,
+#oe-nav-sidebar .list-group-item {
+    background-color: #eff6ff !important;
+    color: var(--brand-text) !important;
+    border-color: #bfdbfe !important;
+}
+
+#oe-nav-sidebar .list-group-item.active,
+#oe-nav-sidebar .list-group-item:hover {
+    background-color: var(--brand-blue) !important;
+    color: #ffffff !important;
+    border-color: var(--brand-blue) !important;
+}
+
+/* ─────────────────────────────────────────────
+   18. LOGIN PAGE
+   ───────────────────────────────────────────── */
+.login {
+    background: linear-gradient(135deg, #0f2744 0%, #1d4ed8 60%, #0ea5e9 100%) !important;
+    min-height: 100vh;
+}
+
+.box,
+.band,
+.vertical-band {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Left panel of login box (logo area) */
+.login .box > div:first-child,
+.d-flex.flex-fill:first-of-type {
+    background: linear-gradient(180deg, #0f2744 0%, #1d4ed8 100%) !important;
+    border-radius: 12px 0 0 12px !important;
+}
+
+/* Login form panel */
+.login .box .bg-white,
+.login .p-md-5.flex-fill.bg-white {
+    background-color: #ffffff !important;
+    border-radius: 0 12px 12px 0 !important;
+}
+
+/* Login title / site name */
+.login h1,
+.login h2,
+.login h3 {
+    color: var(--brand-navy) !important;
+    font-weight: 700;
+}
+
+/* Login form inputs */
+.login .form-control,
+.login input[type="text"],
+.login input[type="password"] {
+    border-color: #93c5fd !important;
+    background-color: #f8faff !important;
+    border-radius: 6px !important;
+}
+
+.login .form-control:focus {
+    border-color: var(--brand-blue) !important;
+    box-shadow: 0 0 0 0.2rem rgba(29, 78, 216, 0.2) !important;
+}
+
+/* Login button */
+.login .btn-login,
+.login button[type="submit"],
+.login .btn-primary {
+    background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-sky) 100%) !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    padding: 0.55rem 2rem !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login .btn-primary:hover,
+.login button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(29, 78, 216, 0.45) !important;
+}
+
+/* ─────────────────────────────────────────────
+   19. PAGE-LEVEL HEADERS / TITLES
+   ───────────────────────────────────────────── */
+h1, h2, h3 {
+    color: var(--brand-navy) !important;
+}
+
+h4, h5, h6 {
+    color: var(--brand-text) !important;
+}
+
+/* Page title bar (used in many OpenEMR pages) */
+.title, .ptitle {
+    color: var(--brand-navy) !important;
+    font-weight: 700;
+    border-bottom: 2px solid var(--brand-sky) !important;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+/* ─────────────────────────────────────────────
+   20. LINKS
+   ───────────────────────────────────────────── */
+a,
+a:not([class]) {
+    color: var(--brand-blue) !important;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--brand-sky) !important;
+    text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────────
+   21. PAGINATION
+   ───────────────────────────────────────────── */
+.page-link {
+    color: var(--brand-blue) !important;
+    border-color: #bfdbfe !important;
+}
+
+.page-link:hover {
+    background-color: #dbeafe !important;
+    color: var(--brand-navy) !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--brand-blue) !important;
+    border-color: var(--brand-blue) !important;
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   22. BRAND LOGO SVG COLOR OVERRIDE
+   ───────────────────────────────────────────── */
+#mainBox .logo .emr-menu-logo > #blue-color,
+#mainBox_vertical .logo .emr-menu-logo > #blue-color {
+    fill: #e0f2fe !important;
+}
+
+.about-review-image > #color {
+    fill: var(--brand-blue) !important;
+}
+
+/* ─────────────────────────────────────────────
+   23. SELECT2 / AUTOCOMPLETE
+   ───────────────────────────────────────────── */
+.select2-container--bootstrap4 .select2-selection {
+    border-color: #93c5fd !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single:focus,
+.select2-container--bootstrap4.select2-container--focus .select2-selection--multiple {
+    border-color: var(--brand-blue) !important;
+    box-shadow: 0 0 0 0.15rem rgba(29, 78, 216, 0.25) !important;
+}
+
+.select2-container--bootstrap4 .select2-results__option--highlighted {
+    background-color: var(--brand-blue) !important;
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   24. CALENDAR COLORS
+   ───────────────────────────────────────────── */
+#OpenEMR_scheduler_header,
+.fc-toolbar.fc-header-toolbar {
+    background-color: var(--brand-navy) !important;
+    color: #e0f2fe !important;
+    padding: 8px 12px;
+    border-radius: 6px 6px 0 0;
+}
+
+.fc-button-primary,
+.fc-button {
+    background-color: var(--brand-blue) !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.fc-button-primary:hover,
+.fc-button:hover {
+    background-color: #1e40af !important;
+}
+
+/* ─────────────────────────────────────────────
+   25. MISCELLANEOUS HELPERS
+   ───────────────────────────────────────────── */
+.text-primary { color: var(--brand-blue) !important; }
+.text-info    { color: var(--brand-sky) !important; }
+.text-success { color: var(--brand-green) !important; }
+.text-muted   { color: var(--brand-muted) !important; }
+
+.bg-primary { background-color: var(--brand-blue) !important; color: #fff !important; }
+.bg-info    { background-color: var(--brand-sky) !important; color: #fff !important; }
+.bg-success { background-color: var(--brand-green) !important; color: #fff !important; }
+
+/* Scroll bars (Webkit) */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f0f5ff; }
+::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-blue); }
+
+/* ─────────────────────────────────────────────
+   26. OEMR-SPECIFIC CLASSES (legacy pages)
+   ───────────────────────────────────────────── */
+.bgcolor1 { background-color: #eff6ff !important; }
+.bgcolor2 { background-color: #dbeafe !important; color: var(--brand-text) !important; }
+.bgcolor3 { background-color: #bfdbfe !important; }
+
+.mainbox {
+    background-color: var(--oe-body-bg) !important;
+}
+
+/* Bold category headings in forms */
+.bold, .bold1 {
+    color: var(--brand-navy) !important;
+    font-weight: 700;
+}
+
+/* Top header band in older pages */
+.pageheading {
+    background: linear-gradient(90deg, var(--brand-navy) 0%, #1d4ed8 100%) !important;
+    color: #e0f2fe !important;
+    padding: 8px 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+/* Dividers */
+hr {
+    border-color: #bfdbfe !important;
+    opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────────
+   27. PRINT OVERRIDES – keep clean
+   ───────────────────────────────────────────── */
+@media print {
+    nav.navbar,
+    .tabControls,
+    #attendantData {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+}
