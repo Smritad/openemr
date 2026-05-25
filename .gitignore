@@ -1,32 +1,31 @@
-# logs
-/logs
-
-# environment vars
+#/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+ 
+# Laravel 4 specific
+bootstrap/compiled.php
+#app/storage/
+ 
+# Laravel 5 & Lumen specific
+#public/storage
+public/hot
+ 
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+ 
+storage/*.key
 .env
-
-# vendor and assets
-node_modules
-/public/assets/*
-/public/themes/*
-!/public/assets/modified
-/.docs/.out/*
-
-# ccda service build
-ccdaservice/node_modules
-
-# dev editor configs
-/.idea/*
-/.vscode/*
-/.vscode-oss/*
-/nbproject/*
-.DS_Store
-.buildpath
-.project
-.settings
-
-# testing
+Homestead.yaml
+Homestead.json
+/.vagrant
 .phpunit.result.cache
-coverage/js-unit
-
-# phpstan
-tmp-phpstan/*
+ 
+/public/build
+/storage/pail
+.env.backup
+.env.production
+.phpactor.json
+auth.json
+ 
