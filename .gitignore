@@ -6,7 +6,6 @@
 
 # vendor and assets
 node_modules
-/vendor/*
 /public/assets/*
 /public/themes/*
 !/public/assets/modified
