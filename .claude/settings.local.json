@@ -80,10 +80,22 @@
       "Bash(ls c:/xampp/htdocs/open_cms/sites/default/documents/smarty/main/%%A8/A82/A826621B%%ajax_template.html.php 2>&1)",
       "Read(//c/xampp/htdocs/open_cms/sites/default/documents/smarty/main/%%A8/A82/**)",
       "Bash(git -C c:/xampp/htdocs/open_cms diff --stat interface/main/calendar/modules/PostCalendar/pntemplates/default/views/day/ajax_template.html)",
-      "Bash(git -C c:/xampp/htdocs/open_cms diff -U0 interface/main/calendar/modules/PostCalendar/pntemplates/default/views/day/ajax_template.html)"
+      "Bash(git -C c:/xampp/htdocs/open_cms diff -U0 interface/main/calendar/modules/PostCalendar/pntemplates/default/views/day/ajax_template.html)",
+      "Bash(findstr /n \"extension=xsl\" C:\\\\xampp\\\\php\\\\php.ini)",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\xampp\\\\php\\\\php.ini' -Pattern '^;?extension=xsl' | Select-Object LineNumber, Line\")",
+      "Bash(ls -la /c/xampp/php/ext/php_xsl* 2>&1)",
+      "Read(//c/xampp/php/ext/**)",
+      "Read(//c/xampp/php/**)",
+      "Bash(where node *)",
+      "Bash(where winget *)",
+      "Bash(where choco *)",
+      "Bash(node serveccda.js)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :6661)"
     ],
     "additionalDirectories": [
-      "C:\\xampp\\htdocs\\open_cms"
+      "C:\\xampp\\htdocs\\open_cms",
+      "C:\\xampp\\php"
     ]
   }
 }

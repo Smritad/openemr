@@ -131,7 +131,8 @@ class QrdaReportService
         $exportService = new ExportCat3Service($this->builder, $this->calculator, $request);
         $result = $exportService->export($measures, true);
         $include = array_shift($result);
-        if ((int)$include[0]->IPP === 0) {
+        $ipp = isset($include[0]) && is_object($include[0]) ? ($include[0]->IPP ?? null) : null;
+        if ((int)$ipp === 0) {
             error_log(errorLogEscape(xlt('Patient did not qualify') . ' pid: ' . $pid . ' Measures: ' . text(basename((string) $measures[0]))));
             return false;
         }

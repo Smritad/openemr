@@ -3266,12 +3266,12 @@ class EncounterccdadispatchTable extends AbstractTableGateway
                                   <extension>" . xmlEscape(base64_encode('smoking' . $this->session->get('site_id') . $row['id'])) . "</extension>
                                   <sha_extension>" . xmlEscape("9b56c25d-9104-45ee-9fa4-e0f3afaa01c1") . "</sha_extension>
                                   <element>" . xmlEscape('Smoking') . "</element>
-                                  <description>" . xmlEscape(($arr_status[$tobacco[1]] ?: '')) . "</description>
+                                  <description>" . xmlEscape($arr_status[$tobacco[1] ?? ''] ?? '') . "</description>
                                   <status_code>" . xmlEscape(($status_code ?: '')) . "</status_code>
                                   <status>" . xmlEscape((($snomeds_status[$tobacco[1] ?? ''] ?? '') ? $snomeds_status[$tobacco[1]] : "")) . "</status>
                                   <date>" . (($tobacco[2] ?? '') ? xmlEscape($this->date_format($tobacco[2])) : '') . "</date>
                                   <date_formatted>" . (($tobacco[2] ?? '') ? xmlEscape(preg_replace('/-/', '', $tobacco[2])) : '') . "</date_formatted>
-                                  <code>" . xmlEscape(($arr_code[$tobacco[1]] ?: '')) . "</code>
+                                  <code>" . xmlEscape($arr_code[$tobacco[1] ?? ''] ?? '') . "</code>
                             </history_element>";
             $alcohol = explode('|', $row['alcohol'] ?? '');
             $social_history .= "<history_element>" . $provenanceXml . "

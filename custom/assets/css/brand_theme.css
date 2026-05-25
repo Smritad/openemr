@@ -75,7 +75,7 @@ nav.navbar, .navbar.bg-light, .navbar.navbar-light {
 .navbar-brand,
 .navbar-brand:hover,
 .navbar-brand:focus {
-    color: #ffffff !important;
+    color: #c40101 !important;
     opacity: 1;
 }
 
@@ -129,7 +129,7 @@ nav.navbar, .navbar.bg-light, .navbar.navbar-light {
 /* Dropdown items */
 .appMenu .menuEntries li .menuLabel,
 .appMenu .dropdown-menu li .menuLabel {
-    color: #cb0202 !important;
+    color: #1a1a1a !important;
     padding: 0.4rem 1rem !important;
     font-size: 0.875rem;
     font-weight: 400;
@@ -699,17 +699,17 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Dropdown menus — red text on white, subtle grey hover */
+/* Dropdown menus — dark text on white, subtle grey hover */
 .dropdown-menu .dropdown-item,
 .dropdown-menu a {
-    color: #cc0000 !important;
+    color: #1a1a1a !important;
     font-weight: 500;
 }
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus,
 .dropdown-menu a:hover {
     background-color: #f5f5f5 !important;
-    color: #7b0000 !important;
+    color: #1a1a1a !important;
 }
 
 /* ─────────────────────────────────────────────
