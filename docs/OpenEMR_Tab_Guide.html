@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>OpenEMR – Tab / Module Reference Guide</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 18mm 14mm;
+    @bottom-center {
+      content: "OpenEMR – Matrix Bricks Build  |  Page " counter(page) " of " counter(pages);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 9pt;
+      color: #777;
+    }
+  }
+  :root {
+    --brand-red:    #cc0000;
+    --brand-dark:   #7b0000;
+    --brand-darker: #1a0000;
+    --brand-yellow: #ffd000;
+    --brand-amber:  #f5a800;
+    --ink:          #1a1a1a;
+    --muted:        #555;
+    --rule:         #e0d6c2;
+    --soft-bg:      #fffcf0;
+    --card-bg:      #fff8d9;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 10.5pt;
+    margin: 0;
+    padding: 0;
+  }
+  /* ─── Cover ─── */
+  .cover {
+    page-break-after: always;
+    background: linear-gradient(135deg, #000 0%, var(--brand-darker) 55%, #000 100%);
+    color: #fff;
+    padding: 60mm 14mm 18mm 14mm;
+    min-height: 250mm;
+    margin: -16mm -14mm 0 -14mm;
+  }
+  .cover .brand-strip {
+    width: 60mm; height: 6mm;
+    background: linear-gradient(90deg, var(--brand-red) 0 33%, var(--brand-yellow) 33% 66%, #fff 66% 100%);
+    margin-bottom: 16mm;
+  }
+  .cover h1 {
+    font-size: 36pt;
+    line-height: 1.05;
+    margin: 0 0 6mm 0;
+    color: #fff;
+  }
+  .cover .subtitle {
+    color: var(--brand-yellow);
+    font-size: 14pt;
+    margin: 0 0 30mm 0;
+    letter-spacing: 0.5px;
+  }
+  .cover .meta {
+    border-left: 3px solid var(--brand-yellow);
+    padding-left: 8mm;
+    color: #f0f0f0;
+    font-size: 11pt;
+  }
+  .cover .meta div { margin: 3mm 0; }
+  .cover .meta b { color: #fff; }
+
+  /* ─── Body typography ─── */
+  h1, h2, h3, h4 { font-family: 'Segoe UI', Arial, sans-serif; color: var(--brand-darker); }
+  h1 {
+    font-size: 22pt;
+    margin: 0 0 4mm 0;
+    padding-bottom: 3mm;
+    border-bottom: 3px solid var(--brand-red);
+  }
+  h2 {
+    font-size: 15pt;
+    margin: 12mm 0 4mm 0;
+    color: #fff;
+    background: var(--brand-red);
+    padding: 3mm 5mm;
+    border-left: 6mm solid var(--brand-yellow);
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12.5pt;
+    margin: 7mm 0 2mm 0;
+    color: var(--brand-dark);
+    border-left: 3px solid var(--brand-yellow);
+    padding-left: 3mm;
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 11pt;
+    margin: 5mm 0 1.5mm 0;
+    color: var(--brand-darker);
+  }
+  p { margin: 2mm 0 3mm 0; }
+  strong { color: var(--brand-darker); }
+  ul, ol { margin: 2mm 0 4mm 0; padding-left: 7mm; }
+  li { margin: 0.8mm 0; }
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9.5pt;
+    background: var(--card-bg);
+    padding: 0.5mm 1.5mm;
+    border-radius: 1mm;
+    color: var(--brand-dark);
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 8mm 0;
+  }
+
+  /* ─── Boxes ─── */
+  .callout {
+    background: var(--soft-bg);
+    border-left: 4px solid var(--brand-yellow);
+    padding: 3mm 5mm;
+    margin: 4mm 0;
+    font-style: italic;
+    color: var(--brand-darker);
+  }
+  .callout::before {
+    content: "💬  Talking point for your boss";
+    display: block;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--brand-red);
+    font-size: 9.5pt;
+    margin-bottom: 1.5mm;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .role {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--brand-red);
+    padding: 2mm 4mm;
+    margin: 2mm 0;
+  }
+  .role .label {
+    font-size: 9pt;
+    color: var(--brand-red);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .demo {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--brand-amber);
+    padding: 3mm 5mm;
+    margin: 3mm 0;
+  }
+  .demo .label {
+    font-size: 9.5pt;
+    color: var(--brand-amber);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5mm;
+  }
+  .demo ol, .demo ul { margin: 1mm 0 1mm 4mm; }
+
+  /* ─── Tables ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0 5mm 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid var(--rule);
+    padding: 2mm 3mm;
+    text-align: left;
+    vertical-align: top;
+  }
+  thead th {
+    background: var(--brand-darker);
+    color: #fff;
+    font-weight: 600;
+  }
+  tbody tr:nth-child(even) td { background: var(--soft-bg); }
+
+  /* ─── Mockup screenshots (CSS art) ─── */
+  .mockup {
+    margin: 4mm 0;
+    border: 1px solid var(--rule);
+    border-radius: 2mm;
+    overflow: hidden;
+    background: #fff;
+    page-break-inside: avoid;
+  }
+  .mockup .titlebar {
+    background: #000;
+    color: #fff;
+    padding: 2mm 4mm;
+    font-size: 9.5pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mockup .titlebar .dots span {
+    display: inline-block; width: 3mm; height: 3mm; border-radius: 50%;
+    margin-right: 1.5mm;
+  }
+  .mockup .titlebar .dots .r { background: #ff5f57; }
+  .mockup .titlebar .dots .y { background: #febc2e; }
+  .mockup .titlebar .dots .g { background: #28c840; }
+  .mockup .navbar {
+    background: #000;
+    color: #fff;
+    padding: 2mm 4mm;
+    font-size: 9pt;
+    border-bottom: 2px solid var(--brand-red);
+  }
+  .mockup .navbar .pill {
+    display: inline-block;
+    padding: 0.7mm 2mm;
+    margin-right: 1mm;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-radius: 1mm;
+    font-weight: 500;
+  }
+  .mockup .navbar .pill.active { background: var(--brand-red); color: #fff; }
+  .mockup .body {
+    padding: 4mm 5mm;
+    font-size: 9pt;
+    color: #333;
+    min-height: 24mm;
+  }
+  .mockup .body h5 {
+    margin: 0 0 2mm 0;
+    color: var(--brand-darker);
+    font-size: 10pt;
+  }
+  .mockup .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.6mm;
+    margin: 1mm 0;
+  }
+  .mockup .grid .cell {
+    background: var(--soft-bg);
+    border: 1px solid var(--rule);
+    padding: 1.5mm;
+    min-height: 9mm;
+    font-size: 8pt;
+  }
+  .mockup .grid .cell.has-evt {
+    background: linear-gradient(180deg, #fff 60%, var(--brand-yellow) 60% 100%);
+  }
+  .mockup .row-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    margin-top: 2mm;
+  }
+  .mockup .row-table th {
+    background: var(--brand-darker);
+    color: #fff;
+    padding: 1.5mm 2mm;
+    text-align: left;
+  }
+  .mockup .row-table td {
+    padding: 1.5mm 2mm;
+    border-bottom: 1px solid var(--rule);
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.5mm 2mm;
+    border-radius: 6mm;
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #fff;
+  }
+  .badge.red    { background: var(--brand-red); }
+  .badge.amber  { background: var(--brand-amber); color: #000; }
+  .badge.dark   { background: var(--brand-darker); }
+  .badge.yellow { background: var(--brand-yellow); color: #000; }
+  .badge.green  { background: #2a8c3e; }
+
+  /* ─── TOC ─── */
+  .toc {
+    page-break-after: always;
+    padding-top: 6mm;
+  }
+  .toc h1 { border-bottom: 3px solid var(--brand-red); }
+  .toc ol { padding-left: 6mm; columns: 2; column-gap: 8mm; }
+  .toc li {
+    margin: 1.2mm 0;
+    break-inside: avoid;
+    font-size: 10.5pt;
+  }
+
+  /* Each module section starts on a new page */
+  .module { page-break-before: always; }
+
+  /* Inline icons via Unicode + brand colours */
+  .icon {
+    display: inline-block;
+    width: 5mm; height: 5mm;
+    background: var(--brand-red);
+    color: #fff;
+    border-radius: 1mm;
+    text-align: center;
+    line-height: 5mm;
+    font-weight: 700;
+    margin-right: 2mm;
+    font-size: 9pt;
+  }
+
+  .small { font-size: 9pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ COVER ═══════════════════════ -->
+<section class="cover">
+  <div class="brand-strip"></div>
+  <h1>OpenEMR<br>Tab &amp; Module<br>Reference Guide</h1>
+  <p class="subtitle">A walkthrough of every menu, written so anyone can lead the demo.</p>
+  <div class="meta">
+    <div><b>Product:</b> OpenEMR &mdash; Matrix Bricks branded build</div>
+    <div><b>Audience:</b> Internal — sales / management demo</div>
+    <div><b>Application URL:</b> http://localhost/open_cms/interface/login/login.php</div>
+    <div><b>Demo login:</b> admin&nbsp;/&nbsp;pass</div>
+    <div><b>Demo patients:</b> Rajesh Kumar, Priya Sharma, Amit Patel, Neha Gupta, Vikram Singh</div>
+    <div><b>Document date:</b> 22 May 2026</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ TOC ═══════════════════════ -->
+<section class="toc">
+  <h1>Contents</h1>
+  <ol>
+    <li>Calendar</li>
+    <li>Finder</li>
+    <li>Flow Board</li>
+    <li>Recalls</li>
+    <li>Messages</li>
+    <li>Patient (core chart)</li>
+    <li>Groups</li>
+    <li>Fees (Billing)</li>
+    <li>Modules</li>
+    <li>Inventory</li>
+    <li>Procedures (Lab / Imaging)</li>
+    <li>Ensora eRx</li>
+    <li>Admin</li>
+    <li>Reports</li>
+    <li>Miscellaneous</li>
+    <li>Popups</li>
+    <li>Cross-cutting features</li>
+    <li>Suggested 15-minute demo</li>
+  </ol>
+</section>
+
+<!-- ═══════════════════════ INTRO ═══════════════════════ -->
+<section>
+  <h1>Before you start</h1>
+  <p>This guide walks through every top-level menu in the OpenEMR build that ships with the Matrix Bricks brand theme. For each tab you get:</p>
+  <ul>
+    <li><b>What it is</b> — a one-line definition.</li>
+    <li><b>Who uses it</b> — the role that lives in that tab day-to-day.</li>
+    <li><b>Demo flow</b> — the exact clicks to show during a walkthrough.</li>
+    <li><b>Talking point</b> — a sentence to repeat to your boss / a prospect.</li>
+  </ul>
+  <p>The screen mockups in this PDF are <i>simplified illustrations</i> of the live UI — they are designed to print cleanly. Show the live application alongside this guide for the full visual effect.</p>
+  <div class="callout">"Every clinic workflow has a tab. The doctor's day, the receptionist's day, the manager's day — each is a different vertical strip of this menu."</div>
+</section>
+
+<!-- ═══════════════════════ 1. CALENDAR ═══════════════════════ -->
+<section class="module">
+  <h2>1. Calendar</h2>
+
+  <div class="mockup">
+    <div class="titlebar">
+      <span><span class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></span> Calendar — Day / Week / Month</span>
+      <span>admin@CSAB Clinic</span>
+    </div>
+    <div class="navbar">
+      <span class="pill active">Calendar</span><span class="pill">Finder</span><span class="pill">Flow</span><span class="pill">Messages</span><span class="pill">Patient</span><span class="pill">Fees</span><span class="pill">Reports</span><span class="pill">Admin</span>
+    </div>
+    <div class="body">
+      <h5>This week</h5>
+      <div class="grid">
+        <div class="cell">Mon<br><span class="badge yellow">2 appts</span></div>
+        <div class="cell has-evt">Tue<br>Rajesh K.</div>
+        <div class="cell has-evt">Wed<br>Priya S.</div>
+        <div class="cell">Thu</div>
+        <div class="cell has-evt">Fri<br>Amit P.</div>
+        <div class="cell has-evt">Sat<br>Vikram S.</div>
+        <div class="cell">Sun</div>
+      </div>
+      <p class="small">Click any empty cell → "Add Event". Click an existing appointment → check-in, edit, cancel.</p>
+    </div>
+  </div>
+
+  <h3>What it is</h3>
+  <p>The scheduling grid — Day / Week / Month view of every appointment across providers and rooms.</p>
+
+  <div class="role"><span class="label">Used by</span> &nbsp; Receptionist (books &amp; reschedules), Doctor (sees daily queue).</div>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li>Open <b>Calendar</b> — see five upcoming demo appointments: <i>Lab review, BP recheck, HbA1c follow-up, Throat culture result, Physiotherapy referral.</i></li>
+      <li>Click an empty slot → an <b>Add Event</b> dialog opens (category, status, room, recurrence).</li>
+      <li>Click an existing slot → quick actions (check-in, edit, delete).</li>
+    </ol>
+  </div>
+
+  <div class="callout">"This is the heartbeat — every front-desk action starts here."</div>
+</section>
+
+<!-- ═══════════════════════ 2. FINDER ═══════════════════════ -->
+<section class="module">
+  <h2>2. Finder</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Patient Finder</span><span>5 demo patients loaded</span></div>
+    <div class="navbar"><span class="pill">Calendar</span><span class="pill active">Finder</span><span class="pill">Flow</span><span class="pill">Messages</span><span class="pill">Patient</span></div>
+    <div class="body">
+      <p>Search: <code>kum_</code></p>
+      <table class="row-table">
+        <thead><tr><th>Name</th><th>DOB</th><th>Phone</th><th>Last visit</th></tr></thead>
+        <tbody>
+          <tr><td>Rajesh Kumar</td><td>15 Jun 1982</td><td>9876543210</td><td>14 days ago</td></tr>
+          <tr><td>Priya Sharma</td><td>22 Nov 1990</td><td>9811122233</td><td>10 days ago</td></tr>
+          <tr><td>Amit Patel</td><td>09 Feb 1975</td><td>9798765432</td><td>7 days ago</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>What it is</h3>
+  <p>A live patient-search grid. Filter by name, DOB, phone, ID — sort by any column.</p>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li>Type <code>kum</code> → Rajesh Kumar appears.</li>
+      <li>Click his name → opens the chart in a new tab inside the app.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"Type two letters of any field and the patient list narrows in real-time."</div>
+</section>
+
+<!-- ═══════════════════════ 3. FLOW ═══════════════════════ -->
+<section class="module">
+  <h2>3. Flow Board</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Flow — Patient Tracker</span><span>Live</span></div>
+    <div class="body">
+      <table class="row-table">
+        <thead><tr><th>Patient</th><th>Status</th><th>Room</th><th>Waited</th></tr></thead>
+        <tbody>
+          <tr><td>Rajesh Kumar</td><td><span class="badge amber">In Exam</span></td><td>3</td><td>4 min</td></tr>
+          <tr><td>Priya Sharma</td><td><span class="badge red">With Doctor</span></td><td>1</td><td>12 min</td></tr>
+          <tr><td>Amit Patel</td><td><span class="badge yellow">Waiting</span></td><td>—</td><td>2 min</td></tr>
+          <tr><td>Vikram Singh</td><td><span class="badge green">Checkout</span></td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>What it is</h3>
+  <p>Real-time visual board — checked-in, with provider, in exam room, billed, checked-out. Like an airport departures board for the clinic floor.</p>
+
+  <div class="role"><span class="label">Used by</span> &nbsp; Nurses and reception desk running the day.</div>
+
+  <div class="callout">"Anyone walking past the front desk knows who is waiting and how long."</div>
+</section>
+
+<!-- ═══════════════════════ 4. RECALLS ═══════════════════════ -->
+<section class="module">
+  <h2>4. Recalls</h2>
+
+  <h3>What it is</h3>
+  <p>Reminders for patients who need to come back — annual physical, vaccine, follow-up. Generates printable, e-mailable, or SMS-able lists.</p>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li>Open <b>Recalls</b> → filter by date range and recall type.</li>
+      <li>Print, or export CSV for outbound calls / SMS blast.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"This is how a clinic keeps revenue predictable — no one falls through the cracks."</div>
+</section>
+
+<!-- ═══════════════════════ 5. MESSAGES ═══════════════════════ -->
+<section class="module">
+  <h2>5. Messages</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Inbox — admin</span><span>3 unread</span></div>
+    <div class="body">
+      <table class="row-table">
+        <thead><tr><th>From</th><th>Subject</th><th>Patient</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Dr. Iyer</td><td>Lab result ready</td><td>Amit Patel</td><td><span class="badge red">New</span></td></tr>
+          <tr><td>Front Desk</td><td>BP recheck no-show</td><td>Priya Sharma</td><td><span class="badge amber">Reply</span></td></tr>
+          <tr><td>Pharmacy</td><td>Refill confirmed</td><td>Vikram Singh</td><td><span class="badge green">Done</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>What it is</h3>
+  <p>The internal inbox. Phone messages, lab notifications, intra-staff notes, "while you were out" slips — routed to the right provider.</p>
+
+  <div class="callout">"Replaces sticky notes on a monitor. Every message is auditable and tied to the patient record."</div>
+</section>
+
+<!-- ═══════════════════════ 6. PATIENT ═══════════════════════ -->
+<section class="module">
+  <h2>6. Patient (clinical core)</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Patient Dashboard — Amit Patel (PID 4)</span><span>Age 51 · Male</span></div>
+    <div class="body">
+      <table class="row-table" style="margin-bottom:3mm">
+        <thead><tr><th>Allergies</th><th>Problems</th><th>Medications</th><th>Vitals (latest)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Sulfa drugs <span class="badge yellow">mild</span></td>
+            <td>Type 2 Diabetes (E11.9)</td>
+            <td>Metformin 500 mg BID</td>
+            <td>BP 136/88 · BMI 29 · HR 90</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small">Visit history (1 of 1 demo encounter):</p>
+      <table class="row-table">
+        <thead><tr><th>Date</th><th>Reason</th><th>Provider</th><th>Bill</th></tr></thead>
+        <tbody><tr><td>7 days ago</td><td>Diabetes consultation</td><td>admin</td><td>CPT 99214 · ₹130</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>What it is</h3>
+  <p>The clinical core. Demographics, allergies, problems, medications, vitals, encounter history, lab results, documents — all in one chart.</p>
+
+  <h3>Sub-tabs</h3>
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>New / Search</b></td><td>Register a new patient or open an existing chart.</td></tr>
+      <tr><td><b>Dashboard</b></td><td>The patient hub — see everything at a glance.</td></tr>
+      <tr><td><b>Visits</b></td><td>Calendar · Create Visit · Current visit · Visit history.</td></tr>
+      <tr><td><b>Records</b></td><td>Export full chart as PDF / CCDA / FHIR for referral / patient pickup.</td></tr>
+      <tr><td><b>Visit Forms</b></td><td>SOAP note, Vitals, Procedure Order, Lab Order, Eye exam, custom forms.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">"Everything a doctor needs in one chart — no swapping screens, no swivel-chair."</div>
+</section>
+
+<!-- ═══════════════════════ 7. GROUPS ═══════════════════════ -->
+<section class="module">
+  <h2>7. Groups</h2>
+
+  <h3>What it is</h3>
+  <p>Group / class visits — diabetes education, antenatal class, counselling. Track attendance, bill at the group level.</p>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li><b>New</b> → "Diabetes Education Q3" → add Amit Patel + Priya Sharma.</li>
+      <li><b>Create Visit</b> → mark both as attended → close.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"One session, many patients, one chart entry — huge time saver for clinics running group programmes."</div>
+</section>
+
+<!-- ═══════════════════════ 8. FEES ═══════════════════════ -->
+<section class="module">
+  <h2>8. Fees (Billing)</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Fee Sheet — Encounter 103 / Amit Patel</span><span>Provider: admin</span></div>
+    <div class="body">
+      <table class="row-table">
+        <thead><tr><th>Code</th><th>Type</th><th>Description</th><th>Fee</th></tr></thead>
+        <tbody>
+          <tr><td>99214</td><td>CPT4</td><td>Office visit, moderate</td><td>₹130.00</td></tr>
+          <tr><td>E11.9</td><td>ICD-10</td><td>Type 2 diabetes</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>The revenue side of the application</h3>
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Fee Sheet</b></td><td>Add CPT / ICD-10 codes to the current encounter.</td></tr>
+      <tr><td><b>Charges</b></td><td>Override price per code.</td></tr>
+      <tr><td><b>Payment</b></td><td>Take a payment at point of service.</td></tr>
+      <tr><td><b>Checkout</b></td><td>Combined payment + receipt at end of visit.</td></tr>
+      <tr><td><b>Billing Manager</b></td><td>Pending claims; submit to insurer / clearinghouse.</td></tr>
+      <tr><td><b>Batch Payments</b></td><td>Apply one insurer payment across many claims.</td></tr>
+      <tr><td><b>Posting Payments</b></td><td>EOB / ERA matching.</td></tr>
+      <tr><td><b>EDI History</b></td><td>Audit trail of every X12 claim file submitted.</td></tr>
+      <tr><td><b>Claim File Tracker</b></td><td>Status of each outbound claim.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li>Open Amit Patel's last encounter → <b>Fee Sheet</b> → see CPT 99214 + ICD-10 E11.9 already loaded from seed data.</li>
+      <li><b>Checkout</b> → take a partial payment → printable receipt.</li>
+      <li><b>Billing Manager</b> → pending-claim list with all five demo patients.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"From the doctor's pen to the insurer's wire transfer — this is the whole revenue cycle in one tab."</div>
+</section>
+
+<!-- ═══════════════════════ 9. MODULES ═══════════════════════ -->
+<section class="module">
+  <h2>9. Modules</h2>
+
+  <h3>What it is</h3>
+  <p>Pluggable add-ons. The stock build ships <b>Manage Modules</b> — install, enable, or disable extras such as FHIR API, OAuth2, CCDA, Direct Mail, e-prescribing, image viewers.</p>
+
+  <div class="callout">"OpenEMR is a platform. Regulatory and interop features ship as modules so we deliver them on the customer's schedule, not the vendor's."</div>
+</section>
+
+<!-- ═══════════════════════ 10. INVENTORY ═══════════════════════ -->
+<section class="module">
+  <h2>10. Inventory</h2>
+
+  <div class="mockup">
+    <div class="titlebar"><span>Drug Inventory — Management</span><span>5 SKUs</span></div>
+    <div class="body">
+      <table class="row-table">
+        <thead><tr><th>Drug</th><th>NDC</th><th>Size</th><th>Active</th></tr></thead>
+        <tbody>
+          <tr><td>Paracetamol 500 mg</td><td>NDC-00001-0001</td><td>500 mg</td><td><span class="badge green">Yes</span></td></tr>
+          <tr><td>Amoxicillin 250 mg</td><td>NDC-00002-0002</td><td>250 mg</td><td><span class="badge green">Yes</span></td></tr>
+          <tr><td>Metformin 500 mg</td><td>NDC-00003-0003</td><td>500 mg</td><td><span class="badge green">Yes</span></td></tr>
+          <tr><td>Amlodipine 5 mg</td><td>NDC-00004-0004</td><td>5 mg</td><td><span class="badge green">Yes</span></td></tr>
+          <tr><td>Atorvastatin 10 mg</td><td>NDC-00005-0005</td><td>10 mg</td><td><span class="badge green">Yes</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Management</b></td><td>Add / edit drugs and stock counts.</td></tr>
+      <tr><td><b>Destroyed</b></td><td>Log expired or damaged stock for compliance.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════ 11. PROCEDURES ═══════════════════════ -->
+<section class="module">
+  <h2>11. Procedures (Lab / Imaging)</h2>
+
+  <p>Order → send → receive → review. Closed-loop lab workflow without leaving the chart.</p>
+
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Providers</b></td><td>Labs / radiology centres you send orders to.</td></tr>
+      <tr><td><b>Configuration</b></td><td>Compendium of orderable tests per provider.</td></tr>
+      <tr><td><b>Load Compendium</b></td><td>Bulk-import a test catalogue.</td></tr>
+      <tr><td><b>Pending Review</b></td><td>Results waiting on a doctor's eyes.</td></tr>
+      <tr><td><b>Patient Results</b></td><td>Per-patient lab history.</td></tr>
+      <tr><td><b>Lab Overview</b></td><td>Day-level review queue.</td></tr>
+      <tr><td><b>Batch Results</b></td><td>Match HL7 inbound results to outbound orders.</td></tr>
+      <tr><td><b>Electronic Reports</b></td><td>PDF lab reports.</td></tr>
+      <tr><td><b>Lab Documents</b></td><td>Scanned paper results.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">"Order, send, receive, sign — closed-loop lab workflow without ever leaving the chart."</div>
+</section>
+
+<!-- ═══════════════════════ 12. eRx ═══════════════════════ -->
+<section class="module">
+  <h2>12. Ensora eRx (Electronic Prescribing)</h2>
+
+  <p>Direct connect to an e-prescribing network (NewCrop / DrFirst). Sends prescriptions electronically to the patient's pharmacy.</p>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li>Open patient → <b>Visit Forms</b> → <b>Prescription</b> → fill drug / dose / refills.</li>
+      <li><b>Sign &amp; Send</b> — routes to the eRx gateway.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"No more handwritten scripts. The prescription lands at the pharmacy before the patient walks out."</div>
+</section>
+
+<!-- ═══════════════════════ 13. ADMIN ═══════════════════════ -->
+<section class="module">
+  <h2>13. Admin</h2>
+
+  <p>System configuration. Every choice is auditable; nothing about how the system behaves is hard-coded.</p>
+
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Users</b></td><td>Add / disable staff and assign roles.</td></tr>
+      <tr><td><b>Practice</b></td><td>Facilities, providers, taxonomy codes.</td></tr>
+      <tr><td><b>Address Book</b></td><td>Referring providers, partner organisations.</td></tr>
+      <tr><td><b>Codes</b></td><td>Manage ICD-10, CPT, HCPCS, SNOMED, LOINC dictionaries.</td></tr>
+      <tr><td><b>Patient Reminders</b></td><td>Recall rules schedule.</td></tr>
+      <tr><td><b>Forms</b></td><td>Register or hide visit forms.</td></tr>
+      <tr><td><b>Practice Settings</b></td><td>Language, encounter title, defaults.</td></tr>
+      <tr><td><b>Lists</b></td><td>Drop-down values used across the app.</td></tr>
+      <tr><td><b>Files</b></td><td>Uploaded reference docs (policies, fee schedules).</td></tr>
+      <tr><td><b>Backup</b></td><td>DB + filesystem export.</td></tr>
+      <tr><td><b>System Logs</b></td><td>Audit trail of every login and data change.</td></tr>
+      <tr><td><b>Globals</b></td><td>Every tunable setting (Appearance, Calendar, Locale…).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li><b>Globals</b> → Appearance → CSS Style Sheet → confirm <i>Matrix Bricks</i> is active.</li>
+      <li><b>Users</b> → Add User → assign role <i>Physician</i> or <i>Front Office</i>.</li>
+      <li><b>System Logs</b> → see every login (auditable for HIPAA / DPDP).</li>
+    </ol>
+  </div>
+
+  <div class="callout">"Operations can tune the system without us shipping code. Nothing is hard-coded."</div>
+</section>
+
+<!-- ═══════════════════════ 14. REPORTS ═══════════════════════ -->
+<section class="module">
+  <h2>14. Reports</h2>
+
+  <p>Read-only analytics and exports.</p>
+
+  <h3>Top categories</h3>
+  <ul>
+    <li><b>Clinical</b> — diagnoses, procedures, medications, immunisations, lab-result trends.</li>
+    <li><b>Visits</b> — appointment volume, no-show rate, by-provider load.</li>
+    <li><b>Financial</b> — Cash Rec · Front Rec · Pmt Method · Collections &amp; Aging · Patient Ledger · Revenue by Service Code · Payment Processing.</li>
+    <li><b>Inventory</b> — list, activity, transactions.</li>
+    <li><b>Procedures</b> — pending results, pending follow-up, statistics.</li>
+    <li><b>Insurance</b> — payer distribution, indigent care log, unique subscribers.</li>
+    <li><b>Statistics</b> — clinic-wide KPIs.</li>
+    <li><b>Services / Background Services / Direct Message Log / IP Tracker</b> — operational reports.</li>
+  </ul>
+
+  <div class="demo">
+    <div class="label">Demo flow</div>
+    <ol>
+      <li><b>Reports → Clinical → Diagnoses</b> → see ICD-10 distribution across demo patients (I10, E11.9, M54.5, J02.9).</li>
+      <li><b>Reports → Financial → Cash Rec</b> → today's intake.</li>
+      <li><b>Reports → Visits</b> → appointment counts.</li>
+    </ol>
+  </div>
+
+  <div class="callout">"Boss asks 'how was last month' → one click, dashboard answer."</div>
+</section>
+
+<!-- ═══════════════════════ 15. MISC ═══════════════════════ -->
+<section class="module">
+  <h2>15. Miscellaneous</h2>
+
+  <p>Useful tools that don't fit a clinical workflow.</p>
+
+  <table>
+    <thead><tr><th>Sub-tab</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Portal Dashboard</b></td><td>Patient-portal admin: messages, signups, intake.</td></tr>
+      <tr><td><b>Dicom Viewer</b></td><td>Radiology image viewer (CT / MRI / X-ray).</td></tr>
+      <tr><td><b>Patient Education</b></td><td>Send leaflets / care instructions to a patient.</td></tr>
+      <tr><td><b>Authorizations</b></td><td>Approve pending demographic / chart changes.</td></tr>
+      <tr><td><b>Fax / Scan</b></td><td>Inbound fax queue, document scanning workflow.</td></tr>
+      <tr><td><b>Chart Tracker</b></td><td>(Paper-chart practices) check-out / check-in.</td></tr>
+      <tr><td><b>Office Notes</b></td><td>Practice-wide bulletin board.</td></tr>
+      <tr><td><b>Batch Communication</b></td><td>Mass email / SMS to a patient cohort.</td></tr>
+      <tr><td><b>Configure Tracks</b></td><td>Customise the Flow Board statuses.</td></tr>
+      <tr><td><b>New Documents</b></td><td>Quick upload to a patient's chart.</td></tr>
+      <tr><td><b>Blank Forms</b></td><td>Print blank Demographics / Superbill / Referral.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════ 16. POPUPS ═══════════════════════ -->
+<section class="module">
+  <h2>16. Popups</h2>
+
+  <p>Quick-action pop-out windows for the current patient — always one click away from the chart.</p>
+
+  <ul>
+    <li><b>Issues</b> — problem / allergy / medication list popup.</li>
+    <li><b>Export / Import</b> — quick CCDA / PDF.</li>
+    <li><b>Appointments</b> — book without leaving the chart.</li>
+    <li><b>Superbill</b> — printable encounter charge sheet.</li>
+    <li><b>Payment / Checkout</b> — quick capture.</li>
+    <li><b>Letter</b> — referral / sick-note / school excuse from a template.</li>
+    <li><b>Chart / Barcode / Address labels</b> — physical printing.</li>
+  </ul>
+
+  <div class="callout">"All the small, frequent paperwork tasks — designed to take seconds, not minutes."</div>
+</section>
+
+<!-- ═══════════════════════ 17. CROSS-CUT ═══════════════════════ -->
+<section class="module">
+  <h2>17. Cross-cutting features</h2>
+
+  <ul>
+    <li><b>Role-based access (ACL)</b> — every menu item is gated by a role. A receptionist literally can't see the Reports tab if you don't want them to.</li>
+    <li><b>Audit log</b> — every read and write is logged (HIPAA &amp; India DPDP ready).</li>
+    <li><b>APIs</b> — REST + FHIR + CCDA + HL7 → integrate with labs, HIEs, government registries, analytics.</li>
+    <li><b>Themes</b> — fully re-skinnable. This build runs the Matrix Bricks brand SCSS (red / yellow / black).</li>
+    <li><b>Multi-language</b> — UI labels live in a translation table. Ship in English + any regional language without touching code.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════ 18. SUGGESTED DEMO ═══════════════════════ -->
+<section class="module">
+  <h2>18. Suggested 15-minute demo</h2>
+
+  <ol>
+    <li><b>Login</b> — branded login (black background, white card, red headings, yellow CTA).</li>
+    <li><b>Calendar</b> — point at seeded appointments.</li>
+    <li><b>Finder</b> → open Amit Patel.</li>
+    <li><b>Patient Dashboard</b> — show allergies (Sulfa), problem (Diabetes), medication (Metformin), vitals from last visit (BP 136/88, BMI 29).</li>
+    <li><b>Visit History</b> → open his Diabetes consultation encounter.</li>
+    <li><b>Fee Sheet</b> — show CPT 99214 + ICD-10 E11.9 already billed.</li>
+    <li><b>Checkout</b> — take a sample payment.</li>
+    <li><b>Messages</b> — send a message to admin.</li>
+    <li><b>Reports → Financial → Cash Rec</b> — today's intake.</li>
+    <li><b>Admin → Globals → Appearance</b> — show the theme picker.</li>
+    <li>Close with <b>Modules</b> — plant the "we can extend this" idea.</li>
+  </ol>
+
+  <hr/>
+  <p class="small">Document version 1.0 · Generated 22 May 2026 · OpenEMR Matrix Bricks build</p>
+</section>
+
+</body>
+</html>

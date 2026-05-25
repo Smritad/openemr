@@ -303,7 +303,7 @@ if (!empty($_SESSION['authorizeduser']) && ($_SESSION['authorizeduser'] == 1)) {
 }
 if (count($facilities) > 1) {
     echo "   <select name='pc_facility' id='pc_facility'  class='view1 form-control'>\n";
-    if ( !$_SESSION['pc_facility'] ) $selected = "selected='selected'";
+    $selected = (empty($_SESSION['pc_facility'])) ? "selected='selected'" : "";
     // echo "    <option class='bg-info' value='0' $selected>"  . xlt('All Facilities'). "</option>\n";
     if (!$GLOBALS['restrict_user_facility']) echo "    <option class='bg-info' value='0' $selected>" . xlt('All Facilities') . "</option>\n";
 
@@ -318,7 +318,7 @@ if (count($facilities) > 1) {
  echo "</div>";
  echo "   <select multiple size='5' name='pc_username[]' id='pc_username' class='view2 form-control'>\n";
  echo "    <option value='__PC_ALL__'>" . xlt("All Users") . "</option>\n";
- foreach ($provinfo as $doc) {
+ foreach ((array)($provinfo ?? []) as $doc) {
   $username = $doc['username'];
   echo "    <option value='" . attr($username) . "'";
   foreach ($providers as $provider)

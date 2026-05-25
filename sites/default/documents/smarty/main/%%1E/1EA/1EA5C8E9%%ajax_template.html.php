@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2026-04-03 08:12:55
+<?php /* Smarty version 2.6.33, created on 2026-05-25 06:11:19
          compiled from default/views/day/ajax_template.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/views/day/ajax_template.html', 12, false),array('function', 'xla', 'default/views/day/ajax_template.html', 167, false),array('function', 'xlt', 'default/views/day/ajax_template.html', 167, false),array('function', 'pc_sort_events', 'default/views/day/ajax_template.html', 377, false),array('modifier', 'date_format', 'default/views/day/ajax_template.html', 372, false),array('modifier', 'string_format', 'default/views/day/ajax_template.html', 373, false),)), $this); ?>
@@ -332,7 +332,7 @@ if (!empty($_SESSION['authorizeduser']) && ($_SESSION['authorizeduser'] == 1)) {
 /********************************************************************/
 if (count($facilities) > 1) {
     echo "   <select name='pc_facility' id='pc_facility' class='view1 form-control' >\n";
-    if ( !$_SESSION['pc_facility'] ) $selected = "selected='selected'";
+    $selected = (empty($_SESSION['pc_facility'])) ? "selected='selected'" : "";
     // echo "    <option value='0' $selected>"  . xlt('All Facilities') . "</option>\n";
     if (!$GLOBALS['restrict_user_facility']) echo "    <option class='bg-info' value='0' $selected>" . xlt('All Facilities') . "</option>\n";
     foreach ($facilities as $fa) {
@@ -346,7 +346,7 @@ if (count($facilities) > 1) {
  echo "</div>";
  echo "   <select multiple size='5' name='pc_username[]' id='pc_username' class='view2 form-control'>\n";
  echo "    <option value='__PC_ALL__'>"  . xlt("All Users") . "</option>\n";
- foreach ($provinfo as $doc) {
+ foreach ((array)($provinfo ?? []) as $doc) {
     $username = $doc['username'];
     echo "    <option value='" . attr($username) . "'";
     foreach ($providers as $provider)
@@ -440,10 +440,14 @@ foreach ($providers as $provider) {
     // to specially handle the IN/OUT events I'm doing something new here
     // for each IN event it will have a duration lasting until the next
     // OUT event or until the end of the day
-    $tmpTime = $times[0];
-    $calStartMin = ($tmpTime['hour'] * 60) + $tmpTime['minute'];
-    $tmpTime = $times[count($times)-1];
-    $calEndMin = ($tmpTime['hour'] * 60) + $tmpTime['minute'];
+    $calStartMin = 0;
+    $calEndMin = 0;
+    if (!empty($times)) {
+        $tmpTime = $times[0];
+        $calStartMin = ((int)($tmpTime['hour'] ?? 0) * 60) + (int)($tmpTime['minute'] ?? 0);
+        $tmpTime = $times[count($times) - 1];
+        $calEndMin = ((int)($tmpTime['hour'] ?? 0) * 60) + (int)($tmpTime['minute'] ?? 0);
+    }
 
     // having a 'title' for the TD makes the date appear by the mouse pointer
     // this is nice when all you see are times on the left side and no head

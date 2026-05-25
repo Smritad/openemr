@@ -375,8 +375,50 @@ function sendMail($owner, $note, $title, $to, $noteid, $sid, $sn, $rid, $rn, $st
     }
     if ($owner) {
         addPortalMailboxMail($owner, $note, '1', '1', $title, $to, '', $status, $noteid, $sid, $sn, $rid, $rn, $replyid);
+        // Notify the patient by email when their recipient-side copy is stored.
+        // Guarded so a mail/SMTP failure never breaks the in-portal message.
+        if ($owner === $rid) {
+            try {
+                queuePortalMailPatientNotification($rid, $sn, $title);
+            } catch (\Throwable $e) {
+                error_log('Portal mail notification failed: ' . $e->getMessage());
+            }
+        }
         return 1;
     } else {
         return 'failed';
     }
+}
+
+/**
+ * If the portal-mail recipient is a patient with an email on file, queue a
+ * "you have a new secure message" email. The message body is intentionally
+ * omitted for privacy — the patient is asked to log in to read it.
+ */
+function queuePortalMailPatientNotification($recipientPortalUsername, $senderName, $title): void
+{
+    if (empty($recipientPortalUsername)) {
+        return;
+    }
+    $row = sqlQuery(
+        "SELECT pd.email, pd.fname, pd.lname
+           FROM patient_access_onsite pao
+           JOIN patient_data pd ON pd.pid = pao.pid
+          WHERE pao.portal_username = ?",
+        [$recipientPortalUsername]
+    );
+    if (empty($row) || empty($row['email'])) {
+        return;
+    }
+    $sender = $GLOBALS['patient_reminder_sender_email'] ?? '';
+    if (empty($sender)) {
+        return;
+    }
+    $subject = 'New secure message in your patient portal';
+    $body = "Hello " . $row['fname'] . ",\n\n"
+          . "You have received a new secure message"
+          . (!empty($senderName) ? " from " . $senderName : "")
+          . (!empty($title) ? " regarding: " . $title : "")
+          . ".\n\nPlease log in to your patient portal to view it.\n";
+    MyMailer::emailServiceQueue($sender, $row['email'], $subject, $body);
 }

@@ -974,10 +974,10 @@ $enrow = sqlQuery(
     "f.formdir = 'newpatient' AND f.deleted = 0 AND " .
     "fe.id = f.form_id LIMIT 1",
     [$pid, $encounter]
-);
-$name = $enrow['fname'] . ' ';
-$name .= (!empty($enrow['mname'])) ? $enrow['mname'] . ' ' . $enrow['lname'] : $enrow['lname'];
-$date = xl('for Encounter on') . ' ' . oeFormatShortDate(substr((string) $enrow['date'], 0, 10));
+) ?: [];
+$name = ($enrow['fname'] ?? '') . ' ';
+$name .= (!empty($enrow['mname'])) ? $enrow['mname'] . ' ' . ($enrow['lname'] ?? '') : ($enrow['lname'] ?? '');
+$date = xl('for Encounter on') . ' ' . oeFormatShortDate(substr((string) ($enrow['date'] ?? ''), 0, 10));
 $title = [xl('Fee Sheet for'), text($name), text($date)];
 $heading =  implode(" ", $title);
 ?>

@@ -298,10 +298,14 @@ foreach ($providers as $provider) {
     // to specially handle the IN/OUT events I'm doing something new here
     // for each IN event it will have a duration lasting until the next
     // OUT event or until the end of the day
-    $tmpTime = $times[0];
-    $calStartMin = ($tmpTime['hour'] * 60) + $tmpTime['minute'];
-    $tmpTime = $times[count($times)-1];
-    $calEndMin = ($tmpTime['hour'] * 60) + $tmpTime['minute'];
+    $calStartMin = 0;
+    $calEndMin = 0;
+    if (!empty($times)) {
+        $tmpTime = $times[0];
+        $calStartMin = ((int)($tmpTime['hour'] ?? 0) * 60) + (int)($tmpTime['minute'] ?? 0);
+        $tmpTime = $times[count($times) - 1];
+        $calEndMin = ((int)($tmpTime['hour'] ?? 0) * 60) + (int)($tmpTime['minute'] ?? 0);
+    }
 
     // For each day...
     // output a TD with an inner containing DIV positioned 'relative'

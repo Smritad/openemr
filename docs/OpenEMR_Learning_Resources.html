@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>OpenEMR — Learning Resources</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 18mm 14mm;
+    @bottom-center {
+      content: "OpenEMR – Learning Resources  |  Page " counter(page) " of " counter(pages);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 9pt;
+      color: #777;
+    }
+  }
+  :root {
+    --brand-red:    #cc0000;
+    --brand-dark:   #7b0000;
+    --brand-darker: #1a0000;
+    --brand-yellow: #ffd000;
+    --brand-amber:  #f5a800;
+    --ink:          #1a1a1a;
+    --muted:        #555;
+    --rule:         #e0d6c2;
+    --soft-bg:      #fffcf0;
+    --card-bg:      #fff8d9;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 10.5pt;
+    margin: 0;
+    padding: 0;
+  }
+  .cover {
+    page-break-after: always;
+    background: linear-gradient(135deg, #000 0%, var(--brand-darker) 55%, #000 100%);
+    color: #fff;
+    padding: 60mm 14mm 18mm 14mm;
+    min-height: 250mm;
+    margin: -16mm -14mm 0 -14mm;
+  }
+  .cover .brand-strip {
+    width: 60mm; height: 6mm;
+    background: linear-gradient(90deg, var(--brand-red) 0 33%, var(--brand-yellow) 33% 66%, #fff 66% 100%);
+    margin-bottom: 16mm;
+  }
+  .cover h1 { font-size: 32pt; line-height: 1.05; margin: 0 0 6mm 0; color: #fff; }
+  .cover .subtitle { color: var(--brand-yellow); font-size: 13pt; margin: 0 0 30mm 0; }
+  .cover .meta { border-left: 3px solid var(--brand-yellow); padding-left: 8mm; color: #f0f0f0; font-size: 11pt; }
+  .cover .meta div { margin: 3mm 0; }
+  .cover .meta b { color: #fff; }
+
+  h1, h2, h3, h4 { font-family: 'Segoe UI', Arial, sans-serif; color: var(--brand-darker); }
+  h1 { font-size: 22pt; margin: 0 0 4mm 0; padding-bottom: 3mm; border-bottom: 3px solid var(--brand-red); }
+  h2 {
+    font-size: 14pt;
+    margin: 10mm 0 4mm 0;
+    color: #fff;
+    background: var(--brand-red);
+    padding: 3mm 5mm;
+    border-left: 6mm solid var(--brand-yellow);
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    margin: 6mm 0 2mm 0;
+    color: var(--brand-dark);
+    border-left: 3px solid var(--brand-yellow);
+    padding-left: 3mm;
+    page-break-after: avoid;
+  }
+  h4 { font-size: 11pt; margin: 4mm 0 1.5mm 0; color: var(--brand-darker); }
+  p { margin: 2mm 0 3mm 0; }
+  strong { color: var(--brand-darker); }
+  a { color: var(--brand-dark); text-decoration: none; border-bottom: 1px dotted var(--brand-dark); }
+  ul, ol { margin: 2mm 0 4mm 0; padding-left: 7mm; }
+  li { margin: 0.8mm 0; }
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9.5pt;
+    background: var(--card-bg);
+    padding: 0.5mm 1.5mm;
+    border-radius: 1mm;
+    color: var(--brand-dark);
+  }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 8mm 0; }
+  .callout {
+    background: var(--soft-bg);
+    border-left: 4px solid var(--brand-yellow);
+    padding: 3mm 5mm;
+    margin: 4mm 0;
+    color: var(--brand-darker);
+  }
+  .callout strong { color: var(--brand-red); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0 5mm 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid var(--rule);
+    padding: 2mm 3mm;
+    text-align: left;
+    vertical-align: top;
+  }
+  thead th { background: var(--brand-darker); color: #fff; font-weight: 600; }
+  tbody tr:nth-child(even) td { background: var(--soft-bg); }
+  .practice {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--brand-amber);
+    padding: 3mm 5mm;
+    margin: 3mm 0;
+    page-break-inside: avoid;
+  }
+  .practice .label {
+    font-size: 9.5pt;
+    color: var(--brand-amber);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5mm;
+  }
+  .small { font-size: 9pt; color: var(--muted); }
+  .section { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="brand-strip"></div>
+  <h1>OpenEMR<br>Learning Resources</h1>
+  <p class="subtitle">Curated videos, official docs, hands-on practice exercises.</p>
+  <div class="meta">
+    <div><b>Audience:</b> You — to study and add data manually for boss demo</div>
+    <div><b>Goal:</b> Learn what each tab does by watching a video, then trying it locally</div>
+    <div><b>Application:</b> http://localhost/open_cms</div>
+    <div><b>Demo login:</b> admin&nbsp;/&nbsp;pass</div>
+    <div><b>Document date:</b> 22 May 2026</div>
+  </div>
+</section>
+
+<section>
+  <h1>How to use this guide</h1>
+  <p>Open the application in one browser tab, the video in another. Watch a step, pause the video, then do the same step in your local install using the demo patients (Rajesh Kumar, Priya Sharma, Amit Patel, Neha Gupta, Vikram Singh) until it feels natural.</p>
+  <p class="small">All links below were verified from a live web search; older video years are kept where the menu structure is still recognisable.</p>
+</section>
+
+<section class="section">
+  <h2>1. Start here — overview videos</h2>
+  <p>Watch one of these first so the rest of the tabs make sense in context.</p>
+  <table>
+    <thead><tr><th>Video</th><th>What it covers</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.youtube.com/watch?v=waTJ_h-5-G0">OpenEMR Patient Complete Workflow Step-by-Step</a></td><td>Reception → encounter → billing → checkout, end-to-end</td><td>May 2025 — closest to the version you run</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=VlKZ5oAft4E">OpenEMR Tutorial for Beginners</a></td><td>Install + first-look UI walkthrough</td><td>Jul 2025</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=TRb3jBBlPgQ">MI2 OpenEMR 5 Intro 1 Walkthrough</a></td><td>The tabs layout — top menu by top menu</td><td>2017, menu structure unchanged</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=NTMMKo2_lnc">OpenEMR Tutorial — Getting started with OpenEMR</a></td><td>Login, navigation basics</td><td>2016, still relevant</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Browse for more</h3>
+  <ul>
+    <li><a href="https://www.youtube.com/@openemr3787">OpenEMR — official YouTube channel</a></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLFiWG_dDadgRTp66VeN86nSmMPPJP03AG">How-to Use OpenEMR — playlist</a></li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>2. Official documentation</h2>
+  <p>The source of truth. Use these when a video skips a step.</p>
+  <ul>
+    <li><a href="https://www.open-emr.org/wiki/index.php/OpenEMR_7.0.4_Users_Guide">OpenEMR 7.0.4 Users Guide</a> &mdash; current</li>
+    <li><a href="https://www.open-emr.org/wiki/index.php/OpenEMR_7.0.1_Users_Guide">OpenEMR 7.0.1 Users Guide</a> &mdash; slightly older, easier-to-read screenshots</li>
+    <li><a href="https://www.open-emr.org/wiki/index.php/HOWTO:_Create_a_New_Patient_Record_-_OpenEMR_v7">HOWTO: Create a New Patient Record (v7)</a></li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>3. Tab-by-tab resources &amp; practice</h2>
+
+  <h3>Calendar · Finder · Flow Board</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.youtube.com/watch?v=lRSLpxpccEI">Setting up your clinic or medical practice (1 of 2)</a></td><td>Facility, providers, calendar categories</td></tr>
+      <tr><td><a href="https://www.open-emr.org/wiki/index.php/OpenEMR_7.0.4_Users_Guide">OpenEMR Users Guide — Calendar section</a></td><td>Click-by-click reference</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice in your local install</div>
+    <ol>
+      <li><b>Calendar</b> → click any empty cell tomorrow → book a 30-minute appointment for <i>Neha Gupta</i> with reason "Follow-up".</li>
+      <li><b>Finder</b> → search <code>kum</code> → confirm Rajesh appears at the top.</li>
+      <li><b>Flow</b> → check Rajesh in for his next visit → move him through <i>Waiting → In Exam → Checkout</i>.</li>
+    </ol>
+  </div>
+
+  <h3>Messages</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.open-emr.org/wiki/index.php/OpenEMR_7.0.4_Users_Guide">Users Guide — Messages chapter</a></td><td>Inbox, sending, recalls</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice</div>
+    <ol>
+      <li>Compose a new message → To <code>admin</code> → Subject "Test from learning session".</li>
+      <li>From Rajesh's chart, click the <b>Notes</b> widget → send a note linked to him.</li>
+    </ol>
+  </div>
+
+  <h3>Patient — Dashboard, Demographics, Visit Forms</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.open-emr.org/wiki/index.php/HOWTO:_Create_a_New_Patient_Record_-_OpenEMR_v7">HOWTO: Create a New Patient Record (v7)</a></td><td>Step-by-step new patient</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=tGh0sO4PqKg">OpenEMR Tutorial — Documenting a Patient's Visit Encounter</a></td><td>Encounters and SOAP notes</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=tMA_81ShLJU">VistACan Walkthrough — Upload Patient Documents on OpenEMR</a></td><td>Documents tab inside the chart</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice — add a new patient manually</div>
+    <ol>
+      <li><b>Patient → New/Search → Add New Patient</b>.</li>
+      <li>Fill: First "Anita", Last "Verma", DOB <code>1988-03-12</code>, phone <code>9000011111</code>, language Hindi, sex Female.</li>
+      <li>Save → open her chart → confirm she appears in Finder.</li>
+      <li>From her chart, click <b>Add Allergy</b> → "Aspirin" → severity <i>moderate</i> → save.</li>
+      <li>Click <b>Add Problem</b> → "Migraine" → ICD-10 <code>G43.909</code> → save.</li>
+    </ol>
+  </div>
+
+  <h3>Fees (Billing) · Reports (Financial)</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.youtube.com/watch?v=_sczvBKFbmM">Openemr Tutorial — New Encounter Patient Visit &amp; Coding</a></td><td>Fee Sheet + CPT / ICD-10 coding</td></tr>
+      <tr><td><a href="https://www.capminds.com/blog/the-complete-openemr-billing-rcm-reporting-guide/">The Complete OpenEMR Billing, RCM &amp; Reporting Guide (Capminds)</a></td><td>Long-form written billing guide</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice — add a charge manually</div>
+    <ol>
+      <li>Open Rajesh's encounter (the seeded one, encounter 101).</li>
+      <li><b>Fee Sheet</b> → add CPT code <code>99213</code> (Office visit, established) → save.</li>
+      <li>Add ICD-10 <code>I10</code> (essential hypertension) → save.</li>
+      <li><b>Checkout</b> → take a ₹500 cash payment → print receipt.</li>
+      <li><b>Reports → Financial → Cash Rec</b> → confirm the ₹500 shows under today.</li>
+    </ol>
+  </div>
+
+  <h3>Inventory · Ensora eRx (Prescriptions)</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.open-emr.org/wiki/index.php/OpenEMR_7.0.4_Users_Guide">Users Guide — Pharmacy / Prescriptions chapter</a></td><td>Drugs, prescription writing</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice</div>
+    <ol>
+      <li><b>Inventory → Management → Add Drug</b> → "Cetirizine 10mg" → NDC code <code>NDC-00006-0006</code> → active = yes.</li>
+      <li>Open Priya's chart → <b>Visit Forms → Prescription</b> → write "Cetirizine 10mg, 1 tab at night, 10 days".</li>
+    </ol>
+  </div>
+
+  <h3>Admin — Users, Globals, Lists, Backup</h3>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.youtube.com/watch?v=lRSLpxpccEI">Setting up your clinic or medical practice — part 1 of 2</a></td><td>Users, providers, facility</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=NTMMKo2_lnc">Getting started with OpenEMR</a></td><td>First-login admin tasks</td></tr>
+    </tbody>
+  </table>
+  <div class="practice">
+    <div class="label">Practice</div>
+    <ol>
+      <li><b>Admin → Users → Add New User</b> → username "reception1", role "Front Office".</li>
+      <li><b>Admin → Globals → Appearance → CSS Style Sheet</b> → confirm "Matrix Bricks" is selected.</li>
+      <li><b>Admin → Lists</b> → pick "Marital Status" → add a new option "Cohabiting".</li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <h2>4. Install / dev reference</h2>
+  <table>
+    <thead><tr><th>Resource</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.youtube.com/watch?v=NOFP-wD1og0">How to Install OpenEMR Using XAMPP</a></td><td>Matches your stack exactly</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=D4tXP5G9-sY">OpenEMR Easy Docker Development</a></td><td>If you ever migrate to Docker</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2>5. Search-strings for any tab not covered above</h2>
+  <p>Paste these into YouTube directly:</p>
+  <ul>
+    <li><code>OpenEMR &lt;feature name&gt; tutorial</code> &nbsp;—&nbsp; e.g. <i>OpenEMR fee sheet tutorial</i></li>
+    <li><code>OpenEMR &lt;feature name&gt; walkthrough</code></li>
+    <li><code>OpenEMR &lt;feature name&gt; demo 2024</code></li>
+    <li><code>OpenEMR 7 &lt;feature name&gt;</code> — pins results to the modern UI</li>
+  </ul>
+  <p><b>Tabs / features worth searching for:</b></p>
+  <ul>
+    <li>OpenEMR Recalls tutorial</li>
+    <li>OpenEMR Patient Flow Board</li>
+    <li>OpenEMR Groups module</li>
+    <li>OpenEMR Procedures lab orders</li>
+    <li>OpenEMR Reports clinical</li>
+    <li>OpenEMR FHIR API</li>
+    <li>OpenEMR portal patient</li>
+    <li>OpenEMR forms registry</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>6. Suggested 1-week learning plan</h2>
+  <p>About 30 minutes a day.</p>
+  <table>
+    <thead><tr><th>Day</th><th>Watch</th><th>Practice</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Getting started (MI2 Intro)</td><td>Log in, click every top menu, no changes</td></tr>
+      <tr><td>2</td><td>Patient Complete Workflow</td><td>Add new patient "Anita Verma"</td></tr>
+      <tr><td>3</td><td>Documenting an Encounter</td><td>Create encounter for Anita, add SOAP note</td></tr>
+      <tr><td>4</td><td>Coding / Fee Sheet video</td><td>Add CPT + ICD-10, take a payment</td></tr>
+      <tr><td>5</td><td>Setting up your clinic 1/2</td><td>Admin → Users, Lists, Globals</td></tr>
+      <tr><td>6</td><td>Upload Patient Documents</td><td>Upload a sample PDF into a chart</td></tr>
+      <tr><td>7</td><td>Free practice</td><td>Run a complete day: book → check-in → encounter → bill → report</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <h2>7. When you get stuck</h2>
+  <ul>
+    <li><b>Community forum</b> &nbsp;—&nbsp; <a href="https://community.open-emr.org">community.open-emr.org</a>. Searchable, replies usually within a day.</li>
+    <li><b>OpenEMR project wiki</b> &nbsp;—&nbsp; <a href="https://www.open-emr.org/wiki/">www.open-emr.org/wiki</a>. Every feature has a HOWTO page.</li>
+    <li><b>GitHub issues</b> &nbsp;—&nbsp; <a href="https://github.com/openemr/openemr/issues">github.com/openemr/openemr/issues</a>. Search the error message; many already have answers.</li>
+  </ul>
+  <hr/>
+  <p class="small">Document version 1.0 · 22 May 2026 · OpenEMR Matrix Bricks build</p>
+</section>
+
+</body>
+</html>

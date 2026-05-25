@@ -1,0 +1,31 @@
+20260522:210529 EDI_History Setup should not overwrite existing data.<br />
+Setup: directory C:/xampp/htdocs/open_cms/sites/default\documents\edi<br />
+created folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history<br />
+created folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\csv<br />
+created folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive<br />
+created folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\log<br />
+created folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\tmp
+folder for f837 exists C:/xampp/htdocs/open_cms/sites/default\documents\edi<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f997<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f276<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f277<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f270<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f271<br />
+created type folder C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\f278<br />
+
+20260522:210529 _GET request 
+ srvinfo => yes  csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88 
+20260522:210529 _GET request 
+ csvtbllist => yes  csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88 
+20260522:210530 _GET request 
+ loglist => yes  csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88 
+20260522:210530 _GET request 
+ archlist => yes  csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88 
+20260522:210530 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260522:210538 _GET request 
+ csvtbllist => yes  csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88 
+20260522:210539 _GET request 
+ csrf_token_form => 2b07136d924171502e6accd8f0e7be0a8f90db88  process_html => htm  process_err => err  ProcessFiles => ProcessNew 
+20260522:210539 User: ::1 - May 22, 2026, 9:18 pm
+20260522:210539 edih_disp_file_process GET vars csrf_token_form 2b07136d924171502e6accd8f0e7be0a8f90db88  process_html htm  process_err err  ProcessFiles ProcessNew  
+20260522:210539 csv_processed_files_list: csv file does not exist files_f837.csv

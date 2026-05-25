@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" width="900" height="320">
+  <style>
+    .lbl { font-family: 'Segoe UI', Arial; font-size: 11px; font-weight: 600; fill: #1a1a2e; }
+    .sub { font-family: 'Segoe UI', Arial; font-size: 9px; fill: #57606a; }
+    .hdr { font-family: 'Segoe UI', Arial; font-size: 16px; font-weight: 700; fill: #1a1a2e; }
+    .pill { stroke: #00000020; stroke-width: 1; }
+  </style>
+  <text class="hdr" x="20" y="30">15 Appointment Categories — each row = one colour your staff sees on the grid</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(20,55)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#dee2e6"/>
+    <text class="lbl" x="14" y="18">No Show</text><text class="sub" x="14" y="32">id 1 · #dee2e6</text>
+  </g>
+  <g transform="translate(190,55)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#cce5ff"/>
+    <text class="lbl" x="14" y="18">In Office</text><text class="sub" x="14" y="32">id 2 · #cce5ff</text>
+  </g>
+  <g transform="translate(360,55)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#fdb172"/>
+    <text class="lbl" x="14" y="18">Out Of Office</text><text class="sub" x="14" y="32">id 3 · #fdb172</text>
+  </g>
+  <g transform="translate(530,55)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#e9ecef"/>
+    <text class="lbl" x="14" y="18">Vacation</text><text class="sub" x="14" y="32">id 4 · #e9ecef</text>
+  </g>
+  <g transform="translate(700,55)">
+    <rect class="pill" width="180" height="40" rx="8" fill="#ffecb4"/>
+    <text class="lbl" x="14" y="18">Office Visit (default)</text><text class="sub" x="14" y="32">id 5 · #ffecb4</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(20,110)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#8663ba"/>
+    <text class="lbl" x="14" y="18" fill="#ffffff">Holidays</text><text class="sub" x="14" y="32" fill="#ffffff">id 6 · #8663ba</text>
+  </g>
+  <g transform="translate(190,110)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#2374ab"/>
+    <text class="lbl" x="14" y="18" fill="#ffffff">Closed</text><text class="sub" x="14" y="32" fill="#ffffff">id 7 · #2374ab</text>
+  </g>
+  <g transform="translate(360,110)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#ffd351"/>
+    <text class="lbl" x="14" y="18">Lunch</text><text class="sub" x="14" y="32">id 8 · #ffd351</text>
+  </g>
+  <g transform="translate(530,110)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#93d3a2"/>
+    <text class="lbl" x="14" y="18">Established Patient</text><text class="sub" x="14" y="32">id 9 · #93d3a2</text>
+  </g>
+  <g transform="translate(700,110)">
+    <rect class="pill" width="180" height="40" rx="8" fill="#a2d9e2"/>
+    <text class="lbl" x="14" y="18">New Patient</text><text class="sub" x="14" y="32">id 10 · #a2d9e2</text>
+  </g>
+
+  <!-- Row 3 -->
+  <g transform="translate(20,165)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#b02a37"/>
+    <text class="lbl" x="14" y="18" fill="#ffffff">Reserved</text><text class="sub" x="14" y="32" fill="#ffffff">id 11 · #b02a37</text>
+  </g>
+  <g transform="translate(190,165)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#ced4da"/>
+    <text class="lbl" x="14" y="18">Health &amp; Behavioural</text><text class="sub" x="14" y="32">id 12 · #ced4da</text>
+  </g>
+  <g transform="translate(360,165)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#d3c6ec"/>
+    <text class="lbl" x="14" y="18">Preventive Care</text><text class="sub" x="14" y="32">id 13 · #d3c6ec</text>
+  </g>
+  <g transform="translate(530,165)">
+    <rect class="pill" width="160" height="40" rx="8" fill="#febe89"/>
+    <text class="lbl" x="14" y="18">Ophthalmological</text><text class="sub" x="14" y="32">id 14 · #febe89</text>
+  </g>
+  <g transform="translate(700,165)">
+    <rect class="pill" width="180" height="40" rx="8" fill="#adb5bd"/>
+    <text class="lbl" x="14" y="18">Group Therapy</text><text class="sub" x="14" y="32">id 15 · #adb5bd</text>
+  </g>
+
+  <!-- Status legend -->
+  <g transform="translate(20,235)">
+    <text class="hdr" x="0" y="0">Status codes (pc_apptstatus) — drives the Flow board</text>
+    <g transform="translate(0,18)">
+      <rect width="60" height="26" rx="6" fill="#1a1a2e"/>
+      <text x="30" y="17" text-anchor="middle" font-family="Consolas" font-size="14" font-weight="700" fill="#ffffff">^</text>
+    </g>
+    <text class="lbl" x="70" y="36">Arrived</text>
+
+    <g transform="translate(130,18)">
+      <rect width="60" height="26" rx="6" fill="#cc0000"/>
+      <text x="30" y="17" text-anchor="middle" font-family="Consolas" font-size="14" font-weight="700" fill="#ffffff">@</text>
+    </g>
+    <text class="lbl" x="200" y="36">In Room</text>
+
+    <g transform="translate(270,18)">
+      <rect width="60" height="26" rx="6" fill="#0a8754"/>
+      <text x="30" y="17" text-anchor="middle" font-family="Consolas" font-size="14" font-weight="700" fill="#ffffff">&gt;</text>
+    </g>
+    <text class="lbl" x="340" y="36">Checked Out</text>
+
+    <g transform="translate(430,18)">
+      <rect width="60" height="26" rx="6" fill="#8b949e"/>
+      <text x="30" y="17" text-anchor="middle" font-family="Consolas" font-size="14" font-weight="700" fill="#ffffff">~</text>
+    </g>
+    <text class="lbl" x="500" y="36">Cancelled</text>
+
+    <g transform="translate(580,18)">
+      <rect width="60" height="26" rx="6" fill="#afb8c1"/>
+      <text x="30" y="17" text-anchor="middle" font-family="Consolas" font-size="14" font-weight="700" fill="#ffffff">-</text>
+    </g>
+    <text class="lbl" x="650" y="36">Pending</text>
+  </g>
+</svg>

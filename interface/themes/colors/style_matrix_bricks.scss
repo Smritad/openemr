@@ -13,7 +13,7 @@
  *   $palepale     #fff8d9   cream yellow    – panel / card backgrounds
  *   $palepurple   #fff9f2   warm off-white  – secondary panels
  *   $paler        #fffcf0   near-white      – page background strips
- *   $midnightblue #1a0000   deep dark red   – logo bar background
+ *   $midnightblue #000000   pure black      – logo bar background
  *   $white        #ffffff   white           – base background / text on dark
  *
  * To compile: run `npm run build` or `npx gulp -b` from the project root.
@@ -34,7 +34,7 @@ $midpalepale: #fff0b3;
 $palepale:    #fff8d9;
 $palepurple:  #fff9f2;
 $paler:       #fffcf0;
-$midnightblue:#1a0000;
+$midnightblue:#000000;
 $white:       #fff;
 
 /* ── Bootstrap overrides ─────────────────────── */
@@ -42,7 +42,7 @@ $primary:  $dark;      /* vivid red */
 $warning:  $pale;      /* bright yellow */
 $danger:   $darker;    /* dark red */
 
-/* ── Login page ──────────────────────────────── */
+/* ── Login page variables ────────────────────── */
 $login-color-1:       $darkest;
 $login-color-2:       $pale;
 $login-color-3:       $dark;
@@ -58,3 +58,300 @@ $login-button-primary: true;
 
 /* ── Import the base colour engine ───────────── */
 @import "../color_base";
+
+
+/* ══════════════════════════════════════════════
+ * Matrix Bricks – Login page (low-poly hero style)
+ *
+ * Inspired by the OpenEMR default login: a full-bleed
+ * low-poly triangle backdrop in brand colours, with a
+ * centred card containing the logo, tagline and form.
+ *
+ * Scoped to pages that contain #login_form so the
+ * styling never leaks into the main app.
+ * ══════════════════════════════════════════════ */
+
+@keyframes mb-card-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Page background: plain white, full screen ── */
+body:has(#login_form) {
+  background: #ffffff;
+  min-height: 100vh;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* No vignette / no decorative overlay — form sits on the white body */
+
+/* ── No card: the form fills the viewport ── */
+body:has(#login_form) .band,
+body:has(#login_form) .box,
+body:has(#login_form) .vertical-band {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 2rem !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  color: #1f1f1f;
+}
+
+/* ── 2-column landscape layout inside the card ── */
+body:has(#login_form) .vertical-band .align-items-center {
+  display: grid !important;
+  grid-template-columns: 1fr 1px 1.15fr;
+  grid-template-areas:
+    "brand divider form"
+    "ack   ack     ack";
+  column-gap: 2.5rem;
+  row-gap: 1.25rem;
+  align-items: center;
+}
+
+/* Children of .align-items-center, in DOM order:
+   1) logo wrapper (.mb-5)
+   2) tagline (p.lead)
+   3) #login_form
+   4) acknowledgements (p.text-center.small)
+   We grid-area them by source order using :nth-child. */
+body:has(#login_form) .vertical-band .align-items-center > :nth-child(1) {
+  grid-area: brand;
+  justify-self: center;
+  margin: 0 !important;
+}
+body:has(#login_form) .vertical-band .align-items-center > :nth-child(2) {
+  grid-area: brand;
+  align-self: end;
+  margin: 5rem 0 0 0 !important;
+  padding-top: 1rem;
+}
+body:has(#login_form) .vertical-band .align-items-center > :nth-child(3) {
+  grid-area: form;
+}
+body:has(#login_form) .vertical-band .align-items-center > :nth-child(4) {
+  grid-area: ack;
+  margin-top: 1rem !important;
+}
+
+/* Vertical divider between brand and form columns */
+body:has(#login_form) .vertical-band .align-items-center::before {
+  content: "";
+  grid-area: divider;
+  width: 1px;
+  height: 80%;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.12) 50%,
+    rgba(0,0,0,0) 100%);
+  justify-self: center;
+}
+
+/* On narrow screens, collapse back to a single column */
+@media (max-width: 720px) {
+  body:has(#login_form) .band,
+  body:has(#login_form) .box,
+  body:has(#login_form) .vertical-band {
+    padding: 2rem 1.75rem !important;
+  }
+  body:has(#login_form) .vertical-band .align-items-center {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "form"
+      "ack";
+    column-gap: 0;
+  }
+  body:has(#login_form) .vertical-band .align-items-center::before {
+    display: none;
+  }
+  body:has(#login_form) .vertical-band .align-items-center > :nth-child(2) {
+    align-self: start;
+    margin: 0.25rem 0 1rem 0 !important;
+    padding-top: 0;
+  }
+}
+
+/* Everything inside the card renders on white by default */
+body:has(#login_form) .vertical-band,
+body:has(#login_form) .vertical-band * {
+  color: #24292f;
+}
+
+/* ── Logo: centred, sized to match reference ── */
+body:has(#login_form) .vertical-band .mb-5 {
+  margin-bottom: 1.5rem !important;
+  justify-content: center !important;
+}
+body:has(#login_form) .vertical-band img {
+  max-width: 260px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* ── Tagline: neutralise Bootstrap .lead colour, restrained grey ── */
+body:has(#login_form) .vertical-band p.lead,
+body:has(#login_form) .vertical-band p,
+body:has(#login_form) .vertical-band .tagline {
+  color: #57606a !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5;
+  margin-bottom: 1.75rem !important;
+  text-align: center !important;
+}
+
+/* ── Form: side-by-side label + input (matches OpenEMR reference) ── */
+body:has(#login_form) .vertical-band .form-group {
+  margin-bottom: 1rem;
+  align-items: center;
+}
+body:has(#login_form) .vertical-band .form-group > label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f1f1f !important;
+  padding-top: 0.55rem;
+  letter-spacing: 0.1px;
+}
+
+/* ── Inputs ── */
+body:has(#login_form) .vertical-band input.form-control,
+body:has(#login_form) .vertical-band select.form-control {
+  background-color: #ffffff !important;
+  color: #24292f !important;
+  border: 1px solid #d0d7de !important;
+  border-radius: 6px !important;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.75rem !important;
+  height: auto !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body:has(#login_form) .vertical-band input.form-control::placeholder {
+  color: #8b949e;
+}
+
+body:has(#login_form) .vertical-band input.form-control:focus,
+body:has(#login_form) .vertical-band select.form-control:focus {
+  border-color: $dark !important;
+  box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15) !important;
+  outline: 0;
+  background-color: #ffffff !important;
+}
+
+/* Eye icon on password field — make it match the input border */
+body:has(#login_form) .vertical-band #password-icon {
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  color: #57606a;
+  padding: 0 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+body:has(#login_form) .vertical-band #password-icon:hover {
+  background: #eaeef2;
+  color: #24292f;
+}
+
+/* ── Primary CTA button: solid brand red, full-width ── */
+body:has(#login_form) #login-button,
+body:has(#login_form) .vertical-band .btn-primary {
+  background-color: $dark !important;
+  border: 1px solid $dark !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  border-radius: 6px !important;
+  padding: 0.6rem 1rem !important;
+  width: 100%;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 2px 6px rgba(204, 0, 0, 0.25);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+body:has(#login_form) #login-button:hover,
+body:has(#login_form) .vertical-band .btn-primary:hover {
+  background-color: $darker !important;
+  border-color: $darker !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.10) inset, 0 4px 12px rgba(204, 0, 0, 0.35);
+}
+
+body:has(#login_form) #login-button:focus,
+body:has(#login_form) .vertical-band .btn-primary:focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(255, 208, 0, 0.35), 0 2px 6px rgba(204, 0, 0, 0.25);
+}
+
+/* Secondary buttons — outline style, never bright */
+body:has(#login_form) .vertical-band .btn-secondary,
+body:has(#login_form) .vertical-band .btn-outline-secondary {
+  background-color: #ffffff !important;
+  border: 1px solid #d0d7de !important;
+  color: #24292f !important;
+  font-weight: 500;
+  border-radius: 6px !important;
+}
+body:has(#login_form) .vertical-band .btn-secondary:hover,
+body:has(#login_form) .vertical-band .btn-outline-secondary:hover {
+  background-color: #f6f8fa !important;
+  border-color: #afb8c1 !important;
+  color: #24292f !important;
+}
+
+/* ── Footer / acknowledgements: tiny, muted, no shouty red ── */
+body:has(#login_form) .vertical-band .text-center.small {
+  margin-top: 1.5rem !important;
+  font-size: 0.78rem !important;
+  color: #8b949e !important;
+}
+body:has(#login_form) .vertical-band .text-center.small a {
+  color: #57606a !important;
+  text-decoration: none;
+  border-bottom: 1px dotted #afb8c1;
+}
+body:has(#login_form) .vertical-band .text-center.small a:hover {
+  color: $dark !important;
+  border-bottom-color: $dark;
+}
+
+/* Generic links inside the card — subtle brand red */
+body:has(#login_form) .vertical-band a {
+  color: $dark;
+  text-decoration: none;
+}
+body:has(#login_form) .vertical-band a:hover {
+  text-decoration: underline;
+}
+
+
+/* ══════════════════════════════════════════════
+ * Matrix Bricks – Main app chrome accents
+ * ══════════════════════════════════════════════ */
+
+/* Top logo bar – pure black like the brand site header */
+.logobar {
+  background-color: #000 !important;
+}
+
+/* "Let's Talk" style yellow call-to-action buttons */
+.btn-warning {
+  color: #000 !important;
+  font-weight: 600;
+}
+
+/* Keep danger/alert readable on the warm palette */
+.alert-danger {
+  color: $white;
+  background-color: $darker;
+  border-color: $darkest;
+}

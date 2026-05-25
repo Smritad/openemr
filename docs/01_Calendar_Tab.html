@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>01_Calendar_Tab</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  :root {
+    --brand-red: #cc0000;
+    --brand-navy: #1a1a2e;
+    --ink: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --bg-subtle: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 11pt;
+    margin: 0;
+  }
+  h1, h2, h3, h4 { color: var(--brand-navy); page-break-after: avoid; }
+  h1 { font-size: 22pt; border-bottom: 3px solid var(--brand-red); padding-bottom: 6px; margin-top: 0; }
+  h2 { font-size: 16pt; border-bottom: 1px solid var(--border); padding-bottom: 4px; margin-top: 22px; }
+  h3 { font-size: 13pt; margin-top: 18px; }
+  h4 { font-size: 11.5pt; color: var(--brand-red); }
+  p  { margin: 8px 0; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 18px 0; }
+  a  { color: var(--brand-red); text-decoration: none; border-bottom: 1px dotted var(--brand-red); }
+  blockquote {
+    border-left: 4px solid var(--brand-red);
+    background: var(--bg-subtle);
+    margin: 12px 0;
+    padding: 8px 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  blockquote p { margin: 4px 0; }
+  code {
+    font-family: "Consolas", "SFMono-Regular", Menlo, monospace;
+    background: var(--bg-subtle);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.92em;
+  }
+  pre {
+    background: #0b1020;
+    color: #e8eaf2;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    overflow-x: auto;
+    page-break-inside: avoid;
+  }
+  pre code { background: transparent; color: inherit; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 6px 9px;
+    text-align: left;
+    vertical-align: top;
+  }
+  thead th {
+    background: var(--brand-navy);
+    color: #fff;
+    font-weight: 600;
+  }
+  tbody tr:nth-child(even) { background: var(--bg-subtle); }
+  ul, ol { padding-left: 22px; }
+  li { margin: 3px 0; }
+  strong { color: var(--brand-navy); }
+  .footer-note { color: var(--muted); font-size: 9pt; }
+</style>
+</head>
+<body>
+<h1>OpenCMS — Tab 01: Calendar</h1>
+<blockquote>
+<p><strong>Audience:</strong> OpenCMS sales & implementation team.</p>
+<p><strong>Goal of this doc:</strong> End-to-end explanation of the Calendar tab — what it is, what tables it writes to, what APIs read from it, and how it ties into every other tab in the product.</p>
+<p><strong>Doc family:</strong> This is one in a series; each top-menu tab gets its own file (01_Calendar, 02_Finder, 03_Flow, 04_Recalls, 05_Messages, 06_Patient, 07_Fees, 08_Modules, 09_Procedures, 10_Admin).</p>
+</blockquote>
+<hr>
+<h2>1. One-line pitch (for the demo)</h2>
+<blockquote>
+<p><em>"The Calendar is the front door of the clinic — every patient visit, every provider's day, every billable encounter starts here. One click on a slot creates the appointment <strong>and</strong> queues the visit for the front desk, the doctor's flow board, and the billing department, all in one transaction."</em></p>
+</blockquote>
+<hr>
+<h2>2. What the user sees</h2>
+<p>When the user clicks <strong>Calendar</strong> in the top menu, the iframe loads:</p>
+<pre><code>http://localhost/open_cms/interface/main/calendar/index.php</code></pre>
+<p>Three views (toggled by the icons above the grid):</p>
+<table><thead><tr><th>View</th><th>Template</th><th>What it shows</th></tr></thead><tbody><tr><td><strong>Day</strong></td><td><code>interface/main/calendar/modules/PostCalendar/pntemplates/default/views/day/ajax_template.html</code></td><td>One day, columns per provider, half-hour rows.</td></tr><tr><td><strong>Week</strong></td><td><code>interface/main/calendar/modules/PostCalendar/pntemplates/default/views/week/ajax_template.html</code></td><td>7 days × providers grid.</td></tr><tr><td><strong>Month</strong></td><td><code>interface/main/calendar/modules/PostCalendar/pntemplates/default/views/month/ajax_template.html</code></td><td>Monthly overview, dots per appointment.</td></tr></tbody></table>
+<p>The colour of each appointment block comes directly from the <strong>category</strong> (table <code>openemr_postcalendar_categories.pc_catcolor</code>). The "Today" cell is the red pill defined in <code>interface/themes/colors/style_matrix_bricks.scss</code> section 29.</p>
+<hr>
+<h2>3. The data model</h2>
+<h3>3.1 Primary table: <code>openemr_postcalendar_events</code></h3>
+<p>This is the <strong>single source of truth</strong> for every appointment, recurring slot, blocked time, and provider-day record.</p>
+<table><thead><tr><th>Column</th><th>Type</th><th>Purpose</th></tr></thead><tbody><tr><td><code>pc_eid</code></td><td>int PK</td><td>Appointment ID (event id). Referenced everywhere — encounters, billing, reminders.</td></tr><tr><td><code>pc_catid</code></td><td>int FK → <code>openemr_postcalendar_categories.pc_catid</code></td><td>Category (Office Visit, New Patient, No Show, Lunch, Holiday…). Drives colour.</td></tr><tr><td><code>pc_pid</code></td><td>varchar</td><td><strong>Patient ID</strong> (joins to <code>patient_data.pid</code>). NULL for non-patient events like Holiday/Lunch.</td></tr><tr><td><code>pc_aid</code></td><td>varchar</td><td><strong>Provider/Attending ID</strong> (joins to <code>users.id</code>).</td></tr><tr><td><code>pc_gid</code></td><td>int</td><td>Group ID (for group-therapy appointments).</td></tr><tr><td><code>pc_title</code></td><td>varchar</td><td>Free-text label shown on the block.</td></tr><tr><td><code>pc_eventDate</code></td><td>date</td><td>Calendar day.</td></tr><tr><td><code>pc_endDate</code></td><td>date</td><td>End day (same as start for non-recurring).</td></tr><tr><td><code>pc_startTime</code> / <code>pc_endTime</code></td><td>time</td><td>Slot bounds.</td></tr><tr><td><code>pc_duration</code></td><td>bigint</td><td>Duration in <strong>seconds</strong>.</td></tr><tr><td><code>pc_alldayevent</code></td><td>int</td><td>1 = full-day block (holiday, vacation).</td></tr><tr><td><code>pc_recurrtype</code></td><td>int</td><td>0=none, 1=daily, 2=weekly, 3=monthly.</td></tr><tr><td><code>pc_recurrspec</code></td><td>text</td><td>Serialized rule (e.g. <code>{&quot;event_repeat_freq&quot;:&quot;1&quot;,&quot;event_repeat_freq_type&quot;:&quot;2&quot;}</code>).</td></tr><tr><td><code>pc_apptstatus</code></td><td>varchar(15)</td><td>Status code from list <code>apptstat</code> — <code>^</code> Arrived, <code>@</code> In Room, <code>&gt;</code> Out, <code>~</code> Cancelled, <code>-</code> Pending. <strong>Drives the Flow board.</strong></td></tr><tr><td><code>pc_facility</code></td><td>int</td><td>Facility ID — feeds the billing facility on encounter creation.</td></tr><tr><td><code>pc_billing_location</code></td><td>smallint</td><td>Billing facility (can differ from <code>pc_facility</code>).</td></tr><tr><td><code>pc_room</code></td><td>varchar(20)</td><td>Exam room.</td></tr><tr><td><code>pc_sendalertsms</code> / <code>pc_sendalertemail</code></td><td>varchar(3)</td><td>YES/NO — drives the SMS/email reminder cron.</td></tr><tr><td><code>uuid</code></td><td>binary(16)</td><td>External UUID exposed via FHIR <code>Appointment.id</code>.</td></tr></tbody></table>
+<h3>3.2 Categories: <code>openemr_postcalendar_categories</code></h3>
+<p>The 15 colour-coded categories (already seeded in your DB):</p>
+<table><thead><tr><th>ID</th><th>Code</th><th>Name</th><th>Colour</th></tr></thead><tbody><tr><td>1</td><td>no_show</td><td>No Show</td><td>#dee2e6 grey</td></tr><tr><td>2</td><td>in_office</td><td>In Office</td><td>#cce5ff light blue</td></tr><tr><td>3</td><td>out_of_office</td><td>Out Of Office</td><td>#fdb172 orange</td></tr><tr><td>4</td><td>vacation</td><td>Vacation</td><td>#e9ecef grey</td></tr><tr><td>5</td><td>office_visit</td><td>Office Visit</td><td>#ffecb4 yellow <em>(default)</em></td></tr><tr><td>6</td><td>holidays</td><td>Holidays</td><td>#8663ba purple</td></tr><tr><td>7</td><td>closed</td><td>Closed</td><td>#2374ab dark blue</td></tr><tr><td>8</td><td>lunch</td><td>Lunch</td><td>#ffd351 amber</td></tr><tr><td>9</td><td>established_patient</td><td>Established Patient</td><td>#93d3a2 green</td></tr><tr><td>10</td><td>new_patient</td><td>New Patient</td><td>#a2d9e2 teal</td></tr><tr><td>11</td><td>reserved</td><td>Reserved</td><td>#b02a37 red</td></tr><tr><td>12</td><td>health_and_behavioral_assessment</td><td>Health & Behavioural</td><td>#ced4da grey</td></tr><tr><td>13</td><td>preventive_care_services</td><td>Preventive Care</td><td>#d3c6ec lavender</td></tr><tr><td>14</td><td>ophthalmological_services</td><td>Ophthalmological</td><td>#febe89 peach</td></tr><tr><td>15</td><td>group_therapy</td><td>Group Therapy</td><td>#adb5bd grey</td></tr></tbody></table>
+<p>To add a custom category, INSERT into <code>openemr_postcalendar_categories</code> — no code change needed.</p>
+<h3>3.3 Linked side-tables</h3>
+<table><thead><tr><th>Table</th><th>Why it matters</th></tr></thead><tbody><tr><td><code>patient_tracker</code></td><td>One row per arrived patient per day. Drives the <strong>Flow</strong> tab (vital signs queue → exam → checkout). Auto-created when <code>pc_apptstatus</code> flips to <code>^</code> Arrived.</td></tr><tr><td><code>patient_tracker_element</code></td><td>Audit trail of every status change for a given tracker row (e.g. Arrived 09:55 → In Room 10:10 → Out 10:35).</td></tr><tr><td><code>form_encounter</code></td><td>When a provider clicks "Begin Encounter" on a calendar block, OpenCMS inserts a row here and stamps it with <code>pc_eid</code>. <strong>This is the bridge between Calendar and Fees.</strong></td></tr><tr><td><code>recall</code></td><td>Future-dated appointments created from the Recalls tab — also write back into <code>openemr_postcalendar_events</code> once confirmed.</td></tr><tr><td><code>users</code> (provider)</td><td><code>pc_aid</code> joins to <code>users.id</code>. Provider colour palette comes from <code>users.calendar_color</code>.</td></tr><tr><td><code>facility</code></td><td><code>pc_facility</code> joins to <code>facility.id</code>. Used for filtering and for the default billing facility.</td></tr></tbody></table>
+<hr>
+<h2>4. The files behind the tab</h2>
+<table><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td><code>interface/main/calendar/index.php</code></td><td><strong>Entry point.</strong> Sets up session vars (selected provider, facility), then loads the PostCalendar module.</td></tr><tr><td><code>interface/main/calendar/add_edit_event.php</code></td><td>The big appointment <strong>create/edit dialog</strong>. ~1500 lines. Handles validation, recurrence, ACL, fires events.</td></tr><tr><td><code>interface/main/calendar/find_patient_popup.php</code></td><td>Patient picker inside the add-event dialog.</td></tr><tr><td><code>interface/main/calendar/find_appt_popup.php</code></td><td>"Find available slot" search across providers.</td></tr><tr><td><code>interface/main/calendar/modules/PostCalendar/pnuserapi.php</code></td><td>The <strong>read-side API</strong> — <code>postcalendar_userapi_pcGetEvents()</code> returns the events for a given range/provider/facility. Called by the grid renderer.</td></tr><tr><td><code>interface/main/calendar/modules/PostCalendar/pnadminapi.php</code></td><td>The <strong>write-side API</strong> — <code>postcalendar_adminapi_submitEvent()</code> inserts/updates an event.</td></tr><tr><td><code>interface/main/calendar/modules/PostCalendar/pntemplates/default/views/*</code></td><td>Smarty templates that produce the HTML grid.</td></tr><tr><td><code>library/calendar.inc.php</code></td><td>Shared helpers — slot-conflict detection, <code>fetchAppointments()</code> used by Patient Summary and the API.</td></tr></tbody></table>
+<hr>
+<h2>5. The PHP service layer</h2>
+<h3><code>OpenEMR\Services\AppointmentService</code> (<a href="../src/Services/AppointmentService.php">src/Services/AppointmentService.php</a>)</h3>
+<p>Modern PSR-4 service used by REST and FHIR endpoints. Key methods:</p>
+<table><thead><tr><th>Method</th><th>Returns</th><th>Used by</th></tr></thead><tbody><tr><td><code>getAppointment($eid)</code></td><td>Single appointment row</td><td><code>GET /api/appointment/{eid}</code></td></tr><tr><td><code>getAppointmentsForPatient($pid)</code></td><td>All appointments for one patient</td><td><code>GET /api/patient/{pid}/appointment</code></td></tr><tr><td><code>insert($pid, $data)</code></td><td>New <code>pc_eid</code></td><td><code>POST /api/patient/{pid}/appointment</code></td></tr><tr><td><code>validate($data)</code></td><td><code>ProcessingResult</code> with errors</td><td>Pre-insert validation</td></tr><tr><td><code>deleteAppointmentRecord($eid)</code></td><td>void</td><td><code>DELETE /api/patient/{pid}/appointment/{eid}</code></td></tr><tr><td><code>search($filters)</code></td><td>Paginated result</td><td>FHIR <code>Appointment</code> search</td></tr></tbody></table>
+<h3>Legacy procedural layer</h3>
+<p>The Smarty grid still uses the <strong>PostCalendar</strong> functions (<code>postcalendar_userapi_pcGetEvents</code>). Both layers write to the same <code>openemr_postcalendar_events</code> table — there is no duplication, just two readers.</p>
+<hr>
+<h2>6. The REST APIs your team can call</h2>
+<blockquote>
+<p>Base URL: <code>http://localhost/open_cms/apis/default/api</code></p>
+<p>Auth: OAuth2 bearer token from <code>/oauth2/default/token</code> with scope <code>user/appointment.cruds</code>.</p>
+</blockquote>
+<h3>6.1 REST (OpenEMR-native) — defined in <a href="../apis/routes/_rest_routes_standard.inc.php"><code>apis/routes/_rest_routes_standard.inc.php</code></a></h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>What it does</th><th>Line</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/api/appointment</code></td><td>List all appointments (admin)</td><td>4951</td></tr><tr><td><code>GET</code></td><td><code>/api/appointment/:eid</code></td><td>Get one appointment by <code>pc_eid</code></td><td>4987</td></tr><tr><td><code>GET</code></td><td><code>/api/patient/:pid/appointment</code></td><td>All appointments for one patient</td><td>4816</td></tr><tr><td><code>GET</code></td><td><code>/api/patient/:pid/appointment/:eid</code></td><td>One appointment, restricted to patient</td><td>5077</td></tr><tr><td><code>POST</code></td><td><code>/api/patient/:pid/appointment</code></td><td>Create a new appointment</td><td>4923</td></tr><tr><td><code>DELETE</code></td><td><code>/api/patient/:pid/appointment/:eid</code></td><td>Cancel/delete an appointment</td><td>5032</td></tr></tbody></table>
+<h3>6.2 FHIR R4 — defined in <a href="../apis/routes/_rest_routes_fhir_r4_us_core_3_1_0.inc.php"><code>apis/routes/_rest_routes_fhir_r4_us_core_3_1_0.inc.php</code></a></h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>What it does</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/fhir/Appointment</code></td><td>Search appointments (FHIR R4)</td></tr><tr><td><code>GET</code></td><td><code>/fhir/Appointment/{id}</code></td><td>Read one by UUID</td></tr></tbody></table>
+<p>The FHIR resource is built in <a href="../src/Services/FHIR/FhirAppointmentService.php"><code>src/Services/FHIR/FhirAppointmentService.php</code></a>. This is what <strong>third-party patient portals, hospital integrations, and HealthLake-style data lakes</strong> consume.</p>
+<h3>6.3 Portal (patient-facing) — <a href="../apis/routes/_rest_routes_portal.inc.php"><code>apis/routes/_rest_routes_portal.inc.php</code></a></h3>
+<p>Patients with portal access can <code>GET /api/portal/patient/appointment</code> to see their own bookings (scope <code>patient/appointment.read</code>).</p>
+<h3>6.4 Sample POST body</h3>
+<pre><code>POST /api/patient/4/appointment
+Authorization: Bearer &lt;token&gt;
+Content-Type: application/json
+
+{
+  &quot;pc_catid&quot;: 9,                 // Established Patient
+  &quot;pc_title&quot;: &quot;Diabetes follow-up&quot;,
+  &quot;pc_duration&quot;: 1800,           // seconds (= 30 min)
+  &quot;pc_hometext&quot;: &quot;Reviewing HbA1c results&quot;,
+  &quot;pc_eventDate&quot;: &quot;2026-05-30&quot;,
+  &quot;pc_startTime&quot;: &quot;10:00&quot;,
+  &quot;pc_facility&quot;: 3,
+  &quot;pc_billing_location&quot;: 3,
+  &quot;pc_aid&quot;: 1                    // provider id
+}</code></pre>
+<p>Response: <code>{ &quot;id&quot;: 17 }</code> — the new <code>pc_eid</code>.</p>
+<hr>
+<h2>7. Permissions (ACL)</h2>
+<p>Configured in <strong>Admin → ACL Administration</strong>. The Calendar checks:</p>
+<table><thead><tr><th>ACL section → value</th><th>Required to…</th></tr></thead><tbody><tr><td><code>patients → appt</code> (<code>write</code>, <code>wsome</code>)</td><td>Create/edit any appointment</td></tr><tr><td><code>patients → med</code> (<code>view</code>, <code>viewsome</code>)</td><td>See appointment details</td></tr><tr><td><code>admin → super</code></td><td>Create category, edit holidays</td></tr></tbody></table>
+<p>Source: <a href="../interface/main/calendar/add_edit_event.php#L63"><code>interface/main/calendar/add_edit_event.php:63</code></a>.</p>
+<hr>
+<h2>8. Events fired (for module developers)</h2>
+<p>The Calendar emits Symfony events that custom modules can listen to:</p>
+<table><thead><tr><th>Event class</th><th>When</th></tr></thead><tbody><tr><td><code>AppointmentSetEvent</code></td><td>After successful insert/update of an appointment</td></tr><tr><td><code>AppointmentRenderEvent</code></td><td>When the dialog is being built — modules can inject extra fields</td></tr><tr><td><code>AppointmentDialogCloseEvent</code></td><td>After the dialog closes — used for SMS/email reminder dispatch</td></tr></tbody></table>
+<p>Located in <code>src/Events/Appointments/</code>. Listen via <code>EventDispatcher::addListener()</code> in your custom module's <code>Bootstrap.php</code>.</p>
+<hr>
+<h2>9. End-to-end flow (the demo flow)</h2>
+<pre><code>┌──────────────────────────────────────────────────────────────────────┐
+│  USER ACTION                STATE CHANGE                  TABLE       │
+├──────────────────────────────────────────────────────────────────────┤
+│  1. Receptionist clicks   ──► dialog opens                            │
+│     empty 10:00 slot         (add_edit_event.php)                     │
+│                                                                       │
+│  2. Picks patient Amit    ──► pc_pid=4, pc_aid=1                      │
+│     + category &quot;Estab.&quot;      pc_catid=9                               │
+│                                                                       │
+│  3. Clicks Save           ──► INSERT row                  openemr_    │
+│                              + AppointmentSetEvent       postcalendar │
+│                                fires                      _events     │
+│                                                                       │
+│  4. Patient arrives, FD   ──► UPDATE pc_apptstatus=&apos;^&apos;                │
+│     clicks &quot;Arrived&quot;          (Arrived)                               │
+│                                                                       │
+│  5. Auto-creates tracker  ──► INSERT row                 patient_     │
+│                                                          tracker      │
+│                                                                       │
+│  6. Doctor clicks         ──► INSERT row                 form_        │
+│     &quot;Begin Encounter&quot;        (encounter linked to        encounter    │
+│                              pc_eid via the form)                     │
+│                                                                       │
+│  7. Doctor opens Fee      ──► INSERT CPT/ICD rows        billing      │
+│     Sheet, adds 99214                                                 │
+│                                                                       │
+│  8. Front desk Checkout   ──► INSERT payment             ar_session,  │
+│                                                          ar_activity  │
+│                                                                       │
+│  9. Billing Manager       ──► flagged for claim          claims       │
+│     submits to insurer                                                │
+└──────────────────────────────────────────────────────────────────────┘</code></pre>
+<p>The <code>pc_eid</code> (appointment ID) is the <strong>golden thread</strong> that ties together every downstream tab: Flow, Patient, Fees, Reports.</p>
+<hr>
+<h2>10. How Calendar connects to every other tab</h2>
+<table><thead><tr><th>Other tab</th><th>The connection</th></tr></thead><tbody><tr><td><strong>Finder</strong></td><td>Patient picker inside the appointment dialog (<code>find_patient_popup.php</code>) is the same widget Finder uses.</td></tr><tr><td><strong>Flow</strong></td><td>Every arrived appointment (<code>pc_apptstatus=&apos;^&apos;</code>) becomes a row in <code>patient_tracker</code>, which is what Flow displays.</td></tr><tr><td><strong>Recalls</strong></td><td>Recall reminders create future <code>openemr_postcalendar_events</code> rows when the patient confirms.</td></tr><tr><td><strong>Messages</strong></td><td>"Send reminder" button on the dialog enqueues SMS/email via <code>notification_log</code>.</td></tr><tr><td><strong>Patient</strong></td><td>Patient summary page shows upcoming appointments by querying <code>openemr_postcalendar_events WHERE pc_pid = ?</code>.</td></tr><tr><td><strong>Fees</strong></td><td>Encounter row created from the calendar carries <code>pc_eid</code>, <code>pc_facility</code>, and <code>pc_billing_location</code> into the billing pipeline.</td></tr><tr><td><strong>Modules</strong></td><td>Custom modules subscribe to <code>AppointmentSetEvent</code> to push to external systems (e.g. WhatsApp reminders, Google Calendar sync).</td></tr><tr><td><strong>Procedures</strong></td><td>Procedure orders can be linked to the originating appointment via <code>pc_eid</code>.</td></tr><tr><td><strong>Admin</strong></td><td>Holidays, categories, default visit duration, "remind me X hours before" — all configured under <strong>Admin → Globals → Calendar</strong>.</td></tr></tbody></table>
+<hr>
+<h2>11. Configuration globals (Admin → Globals → Calendar)</h2>
+<table><thead><tr><th>Global</th><th>Default</th><th>What it controls</th></tr></thead><tbody><tr><td><code>schedule_start</code></td><td>8</td><td>Earliest hour shown on the grid</td></tr><tr><td><code>schedule_end</code></td><td>17</td><td>Latest hour shown</td></tr><tr><td><code>calendar_interval</code></td><td>15</td><td>Grid row size in minutes</td></tr><tr><td><code>default_visit_category</code></td><td>5 (Office Visit)</td><td>Auto-selected category in the dialog</td></tr><tr><td><code>event_color</code></td><td>by category</td><td>Override colour scheme</td></tr><tr><td><code>time_display_format</code></td><td>0 (24h) / 1 (12h)</td><td>AM/PM vs 24-hour</td></tr><tr><td><code>appt_display_sets</code></td><td>1</td><td>Group appointments by provider in week view</td></tr><tr><td><code>auto_create_new_encounters</code></td><td>1</td><td>If 1, "Begin Encounter" is automatic on Arrived</td></tr><tr><td><code>recalls_enabled</code></td><td>1</td><td>Enable recall reminders</td></tr></tbody></table>
+<hr>
+<h2>12. Talking points for the demo</h2>
+<ol>
+<li><strong>"One screen drives the whole clinic."</strong> Booking, status, billing handoff — all from this view.</li>
+<li><strong>Colour-coded by category.</strong> A nurse can glance at the day and see Office Visits (yellow) vs Holidays (purple) vs New Patients (teal).</li>
+<li><strong>Multi-provider, multi-facility.</strong> Filter dropdown at the top — switch providers without changing screens.</li>
+<li><strong>No double-bookings.</strong> Slot-conflict check in <code>library/calendar.inc.php</code> blocks overlap before the row is written.</li>
+<li><strong>Recurring slots in one click.</strong> Daily, weekly, monthly recurrence using the <code>pc_recurrtype</code> + <code>pc_recurrspec</code> JSON rule.</li>
+<li><strong>Auto-encounter on arrival.</strong> When the front desk marks Arrived, the doctor's encounter is already waiting — no extra clicks.</li>
+<li><strong>FHIR-native.</strong> Any third party (insurance portal, lab, hospital HIS) can pull the schedule via FHIR <code>/Appointment</code>.</li>
+<li><strong>Audit trail.</strong> Every status change is logged in <code>patient_tracker_element</code> with timestamp and user.</li>
+</ol>
+<hr>
+<h2>13. Demo script (90 seconds)</h2>
+<blockquote>
+<p>1. <em>"Here's today's calendar — three providers, colour-coded by visit type."</em></p>
+<p>2. <em>Click empty 10:30 slot under Dr. Administrator.</em></p>
+<p>3. <em>"Pick the patient — let's grab Amit Patel — set category Established Patient. Save."</em></p>
+<p>4. <em>Block appears in green.</em></p>
+<p>5. <em>"Patient walks in — front desk clicks Arrived."</em></p>
+<p>6. <em>Block flips to bold border. <strong>Behind the scenes</strong> a <code>patient_tracker</code> row is created — that's what feeds the Flow board over there."</em></p>
+<p>7. <em>Switch to Patient tab → upcoming appointments list shows the new booking.</em></p>
+<p>8. <em>"And because this fires our <code>AppointmentSetEvent</code>, a custom WhatsApp module we built sends Amit a confirmation in 2 seconds."</em></p>
+</blockquote>
+<hr>
+<h2>14. Where the data goes — visual summary</h2>
+<pre><code>                          ┌─────────────┐
+                          │  CALENDAR   │
+                          │   (grid)    │
+                          └──────┬──────┘
+                                 │  user clicks slot
+                                 ▼
+              ┌──────────────────────────────────────┐
+              │  openemr_postcalendar_events         │
+              │  (single source of truth)            │
+              └──┬──────┬───────┬───────┬───────┬────┘
+                 │      │       │       │       │
+                 ▼      ▼       ▼       ▼       ▼
+            ┌──────┐ ┌────┐ ┌─────┐ ┌───────┐ ┌─────┐
+            │Patient│ │Flow│ │Fees │ │Reports│ │ FHIR │
+            │summary│ │board│ │(via │ │       │ │ API  │
+            │       │ │     │ │ enc)│ │       │ │      │
+            └──────┘ └────┘ └─────┘ └───────┘ └─────┘</code></pre>
+<hr>
+<h2>15. Quick reference — files cheat sheet</h2>
+<pre><code>URL entry         : /interface/main/calendar/index.php
+Add/edit dialog   : /interface/main/calendar/add_edit_event.php
+Read API (legacy) : /interface/main/calendar/modules/PostCalendar/pnuserapi.php
+Write API (legacy): /interface/main/calendar/modules/PostCalendar/pnadminapi.php
+PSR-4 service     : /src/Services/AppointmentService.php
+REST controller   : /src/RestControllers/AppointmentRestController.php
+FHIR controller   : /src/RestControllers/FHIR/FhirAppointmentRestController.php
+REST routes       : /apis/routes/_rest_routes_standard.inc.php  (lines 4789-5077)
+FHIR routes       : /apis/routes/_rest_routes_fhir_r4_us_core_3_1_0.inc.php
+DB table          : openemr_postcalendar_events
+DB categories     : openemr_postcalendar_categories
+Tracker bridge    : patient_tracker, patient_tracker_element
+ACL keys          : patients → appt (write, wsome)
+Smarty templates  : /interface/main/calendar/modules/PostCalendar/pntemplates/default/views/
+Events            : OpenEMR\Events\Appointments\{AppointmentSetEvent, AppointmentRenderEvent, AppointmentDialogCloseEvent}</code></pre>
+<hr>
+<p><em>End of Tab 01 — Calendar. Next file in the series will be <code>02_Finder_Tab.md</code>.</em></p>
+</body>
+</html>

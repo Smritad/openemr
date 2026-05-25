@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <!-- Matrix Bricks brand low-poly triangle backdrop
+       Palette:
+         #1a0000 deepest red-black
+         #7b0000 dark red
+         #cc0000 brand red
+         #e85c1a amber-red
+         #f5a800 golden amber
+         #ffd000 brand yellow
+         #ffeaa3 light yellow
+         #fff8d9 cream
+         #ffffff highlight -->
+  <defs>
+    <linearGradient id="vignette" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"  stop-color="#000000" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+
+  <!-- base wash -->
+  <rect width="1920" height="1080" fill="#1a0000"/>
+
+  <!-- ─── Triangles arranged across the canvas ─── -->
+  <g>
+    <!-- Top band: deep reds & amber -->
+    <polygon points="0,0       240,0     130,160"   fill="#7b0000"/>
+    <polygon points="0,0       130,160   0,300"     fill="#1a0000"/>
+    <polygon points="240,0     480,0     360,200"   fill="#cc0000"/>
+    <polygon points="240,0     360,200   130,160"   fill="#a40000"/>
+    <polygon points="480,0     760,0     640,180"   fill="#7b0000"/>
+    <polygon points="760,0     1040,0    900,180"   fill="#a40000"/>
+    <polygon points="1040,0    1320,0    1180,200"  fill="#cc0000"/>
+    <polygon points="1320,0    1620,0    1500,180"  fill="#e85c1a"/>
+    <polygon points="1620,0    1920,0    1780,200"  fill="#a40000"/>
+    <polygon points="1620,0    1780,200  1500,180"  fill="#cc0000"/>
+    <polygon points="1500,180  1780,200  1640,360"  fill="#7b0000"/>
+    <polygon points="1320,0    1500,180  1180,200"  fill="#7b0000"/>
+
+    <polygon points="130,160   360,200   240,360"   fill="#a40000"/>
+    <polygon points="0,300     130,160   240,360"   fill="#7b0000"/>
+    <polygon points="0,300     240,360   100,520"   fill="#1a0000"/>
+    <polygon points="240,360   360,200   480,420"   fill="#cc0000"/>
+    <polygon points="360,200   640,180   480,420"   fill="#e85c1a"/>
+    <polygon points="480,420   640,180   720,400"   fill="#cc0000"/>
+    <polygon points="640,180   900,180   720,400"   fill="#e85c1a"/>
+    <polygon points="720,400   900,180   980,400"   fill="#f5a800"/>
+    <polygon points="900,180   1180,200  980,400"   fill="#cc0000"/>
+    <polygon points="980,400   1180,200  1240,420"  fill="#e85c1a"/>
+    <polygon points="1180,200  1500,180  1240,420"  fill="#a40000"/>
+    <polygon points="1240,420  1500,180  1500,420"  fill="#cc0000"/>
+    <polygon points="1500,180  1640,360  1500,420"  fill="#e85c1a"/>
+    <polygon points="1500,420  1640,360  1740,520"  fill="#7b0000"/>
+    <polygon points="1640,360  1780,200  1920,360"  fill="#cc0000"/>
+    <polygon points="1640,360  1920,360  1740,520"  fill="#a40000"/>
+    <polygon points="1740,520  1920,360  1920,560"  fill="#7b0000"/>
+
+    <!-- Middle band: amber, gold, yellow highlights -->
+    <polygon points="100,520   240,360   320,560"  fill="#cc0000"/>
+    <polygon points="240,360   480,420   320,560"  fill="#a40000"/>
+    <polygon points="320,560   480,420   520,620"  fill="#e85c1a"/>
+    <polygon points="480,420   720,400   520,620"  fill="#cc0000"/>
+    <polygon points="520,620   720,400   780,620"  fill="#f5a800"/>
+    <polygon points="720,400   980,400   780,620"  fill="#e85c1a"/>
+    <polygon points="780,620   980,400   1020,620" fill="#ffd000"/>
+    <polygon points="980,400   1240,420  1020,620" fill="#f5a800"/>
+    <polygon points="1020,620  1240,420  1280,640" fill="#e85c1a"/>
+    <polygon points="1240,420  1500,420  1280,640" fill="#cc0000"/>
+    <polygon points="1280,640  1500,420  1540,640" fill="#f5a800"/>
+    <polygon points="1500,420  1740,520  1540,640" fill="#e85c1a"/>
+    <polygon points="1540,640  1740,520  1740,720" fill="#cc0000"/>
+    <polygon points="1740,520  1920,560  1740,720" fill="#a40000"/>
+    <polygon points="1740,720  1920,560  1920,760" fill="#7b0000"/>
+
+    <!-- Bottom band: darker again -->
+    <polygon points="0,300    100,520   0,640"    fill="#1a0000"/>
+    <polygon points="0,640    100,520   240,720"  fill="#7b0000"/>
+    <polygon points="100,520  320,560   240,720"  fill="#a40000"/>
+    <polygon points="240,720  320,560   480,740"  fill="#cc0000"/>
+    <polygon points="320,560  520,620   480,740"  fill="#e85c1a"/>
+    <polygon points="480,740  520,620   720,760"  fill="#cc0000"/>
+    <polygon points="520,620  780,620   720,760"  fill="#f5a800"/>
+    <polygon points="720,760  780,620   980,780"  fill="#e85c1a"/>
+    <polygon points="780,620  1020,620  980,780"  fill="#cc0000"/>
+    <polygon points="980,780  1020,620  1240,800" fill="#a40000"/>
+    <polygon points="1020,620 1280,640  1240,800" fill="#cc0000"/>
+    <polygon points="1240,800 1280,640  1480,820" fill="#7b0000"/>
+    <polygon points="1280,640 1540,640  1480,820" fill="#a40000"/>
+    <polygon points="1480,820 1540,640  1700,840" fill="#cc0000"/>
+    <polygon points="1540,640 1740,720  1700,840" fill="#e85c1a"/>
+    <polygon points="1700,840 1740,720  1920,860" fill="#a40000"/>
+    <polygon points="1740,720 1920,760  1920,860" fill="#7b0000"/>
+
+    <polygon points="0,640    240,720   0,860"    fill="#7b0000"/>
+    <polygon points="0,860    240,720   200,940"  fill="#1a0000"/>
+    <polygon points="240,720  480,740   200,940"  fill="#a40000"/>
+    <polygon points="200,940  480,740   480,960"  fill="#7b0000"/>
+    <polygon points="480,740  720,760   480,960"  fill="#cc0000"/>
+    <polygon points="480,960  720,760   720,1000" fill="#7b0000"/>
+    <polygon points="720,760  980,780   720,1000" fill="#a40000"/>
+    <polygon points="720,1000 980,780   980,1020" fill="#cc0000"/>
+    <polygon points="980,780  1240,800  980,1020" fill="#7b0000"/>
+    <polygon points="980,1020 1240,800  1260,1040" fill="#a40000"/>
+    <polygon points="1240,800 1480,820  1260,1040" fill="#cc0000"/>
+    <polygon points="1260,1040 1480,820 1540,1040" fill="#7b0000"/>
+    <polygon points="1480,820 1700,840  1540,1040" fill="#a40000"/>
+    <polygon points="1540,1040 1700,840 1780,1060" fill="#cc0000"/>
+    <polygon points="1700,840 1920,860  1780,1060" fill="#7b0000"/>
+    <polygon points="1780,1060 1920,860 1920,1080" fill="#1a0000"/>
+
+    <polygon points="0,860    200,940   0,1080"   fill="#1a0000"/>
+    <polygon points="0,1080   200,940   200,1080" fill="#7b0000"/>
+    <polygon points="200,1080 200,940   480,960"  fill="#a40000"/>
+    <polygon points="200,1080 480,960   480,1080" fill="#7b0000"/>
+    <polygon points="480,1080 480,960   720,1000" fill="#cc0000"/>
+    <polygon points="480,1080 720,1000  720,1080" fill="#a40000"/>
+    <polygon points="720,1080 720,1000  980,1020" fill="#7b0000"/>
+    <polygon points="720,1080 980,1020  980,1080" fill="#cc0000"/>
+    <polygon points="980,1080 980,1020  1260,1040" fill="#a40000"/>
+    <polygon points="980,1080 1260,1040 1260,1080" fill="#7b0000"/>
+    <polygon points="1260,1080 1260,1040 1540,1040" fill="#cc0000"/>
+    <polygon points="1260,1080 1540,1040 1540,1080" fill="#7b0000"/>
+    <polygon points="1540,1080 1540,1040 1780,1060" fill="#a40000"/>
+    <polygon points="1540,1080 1780,1060 1780,1080" fill="#cc0000"/>
+    <polygon points="1780,1080 1780,1060 1920,1080" fill="#7b0000"/>
+  </g>
+
+  <!-- vignette overlay for depth -->
+  <rect width="1920" height="1080" fill="url(#vignette)"/>
+</svg>

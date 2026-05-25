@@ -10,27 +10,10 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        // ── 1. Inject brand badge next to the logo ─────────────────────────
-        var brand = document.querySelector('.navbar-brand');
-        if (brand && !document.getElementById('oc-brand-badge')) {
-            var badge = document.createElement('span');
-            badge.id = 'oc-brand-badge';
-            badge.textContent = 'OpenCMS';
-            badge.style.cssText = [
-                'display:inline-block',
-                'margin-left:8px',
-                'padding:2px 10px',
-                'background:linear-gradient(90deg,#1d4ed8,#0ea5e9)',
-                'color:#fff',
-                'font-size:0.75rem',
-                'font-weight:700',
-                'letter-spacing:0.08em',
-                'border-radius:12px',
-                'vertical-align:middle',
-                'text-transform:uppercase',
-                'user-select:none'
-            ].join(';');
-            brand.parentNode.insertBefore(badge, brand.nextSibling);
+        // ── 1. Remove any pre-existing brand badge (hidden by request) ─────
+        var existingBadge = document.getElementById('oc-brand-badge');
+        if (existingBadge && existingBadge.parentNode) {
+            existingBadge.parentNode.removeChild(existingBadge);
         }
 
         // ── 2. Highlight the currently active main-menu label ──────────────

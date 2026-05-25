@@ -1,16 +1,16 @@
 /*
- * OpenCMS Custom Brand Theme
+ * OpenCMS Custom Brand Theme  —  Matrix Bricks minimal edition
  * Injected automatically via custom/assets/custom.yaml
  *
- * Brand Palette
- *   --brand-navy    : #0f2744  (dark navy – navbar bg)
- *   --brand-blue    : #1d4ed8  (primary / buttons)
- *   --brand-sky     : #0ea5e9  (accent / hover / active tab)
- *   --brand-green   : #059669  (success states)
- *   --brand-body-bg : #f0f5ff  (page canvas)
- *   --brand-surface : #ffffff  (cards / modals)
- *   --brand-text    : #1e293b  (body text)
- *   --brand-muted   : #64748b  (secondary text / icons)
+ * Strict three-color palette
+ *   black  #000000 / #1a1a1a   navbar, body text, dark accents
+ *   red    #cc0000 / #7b0000   primary, active, accent
+ *   white  #ffffff / #ffffff   surfaces, body bg, light text on dark
+ *
+ * Plus neutral greys for borders / muted text / disabled states.
+ *
+ * Legacy CSS variable names (--brand-navy, --brand-blue, etc.) are kept
+ * so the rest of the file keeps working — only the *values* changed.
  */
 
 /* ─────────────────────────────────────────────
@@ -18,32 +18,35 @@
    ───────────────────────────────────────────── */
 :root {
     /* page canvas */
-    --oe-body-bg:                  #f0f5ff;
-    --oe-body-color:               #1e293b;
+    --oe-body-bg:                  #ffffff;
+    --oe-body-color:               #1a1a1a;
 
     /* surface / cards / modals */
     --oe-surface-bg:               #ffffff;
     --oe-panel-bg:                 #ffffff;
-    --oe-fieldset-bg:              #eef2ff;
+    --oe-fieldset-bg:              #ffffff;
 
     /* top navbar */
-    --oe-navbar-bg:                #0f2744;
-    --oe-navbar-color:             #e0f2fe;
-    --oe-navbar-link-hover-bg:     #0ea5e9;
+    --oe-navbar-bg:                #000000;
+    --oe-navbar-color:             #ffffff;
+    --oe-navbar-link-hover-bg:     #cc0000;
     --oe-navbar-link-hover-color:  #ffffff;
-    --oe-navbar-link-active-bg:    #1d4ed8;
+    --oe-navbar-link-active-bg:    #cc0000;
     --oe-navbar-link-active-color: #ffffff;
 
     /* search bar */
-    --oe-search-bg:                #1a3a5f;
+    --oe-search-bg:                #1a1a1a;
 
-    /* brand colours directly usable by other custom CSS */
-    --brand-navy:   #0f2744;
-    --brand-blue:   #1d4ed8;
-    --brand-sky:    #0ea5e9;
-    --brand-green:  #059669;
-    --brand-text:   #1e293b;
-    --brand-muted:  #64748b;
+    /* brand colours – all yellows/ambers point to red, all creams to white */
+    --brand-navy:   #000000;
+    --brand-blue:   #cc0000;
+    --brand-sky:    #cc0000;
+    --brand-yellow: #cc0000;
+    --brand-amber:  #cc0000;
+    --brand-cream:  #ffffff;
+    --brand-green:  #1a1a1a;
+    --brand-text:   #1a1a1a;
+    --brand-muted:  #6e6e6e;
 }
 
 /* ─────────────────────────────────────────────
@@ -62,10 +65,8 @@ html, body {
 /* ─────────────────────────────────────────────
    3. TOP NAVIGATION BAR
    ───────────────────────────────────────────── */
-nav.navbar,
-.navbar.bg-light,
-.navbar.navbar-light {
-    background-color: var(--brand-navy) !important;
+nav.navbar, .navbar.bg-light, .navbar.navbar-light {
+    background-color: #faf7f7 !important;
     border-bottom: 3px solid var(--brand-sky) !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 }
@@ -93,7 +94,7 @@ nav.navbar,
 .appMenu .menuLabel,
 .appMenu > div > .menuLabel,
 .appMenu .menuSection > .menuLabel {
-    color: #e0f2fe !important;
+    color: #e90000 !important;
     font-weight: 500;
     letter-spacing: 0.02em;
     padding: 0.45rem 0.6rem !important;
@@ -111,14 +112,14 @@ nav.navbar,
 
 /* Dropdown caret icons */
 .appMenu .fa.closeButton {
-    color: #7dd3fc !important;
+    color: #ffffff !important;
 }
 
 /* Dropdown menus */
 .appMenu .menuEntries.dropdown-menu,
 .appMenu .dropdown-menu {
-    background-color: #0f2744 !important;
-    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+    background-color: #ffffff !important;
+    border: 1px solid rgba(204, 0, 0, 0.3) !important;
     border-radius: 6px !important;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
     padding: 4px 0 !important;
@@ -128,7 +129,7 @@ nav.navbar,
 /* Dropdown items */
 .appMenu .menuEntries li .menuLabel,
 .appMenu .dropdown-menu li .menuLabel {
-    color: #bae6fd !important;
+    color: #cb0202 !important;
     padding: 0.4rem 1rem !important;
     font-size: 0.875rem;
     font-weight: 400;
@@ -143,7 +144,7 @@ nav.navbar,
 
 /* Disabled menu items */
 .menuDisabled {
-    color: #4a6275 !important;
+    color: #666666 !important;
     pointer-events: none;
 }
 
@@ -151,26 +152,25 @@ nav.navbar,
    5. TAB STRIP (bottom of navbar)
    ───────────────────────────────────────────── */
 .tabControls {
-    background-color: #1a3a5f !important;
-    border-bottom: 2px solid var(--brand-sky) !important;
-    min-height: 32px;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #d0d7de !important;
+    min-height: 36px;
     display: flex;
     align-items: center;
     padding: 0 4px;
 }
 
-/* Individual tab */
-.tabSpan,
-.tabSpan.bgcolor2 {
-    background-color: #1e3e66 !important;
-    border: 1px solid rgba(14, 165, 233, 0.25) !important;
+/* Individual tab — neutral pill on white bar */
+.tabSpan, .tabSpan.bgcolor2 {
+    background-color: #cc0000 !important;
+    border: 1px solid #cd0d0d !important;
     border-bottom: none !important;
     border-radius: 4px 4px 0 0 !important;
-    color: #93c5fd !important;
+    color: #ffffff !important;
     cursor: pointer;
     display: inline-flex !important;
     align-items: center;
-    padding: 3px 10px !important;
+    padding: 4px 12px !important;
     margin: 2px 2px 0 !important;
     font-size: 0.8rem;
     transition: background 0.15s ease, color 0.15s ease;
@@ -180,19 +180,25 @@ nav.navbar,
     text-overflow: ellipsis;
 }
 
+
+
 .tabSpan:hover,
 .tabSpan.bgcolor2:hover {
-    background-color: var(--brand-sky) !important;
-    color: #ffffff !important;
-    border-color: var(--brand-sky) !important;
+    background-color: #eaeaea !important;
+    color: #1a1a1a !important;
+    border-color: #b0b0b0 !important;
 }
 
-/* Active / visible tab */
-.tabSpan:not(.tabsNoHover):not([style*="display: none"]) {
-    background-color: var(--brand-blue) !important;
-    color: #ffffff !important;
-    border-color: rgba(29, 78, 216, 0.6) !important;
-}
+/* Active / visible tab — only the active one is red */
+.tabSpan.tabsNoHover, .tabSpan.current {
+    background-color: #f8f8f8 !important;
+    color: #121111 !important;
+    border-color: #070707 !important;
+    font-weight: 600;
+} 
+
+
+
 
 /* Tab title text */
 .tabTitle {
@@ -207,7 +213,7 @@ nav.navbar,
 }
 
 .tabHidden {
-    color: #4a6275 !important;
+    color: #666666 !important;
 }
 
 /* Tab icons (refresh, lock, close) */
@@ -230,7 +236,7 @@ nav.navbar,
 
 /* Patient toggle caret */
 #patient_caret.fa.menu_arrow {
-    color: #7dd3fc !important;
+    color: #ffffff !important;
     cursor: pointer;
     padding: 4px 6px;
     font-size: 1.1rem;
@@ -258,7 +264,7 @@ nav.navbar,
    ───────────────────────────────────────────── */
 #attendantData,
 .body_title.acck {
-    background-color: #e8f4fd !important;
+    background-color: #ffffff !important;
     border-bottom: 2px solid var(--brand-sky) !important;
     color: var(--brand-text) !important;
     padding: 4px 12px !important;
@@ -274,33 +280,33 @@ nav.navbar,
 .btn-primary:active,
 .btn-primary.active {
     background-color: var(--brand-blue) !important;
-    border-color: #1e40af !important;
+    border-color: #7b0000 !important;
     color: #ffffff !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #1e40af !important;
-    box-shadow: 0 0 0 0.2rem rgba(29, 78, 216, 0.35) !important;
+    background-color: #7b0000 !important;
+    box-shadow: 0 0 0 0.2rem rgba(204, 0, 0, 0.35) !important;
 }
 
 .btn-secondary {
-    background-color: #e2e8f0 !important;
-    border-color: #94a3b8 !important;
+    background-color: #e8e8e8 !important;
+    border-color: #a0a0a0 !important;
     color: var(--brand-text) !important;
 }
 
 .btn-success,
 .btn-success:hover {
     background-color: var(--brand-green) !important;
-    border-color: #047857 !important;
+    border-color: #1a1a1a !important;
     color: #ffffff !important;
 }
 
 .btn-info,
 .btn-info:hover {
     background-color: var(--brand-sky) !important;
-    border-color: #0284c7 !important;
+    border-color: #cc0000 !important;
     color: #ffffff !important;
 }
 
@@ -316,29 +322,30 @@ nav.navbar,
 /* ─────────────────────────────────────────────
    9. SEARCH BAR
    ───────────────────────────────────────────── */
-#anySearchBox,
-.form-control-sm.form-control[name="anySearchBox"] {
-    background-color: #1a3a5f !important;
-    color: #e0f2fe !important;
-    border: 1px solid rgba(14, 165, 233, 0.4) !important;
+#anySearchBox, .form-control-sm.form-control[name="anySearchBox"] {
+    background-color: #ffffff !important;
+    color: #de1616 !important;
+    border: 1px solid rgb(204 0 0) !important;
     border-radius: 4px !important;
 }
+
+
 
 #anySearchBox::placeholder {
     color: rgba(148, 196, 233, 0.65) !important;
 }
 
 #anySearchBox:focus {
-    background-color: #1a3a5f !important;
+    background-color: #1a0000 !important;
     border-color: var(--brand-sky) !important;
-    box-shadow: 0 0 0 0.15rem rgba(14, 165, 233, 0.4) !important;
-    color: #e0f2fe !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.4) !important;
+    color: #ffffff !important;
 }
 
 #search_globals,
 button#search_globals {
     background-color: var(--brand-sky) !important;
-    border-color: #0284c7 !important;
+    border-color: #cc0000 !important;
     color: #ffffff !important;
 }
 
@@ -348,14 +355,14 @@ button#search_globals {
 #userData,
 #userdropdown,
 .dropdown-menu {
-    background-color: #0f2744 !important;
-    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+    background-color: #ffffff !important;
+    border: 1px solid rgba(204, 0, 0, 0.3) !important;
 }
 
 #userData a,
 #userData button,
 #userdropdown .dropdown-item {
-    color: #bae6fd !important;
+    color: #b70303 !important;
 }
 
 #userdropdown .dropdown-item:hover,
@@ -372,7 +379,7 @@ button#search_globals {
 .panel-default,
 .modal-content {
     background-color: #ffffff !important;
-    border: 1px solid #dbeafe !important;
+    border: 1px solid #ffffff !important;
     border-radius: 8px !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     color: var(--brand-text) !important;
@@ -380,8 +387,8 @@ button#search_globals {
 
 .card-header,
 .panel-heading {
-    background-color: #eff6ff !important;
-    border-bottom: 1px solid #bfdbfe !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #ffffff !important;
     color: var(--brand-navy) !important;
     font-weight: 600;
 }
@@ -389,16 +396,16 @@ button#search_globals {
 /* Modal header */
 .modal-header {
     background-color: var(--brand-navy) !important;
-    color: #e0f2fe !important;
+    color: #ffffff !important;
     border-radius: 7px 7px 0 0 !important;
 }
 
 .modal-header .modal-title {
-    color: #e0f2fe !important;
+    color: #ffffff !important;
 }
 
 .modal-header .close {
-    color: #e0f2fe !important;
+    color: #ffffff !important;
     opacity: 0.8;
 }
 
@@ -411,25 +418,25 @@ button#search_globals {
 }
 
 .table thead th {
-    background-color: #1d4ed8 !important;
+    background-color: #cc0000 !important;
     color: #ffffff !important;
-    border-color: #1e40af !important;
+    border-color: #7b0000 !important;
     font-weight: 600;
     letter-spacing: 0.03em;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #f0f5ff !important;
+    background-color: #ffffff !important;
 }
 
 .table-hover tbody tr:hover {
-    background-color: #dbeafe !important;
+    background-color: #ffffff !important;
 }
 
 .table-bordered,
 .table-bordered th,
 .table-bordered td {
-    border-color: #bfdbfe !important;
+    border-color: #ffffff !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -448,7 +455,7 @@ input[type="search"],
 .input-group-text {
     background-color: #ffffff !important;
     color: var(--brand-text) !important;
-    border-color: #93c5fd !important;
+    border-color: #d0d7de !important;
     border-radius: 5px !important;
 }
 
@@ -459,7 +466,7 @@ input:focus {
     background-color: #ffffff !important;
     color: var(--brand-text) !important;
     border-color: var(--brand-blue) !important;
-    box-shadow: 0 0 0 0.15rem rgba(29, 78, 216, 0.25) !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.25) !important;
 }
 
 label {
@@ -472,8 +479,8 @@ label {
    ───────────────────────────────────────────── */
 fieldset,
 .oe-fieldset {
-    background-color: #f8faff !important;
-    border: 1px solid #bfdbfe !important;
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
     border-radius: 6px !important;
     padding: 12px 16px !important;
 }
@@ -483,7 +490,7 @@ fieldset legend,
     color: var(--brand-navy) !important;
     font-weight: 700;
     font-size: 0.9rem;
-    background-color: #eff6ff;
+    background-color: #ffffff;
     padding: 2px 8px;
     border-radius: 4px;
 }
@@ -496,46 +503,58 @@ fieldset legend,
 .badge-info    { background-color: var(--brand-sky) !important; color: #fff !important; }
 
 .alert-primary {
-    background-color: #dbeafe !important;
-    border-color: #93c5fd !important;
-    color: #1e3a8a !important;
+    background-color: #ffffff !important;
+    border-color: #d0d7de !important;
+    color: #1a0000 !important;
 }
 
 .alert-success {
-    background-color: #d1fae5 !important;
-    border-color: #6ee7b7 !important;
-    color: #065f46 !important;
+    background-color: #f0f0f0 !important;
+    border-color: #cccccc !important;
+    color: #1a1a1a !important;
 }
 
 /* ─────────────────────────────────────────────
    16. TABS (Bootstrap tab component inside pages)
    ───────────────────────────────────────────── */
 .nav-tabs {
-    border-bottom: 2px solid #bfdbfe !important;
+    border-bottom: 1px solid #d0d7de !important;
 }
 
+/* Inactive tab labels — light text on dark headers */
 .nav-tabs .nav-link {
-    color: var(--brand-blue) !important;
+    color: #cccccc !important;
     border: none !important;
     border-bottom: 2px solid transparent !important;
     padding: 0.5rem 1rem;
     font-weight: 500;
+    transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .nav-tabs .nav-link:hover {
-    border-bottom-color: var(--brand-sky) !important;
-    color: var(--brand-sky) !important;
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
+/* Active tab — solid red, white text */
 .nav-tabs .nav-link.active {
-    border-bottom: 2px solid var(--brand-blue) !important;
-    color: var(--brand-navy) !important;
-    font-weight: 700;
-    background-color: transparent !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    background-color: #cc0000 !important;
+    border-bottom: 2px solid #cc0000 !important;
+    border-radius: 4px 4px 0 0;
 }
 
+/* Legacy OpenEMR tab list (the classic ul.tabNav) */
 ul.tabNav a {
-    color: var(--brand-blue) !important;
+    color: #cccccc !important;
+}
+ul.tabNav a:hover {
+    color: #ffffff !important;
+}
+ul.tabNav li.current a {
+    color: #ffffff !important;
+    background-color: #cc0000 !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -543,9 +562,9 @@ ul.tabNav a {
    ───────────────────────────────────────────── */
 #oe-nav-sidebar,
 #oe-nav-sidebar .list-group-item {
-    background-color: #eff6ff !important;
+    background-color: #ffffff !important;
     color: var(--brand-text) !important;
-    border-color: #bfdbfe !important;
+    border-color: #ffffff !important;
 }
 
 #oe-nav-sidebar .list-group-item.active,
@@ -556,61 +575,78 @@ ul.tabNav a {
 }
 
 /* ─────────────────────────────────────────────
-   18. LOGIN PAGE
+   18. LOGIN PAGE — plain white, full-screen.
+   Overrides the body gradient + triangle SVG + white card
+   defined in style_matrix_bricks.scss. Nothing here paints
+   a card: the form sits directly on a white body.
    ───────────────────────────────────────────── */
-.login {
-    background: linear-gradient(135deg, #0f2744 0%, #1d4ed8 60%, #0ea5e9 100%) !important;
-    min-height: 100vh;
+
+/* Body: plain white, no gradient, no background image */
+body:has(#login_form),
+html:has(#login_form),
+html:has(#login_form) body {
+    background: #ffffff !important;
+    background-image: none !important;
+    min-height: 100vh !important;
 }
 
-.box,
-.band,
-.vertical-band {
-    background-color: #ffffff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+/* Kill the decorative overlay rendered by style_matrix_bricks */
+body:has(#login_form)::before,
+body:has(#login_form)::after {
+    content: none !important;
+    background: none !important;
+    display: none !important;
 }
 
-/* Left panel of login box (logo area) */
-.login .box > div:first-child,
-.d-flex.flex-fill:first-of-type {
-    background: linear-gradient(180deg, #0f2744 0%, #1d4ed8 100%) !important;
-    border-radius: 12px 0 0 12px !important;
+/* Remove the white card — no background, no border, no shadow,
+   no rounded corners, no width cap. Form fills the viewport. */
+body:has(#login_form) .box,
+body:has(#login_form) .band,
+body:has(#login_form) .vertical-band {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 2rem !important;
+    margin: 0 auto !important;
 }
 
-/* Login form panel */
-.login .box .bg-white,
-.login .p-md-5.flex-fill.bg-white {
-    background-color: #ffffff !important;
-    border-radius: 0 12px 12px 0 !important;
+/* Inner grid: cap content to a comfortable width and centre it */
+body:has(#login_form) .vertical-band .align-items-center {
+    max-width: 960px;
+    margin: 0 auto;
 }
 
-/* Login title / site name */
-.login h1,
-.login h2,
-.login h3 {
+/* Title / site name */
+body:has(#login_form) h1,
+body:has(#login_form) h2,
+body:has(#login_form) h3 {
     color: var(--brand-navy) !important;
     font-weight: 700;
 }
 
-/* Login form inputs */
-.login .form-control,
-.login input[type="text"],
-.login input[type="password"] {
-    border-color: #93c5fd !important;
-    background-color: #f8faff !important;
+/* Inputs stay clean and readable on the white body */
+body:has(#login_form) .form-control,
+body:has(#login_form) input[type="text"],
+body:has(#login_form) input[type="password"] {
+    border-color: #d0d7de !important;
+    background-color: #ffffff !important;
     border-radius: 6px !important;
 }
 
-.login .form-control:focus {
+body:has(#login_form) .form-control:focus {
     border-color: var(--brand-blue) !important;
-    box-shadow: 0 0 0 0.2rem rgba(29, 78, 216, 0.2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(204, 0, 0, 0.2) !important;
 }
 
-/* Login button */
-.login .btn-login,
-.login button[type="submit"],
-.login .btn-primary {
+/* Primary CTA — brand red, full-width */
+body:has(#login_form) #login-button,
+body:has(#login_form) .btn-login,
+body:has(#login_form) button[type="submit"],
+body:has(#login_form) .btn-primary {
     background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-sky) 100%) !important;
     border: none !important;
     border-radius: 6px !important;
@@ -618,14 +654,14 @@ ul.tabNav a {
     letter-spacing: 0.04em !important;
     padding: 0.55rem 2rem !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35) !important;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.35) !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.login .btn-primary:hover,
-.login button[type="submit"]:hover {
+body:has(#login_form) .btn-primary:hover,
+body:has(#login_form) button[type="submit"]:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(29, 78, 216, 0.45) !important;
+    box-shadow: 0 6px 18px rgba(204, 0, 0, 0.45) !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -650,16 +686,30 @@ h4, h5, h6 {
 
 /* ─────────────────────────────────────────────
    20. LINKS
-   ───────────────────────────────────────────── */
-a,
-a:not([class]) {
-    color: var(--brand-blue) !important;
+   Default: brand red on white  (matches the dropdown
+   menu look the user picked out as the reference).
+   ───────────────────────────────────────────────────── */
+a {
+    color: #cc0000;
     text-decoration: none;
 }
 
 a:hover {
-    color: var(--brand-sky) !important;
+    color: #7b0000;
     text-decoration: underline;
+}
+
+/* Dropdown menus — red text on white, subtle grey hover */
+.dropdown-menu .dropdown-item,
+.dropdown-menu a {
+    color: #cc0000 !important;
+    font-weight: 500;
+}
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu a:hover {
+    background-color: #f5f5f5 !important;
+    color: #7b0000 !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -667,11 +717,11 @@ a:hover {
    ───────────────────────────────────────────── */
 .page-link {
     color: var(--brand-blue) !important;
-    border-color: #bfdbfe !important;
+    border-color: #ffffff !important;
 }
 
 .page-link:hover {
-    background-color: #dbeafe !important;
+    background-color: #ffffff !important;
     color: var(--brand-navy) !important;
 }
 
@@ -686,7 +736,7 @@ a:hover {
    ───────────────────────────────────────────── */
 #mainBox .logo .emr-menu-logo > #blue-color,
 #mainBox_vertical .logo .emr-menu-logo > #blue-color {
-    fill: #e0f2fe !important;
+    fill: #ffffff !important;
 }
 
 .about-review-image > #color {
@@ -697,13 +747,13 @@ a:hover {
    23. SELECT2 / AUTOCOMPLETE
    ───────────────────────────────────────────── */
 .select2-container--bootstrap4 .select2-selection {
-    border-color: #93c5fd !important;
+    border-color: #d0d7de !important;
 }
 
 .select2-container--bootstrap4 .select2-selection--single:focus,
 .select2-container--bootstrap4.select2-container--focus .select2-selection--multiple {
     border-color: var(--brand-blue) !important;
-    box-shadow: 0 0 0 0.15rem rgba(29, 78, 216, 0.25) !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.25) !important;
 }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted {
@@ -717,7 +767,7 @@ a:hover {
 #OpenEMR_scheduler_header,
 .fc-toolbar.fc-header-toolbar {
     background-color: var(--brand-navy) !important;
-    color: #e0f2fe !important;
+    color: #ffffff !important;
     padding: 8px 12px;
     border-radius: 6px 6px 0 0;
 }
@@ -725,13 +775,13 @@ a:hover {
 .fc-button-primary,
 .fc-button {
     background-color: var(--brand-blue) !important;
-    border-color: #1e40af !important;
+    border-color: #7b0000 !important;
     color: #ffffff !important;
 }
 
 .fc-button-primary:hover,
 .fc-button:hover {
-    background-color: #1e40af !important;
+    background-color: #7b0000 !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -748,16 +798,16 @@ a:hover {
 
 /* Scroll bars (Webkit) */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f0f5ff; }
-::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 4px; }
+::-webkit-scrollbar-track { background: #ffffff; }
+::-webkit-scrollbar-thumb { background: #d0d7de; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--brand-blue); }
 
 /* ─────────────────────────────────────────────
    26. OEMR-SPECIFIC CLASSES (legacy pages)
    ───────────────────────────────────────────── */
-.bgcolor1 { background-color: #eff6ff !important; }
-.bgcolor2 { background-color: #dbeafe !important; color: var(--brand-text) !important; }
-.bgcolor3 { background-color: #bfdbfe !important; }
+.bgcolor1 { background-color: #ffffff !important; }
+.bgcolor2 { background-color: #ffffff !important; color: var(--brand-text) !important; }
+.bgcolor3 { background-color: #ffffff !important; }
 
 .mainbox {
     background-color: var(--oe-body-bg) !important;
@@ -771,19 +821,116 @@ a:hover {
 
 /* Top header band in older pages */
 .pageheading {
-    background: linear-gradient(90deg, var(--brand-navy) 0%, #1d4ed8 100%) !important;
-    color: #e0f2fe !important;
+    background: #000000 !important;
+    color: #ffffff !important;
     padding: 8px 16px;
     font-size: 1.1rem;
     font-weight: 700;
-    border-radius: 6px;
+    border-radius: 4px;
     margin-bottom: 12px;
 }
 
 /* Dividers */
 hr {
-    border-color: #bfdbfe !important;
-    opacity: 0.6;
+    border-color: #d0d7de !important;
+    opacity: 1;
+}
+
+/* ─────────────────────────────────────────────
+   27b. BRAND BADGE — hidden by request.
+   The "OpenCMS" pill next to the navbar-brand is no longer wanted.
+   CSS guard in case a cached brand_init.js still injects it.
+   ───────────────────────────────────────────── */
+#oc-brand-badge {
+    display: none !important;
+}
+
+/* ─────────────────────────────────────────────
+   28. CONTEXT WIDGET (dashboard-context module)
+   The "OPENCMS" pill that appears in the page-heading nav.
+   Override its inline styles so it looks branded on the
+   black navbar instead of inheriting a generic blue.
+   ───────────────────────────────────────────── */
+.context-nav-dropdown {
+    margin-left: 1rem;
+}
+
+.context-nav-dropdown .context-label {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+.context-nav-dropdown .context-select,
+nav.navbar select.context-select,
+nav.navbar .form-control.context-select {
+    background-color: #cc0000 !important;
+    color: #ffffff !important;
+    border: 1px solid #cc0000 !important;
+    border-radius: 999px !important;
+    font-weight: 600;
+    padding: 0.25rem 0.85rem !important;
+    box-shadow: none;
+}
+
+.context-nav-dropdown .context-select:focus,
+nav.navbar select.context-select:focus {
+    border-color: #7b0000 !important;
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.30) !important;
+    outline: 0;
+}
+
+.context-nav-dropdown .context-settings-btn {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+}
+
+.context-nav-dropdown .context-settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+}
+
+.context-nav-dropdown .locked-icon {
+    color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────
+   29. CALENDAR — "Today" highlight + provider header
+   Calendar dates / time labels keep their default red
+   (inherited from the global `a { color: #cc0000 }` rule).
+   ───────────────────────────────────────────── */
+
+/* "Today" cell — solid red pill, white text */
+td.currentDay,
+td.currentDay a,
+.currentDay,
+.calendar-today,
+.today-highlight {
+    background-color: #cc0000 !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+/* Provider name header bar at top of day/week grid */
+.providerheader,
+.providerday,
+div.providerheader.providerday {
+    background-color: #cc0000 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    padding: 6px 12px !important;
+}
+
+.providerheader .providerXbtn,
+.providerheader .userClose {
+    color: #ffffff !important;
+    opacity: 0.75;
+}
+.providerheader .providerXbtn:hover,
+.providerheader .userClose:hover {
+    opacity: 1;
 }
 
 /* ─────────────────────────────────────────────

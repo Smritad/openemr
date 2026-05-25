@@ -1,0 +1,299 @@
+<?php
+
+/**
+ * One-shot PDF generator: explains OpenEMR Messages / Reminders / Recalls flow.
+ *
+ * Usage:  open in browser -> http://localhost/open_cms/generate_messaging_pdf.php
+ * Output: writes messaging_flow.pdf into the project root, then streams it.
+ * Delete this file after use.
+ */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$mpdf = new \Mpdf\Mpdf([
+    'mode'         => 'utf-8',
+    'format'       => 'A4',
+    'margin_left'   => 14,
+    'margin_right'  => 14,
+    'margin_top'    => 16,
+    'margin_bottom' => 16,
+]);
+
+$mpdf->SetTitle('OpenEMR Messaging Flow Guide');
+$mpdf->SetAuthor('OpenEMR Internal Documentation');
+
+$css = <<<CSS
+<style>
+  body { font-family: DejaVuSans, sans-serif; font-size: 10pt; color: #222; line-height: 1.45; }
+  h1 { color: #8b0000; font-size: 22pt; margin: 0 0 6px 0; }
+  h2 { color: #8b0000; font-size: 15pt; margin-top: 20px; border-bottom: 1px solid #8b0000; padding-bottom: 4px; }
+  h3 { color: #444; font-size: 12pt; margin-top: 14px; }
+  .lead { color: #555; font-size: 10pt; margin-bottom: 18px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 8pt; color: #fff; font-weight: bold; }
+  .badge-staff   { background: #2980b9; }
+  .badge-patient { background: #27ae60; }
+  .badge-system  { background: #8e44ad; }
+  .badge-warn    { background: #c0392b; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 14px 0; }
+  th, td { border: 1px solid #bbb; padding: 6px 8px; text-align: left; vertical-align: top; font-size: 9.5pt; }
+  th { background: #f3e8e8; color: #8b0000; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-family: monospace; font-size: 9pt; color: #c0392b; }
+  pre { background: #f4f4f4; padding: 8px; border-left: 3px solid #8b0000; font-family: monospace; font-size: 8.5pt; white-space: pre-wrap; }
+  .box { border: 1.5px solid #999; border-radius: 6px; padding: 8px 10px; text-align: center; background: #fff; }
+  .box-staff   { border-color: #2980b9; background: #ecf3fa; }
+  .box-patient { border-color: #27ae60; background: #eafaf0; }
+  .box-system  { border-color: #8e44ad; background: #f3eafa; }
+  .box-db      { border-color: #d4ac0d; background: #fcf5d4; }
+  .arrow { text-align: center; color: #8b0000; font-size: 14pt; font-weight: bold; }
+  .small { font-size: 8.5pt; color: #666; }
+  .ok    { color: #27ae60; font-weight: bold; }
+  .nope  { color: #c0392b; font-weight: bold; }
+  .note  { background: #fff8e1; border-left: 3px solid #f39c12; padding: 8px 10px; margin: 8px 0; font-size: 9.5pt; }
+  .tip   { background: #e8f5e9; border-left: 3px solid #27ae60; padding: 8px 10px; margin: 8px 0; font-size: 9.5pt; }
+</style>
+CSS;
+
+/* ---------- Cover ---------- */
+$html  = $css;
+$html .= '<h1>OpenEMR Messaging Flow Guide</h1>';
+$html .= '<div class="lead">A complete walkthrough of the <b>Messages</b>, <b>Reminders</b>, and <b>Recalls</b> features &mdash; who sends, who receives, what gets emailed to the patient, and where the data is stored.</div>';
+
+$html .= '<table><tr>
+  <th style="width:18%;">Feature</th>
+  <th style="width:25%;">Who can use it</th>
+  <th style="width:25%;">Who receives it</th>
+  <th style="width:32%;">Does the patient see it?</th>
+  </tr>
+  <tr>
+    <td><b>Messages</b><br><span class="small">Top menu &rarr; Messages</span></td>
+    <td><span class="badge badge-staff">STAFF</span> only</td>
+    <td><span class="badge badge-staff">STAFF</span> mailbox</td>
+    <td><span class="nope">NO &mdash; internal only</span></td>
+  </tr>
+  <tr>
+    <td><b>Reminders</b><br><span class="small">Patient chart &rarr; Reminders tab</span></td>
+    <td><span class="badge badge-staff">STAFF</span> only</td>
+    <td><span class="badge badge-staff">STAFF</span> mailbox</td>
+    <td><span class="nope">NO &mdash; patient is just the SUBJECT</span></td>
+  </tr>
+  <tr>
+    <td><b>Recalls</b><br><span class="small">Patient chart &rarr; Recalls tab</span></td>
+    <td><span class="badge badge-staff">STAFF</span> creates entry</td>
+    <td><span class="badge badge-system">CRON</span> mails/SMSes patient</td>
+    <td><span class="ok">YES &mdash; via email/SMS if configured</span></td>
+  </tr>
+  <tr>
+    <td><b>Patient Portal Messages</b><br><span class="small">Top menu &rarr; Messages &rarr; To: patient</span></td>
+    <td><span class="badge badge-staff">STAFF</span> or <span class="badge badge-patient">PATIENT</span></td>
+    <td>The other side</td>
+    <td><span class="ok">YES &mdash; stored in portal + email notification (after our patch)</span></td>
+  </tr>
+</table>';
+
+$html .= '<div class="note"><b>Common confusion:</b> The screens labelled "Messages" and "Reminders" inside a patient chart look like they message the patient, but they do not &mdash; they message <i>other staff members</i> about that patient. To actually contact the patient, use <b>Patient Portal Messages</b> or <b>Recalls</b>.</div>';
+
+/* ---------- 1. Messages ---------- */
+$html .= '<h2>1. Messages (Staff-to-Staff)</h2>';
+$html .= '<p>Internal task/message inbox between OpenEMR users (providers, billers, front desk, etc.). Optionally pinned to a patient chart for context. The patient is not notified in any way.</p>';
+
+$html .= '<h3>Flow diagram</h3>';
+$html .= '<table style="border:none;">
+  <tr>
+    <td style="border:none; width:30%;"><div class="box box-staff">Staff user A<br><span class="small">writes message</span></div></td>
+    <td style="border:none; width:10%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:25%;"><div class="box box-db">DB table<br><code>pnotes</code></div></td>
+    <td style="border:none; width:10%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:25%;"><div class="box box-staff">Staff user B<br><span class="small">sees inbox</span></div></td>
+  </tr>
+</table>
+<div class="small" style="text-align:center;">No email. No SMS. No portal notification. Strictly internal.</div>';
+
+$html .= '<h3>What\'s in the screen</h3>';
+$html .= '<ul>
+  <li><b>To:</b> dropdown lists <i>users</i> from the <code>users</code> table.</li>
+  <li><b>Patient:</b> optional link to a chart (just for context, not a recipient).</li>
+  <li><b>Type:</b> categorization (Unassigned, Lab, Bill, etc.).</li>
+  <li><b>Date:</b> when it was sent.</li>
+  <li><b>Status:</b> New / Read / Done.</li>
+</ul>';
+
+$html .= '<h3>Code &amp; storage</h3>';
+$html .= '<table>
+  <tr><th>Item</th><th>Location</th></tr>
+  <tr><td>UI handler</td><td><code>interface/main/messages/messages.php</code></td></tr>
+  <tr><td>Helper functions</td><td><code>library/pnotes.inc.php</code></td></tr>
+  <tr><td>Storage table</td><td><code>pnotes</code></td></tr>
+</table>';
+
+/* ---------- 2. Reminders ---------- */
+$html .= '<h2>2. Reminders (Dated Reminders &mdash; Staff Internal)</h2>';
+$html .= '<p>A scheduled internal reminder system. Staff member A creates a dated reminder about Patient X and assigns it to Staff member B (or themselves). On the due date, it shows up in B\'s reminder list. <b>The patient is never contacted.</b></p>';
+
+$html .= '<h3>Flow diagram</h3>';
+$html .= '<table style="border:none;">
+  <tr>
+    <td style="border:none; width:22%;"><div class="box box-staff">Staff A<br><span class="small">creates reminder</span></div></td>
+    <td style="border:none; width:8%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:30%;"><div class="box box-db">DB tables<br><code>dated_reminders</code><br><code>dated_reminders_link</code></div></td>
+    <td style="border:none; width:8%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:22%;"><div class="box box-staff">Staff B<br><span class="small">sees on due date</span></div></td>
+  </tr>
+  <tr>
+    <td style="border:none;" colspan="5" class="arrow">&darr;</td>
+  </tr>
+  <tr>
+    <td style="border:none;" colspan="5" style="text-align:center;">
+      <div class="box box-patient" style="display:inline-block; opacity:0.4;">Patient<br><span class="small">just the SUBJECT &mdash; never contacted</span></div>
+    </td>
+  </tr>
+</table>';
+
+$html .= '<h3>Schema (truncated)</h3>';
+$html .= '<pre>dated_reminders
+  dr_id                 -- PK
+  dr_from_ID            -- users.id (creator)
+  dr_message_text       -- the note
+  dr_message_due_date   -- when it pops up
+  pid                   -- patient subject (NOT recipient)
+  message_priority      -- 1=Low, 2=Med, 3=High
+
+dated_reminders_link
+  dr_id      -- FK
+  to_id      -- users.id (recipient staff member)</pre>';
+
+$html .= '<h3>Code</h3>';
+$html .= '<table>
+  <tr><th>Item</th><th>Location</th></tr>
+  <tr><td>Add-reminder form</td><td><code>interface/main/dated_reminders/dated_reminders_add.php</code></td></tr>
+  <tr><td>List view</td><td><code>interface/main/dated_reminders/dated_reminders.php</code></td></tr>
+  <tr><td>Log view</td><td><code>interface/main/dated_reminders/dated_reminders_log.php</code></td></tr>
+</table>';
+
+/* ---------- 3. Recalls ---------- */
+$html .= '<h2>3. Recalls (Patient Outreach via MedEx)</h2>';
+$html .= '<p>A recall is a follow-up reminder for the <b>patient</b> &mdash; "come in for your annual physical," "your lab work is due," etc. Unlike Messages and Reminders, recalls <b>do</b> reach the patient, via email, SMS, or a printed letter. This is run by the <b>MedEx</b> module on a cron schedule.</p>';
+
+$html .= '<h3>Flow diagram</h3>';
+$html .= '<table style="border:none;">
+  <tr>
+    <td style="border:none; width:20%;"><div class="box box-staff">Staff<br><span class="small">creates recall in chart</span></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:18%;"><div class="box box-db">DB table<br><code>medex_recalls</code></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:18%;"><div class="box box-system">MedEx cron<br><span class="small">runs daily</span></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:20%;"><div class="box box-patient">Patient<br><span class="small">email / SMS / letter</span></div></td>
+  </tr>
+</table>';
+
+$html .= '<h3>What MedEx needs to function</h3>';
+$html .= '<ol>
+  <li><b>Email gateway</b> &mdash; SMTP configured under Admin &rarr; Globals &rarr; Notifications <span class="ok">(set this up first)</span></li>
+  <li><b>SMS gateway</b> &mdash; Twilio or Clickatell credentials in the Fax/SMS module (paid services, no free option)</li>
+  <li><b>Background service active</b> &mdash; Admin &rarr; Background Services &rarr; enable the MedEx job</li>
+  <li><b>Patient has contact info on file</b> &mdash; Demographics &rarr; Email / Phone</li>
+  <li><b>Patient opted in</b> &mdash; <code>patient_data.hipaa_allowemail</code>, <code>hipaa_allowsms</code></li>
+</ol>';
+
+$html .= '<h3>Schema (truncated)</h3>';
+$html .= '<pre>medex_recalls
+  r_ID         -- PK
+  r_pid        -- the patient receiving the recall
+  r_eventDate  -- when the recall is due
+  r_provider   -- the provider attached
+  r_reason     -- short text reason
+  r_facility   -- which clinic
+
+medex_outgoing   -- queue of actual messages to send
+notification_log -- record of what went out</pre>';
+
+/* ---------- 4. Portal Messages ---------- */
+$html .= '<h2>4. Patient Portal Messages (Two-way Secure Messaging)</h2>';
+$html .= '<p>The proper way to actually message a patient from inside OpenEMR. Stored as a "secure message" in the portal mailbox; an email notification tells the patient there\'s something new to read. <b>The message body itself is not emailed</b> &mdash; the patient must log in to read it (HIPAA-safe).</p>';
+
+$html .= '<h3>Flow diagram (after our patch)</h3>';
+$html .= '<table style="border:none;">
+  <tr>
+    <td style="border:none; width:18%;"><div class="box box-staff">Staff<br><span class="small">sends portal message</span></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:18%;"><div class="box box-db"><code>onsite_mail</code><br><span class="small">stores message</span></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:18%;"><div class="box box-db"><code>email_queue</code><br><span class="small">queues notification</span></div></td>
+    <td style="border:none; width:6%;" class="arrow">&rarr;</td>
+    <td style="border:none; width:22%;"><div class="box box-patient">Patient<br><span class="small">gets "new message" email<br>logs in to read body</span></div></td>
+  </tr>
+</table>';
+
+$html .= '<h3>What we patched on '. date('Y-m-d') .'</h3>';
+$html .= '<div class="tip">In <code>portal/lib/portal_mail.inc.php</code>, the <code>sendMail()</code> function now calls a new helper <code>queuePortalMailPatientNotification()</code> when the recipient copy of a message is stored. The helper looks up the patient\'s email via <code>patient_access_onsite</code> &rarr; <code>patient_data</code> and drops a notification into the <code>email_queue</code> table. The actual sending is done by the <b>EmailService</b> background job. Failures never block the in-portal save (wrapped in try/catch).</div>';
+
+$html .= '<h3>Required setup</h3>';
+$html .= '<table>
+  <tr><th>Setting (Admin &rarr; Globals &rarr; Notifications)</th><th>Value</th></tr>
+  <tr><td>Email Transport Method</td><td><code>SMTP</code></td></tr>
+  <tr><td>SMTP Server Hostname</td><td><code>smtp.gmail.com</code></td></tr>
+  <tr><td>SMTP Server Port Number</td><td><code>587</code></td></tr>
+  <tr><td>SMTP User for Authentication</td><td>your Gmail address</td></tr>
+  <tr><td>SMTP Password for Authentication</td><td>16-char Gmail App Password</td></tr>
+  <tr><td>SMTP Security Protocol</td><td><code>TLS</code></td></tr>
+  <tr><td>Patient Reminder Sender Email</td><td>same Gmail address</td></tr>
+</table>';
+
+$html .= '<h3>Patient prerequisites</h3>';
+$html .= '<ol>
+  <li>Patient exists in Demographics with an <b>Email</b> populated</li>
+  <li>Patient has portal credentials &mdash; Demographics &rarr; Login Details &rarr; "Allow Patient Portal"</li>
+</ol>';
+
+/* ---------- 5. End-to-end test ---------- */
+$html .= '<h2>5. End-to-end Test &mdash; Verify a Portal Message Reaches a Patient</h2>';
+$html .= '<ol>
+  <li>Log in to OpenEMR as <code>admin</code></li>
+  <li>Open the patient chart &rarr; Demographics &rarr; confirm Email is set</li>
+  <li>Demographics &rarr; Login Details &rarr; ensure portal account exists</li>
+  <li>Top menu &rarr; <b>Messages</b> &rarr; <b>+ Add New</b></li>
+  <li>Set <b>To:</b> the patient (not a staff user)</li>
+  <li>Type subject + body &rarr; <b>Send</b></li>
+  <li>In phpMyAdmin run:<br>
+    <pre>SELECT id, recipient, subject, sent, error_message, datetime_queued
+FROM email_queue ORDER BY id DESC LIMIT 5;</pre>
+    You should see a new row.</li>
+  <li>Admin &rarr; Background Services &rarr; trigger <code>EmailService</code> (or wait for its interval)</li>
+  <li>Check the patient\'s Gmail inbox for "New secure message in your patient portal"</li>
+</ol>';
+
+$html .= '<h3>If something fails</h3>';
+$html .= '<table>
+  <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+  <tr><td>No row in <code>email_queue</code></td><td>Patient has no email on file, no <code>patient_access_onsite</code> row, or <code>patient_reminder_sender_email</code> global is blank.</td></tr>
+  <tr><td><code>email_queue.error_message</code> populated</td><td>Gmail rejected. Re-check App Password and 2FA on the Google account.</td></tr>
+  <tr><td>Row stays <code>sent=0</code> forever</td><td>EmailService background job is disabled or interval too long. Admin &rarr; Background Services &rarr; activate.</td></tr>
+  <tr><td>PHP error log shows <i>Portal mail notification failed</i></td><td>Read <code>c:\\xampp\\php\\logs\\php_error_log</code> for full stack &mdash; usually SMTP misconfig.</td></tr>
+</table>';
+
+/* ---------- 6. Quick reference ---------- */
+$html .= '<h2>6. Quick Reference Card</h2>';
+$html .= '<table>
+  <tr><th>Question</th><th>Answer</th></tr>
+  <tr><td>"I clicked Send in the Messages screen &mdash; will the patient get it?"</td><td><span class="nope">NO</span>. Internal staff message only.</td></tr>
+  <tr><td>"I clicked Send in the Reminders screen &mdash; will the patient get it?"</td><td><span class="nope">NO</span>. Internal staff reminder only.</td></tr>
+  <tr><td>"I created a Recall for the patient &mdash; will they get notified?"</td><td><span class="ok">YES</span>, on the next MedEx cron cycle, by email/SMS/letter depending on patient prefs.</td></tr>
+  <tr><td>"I sent a Patient Portal Message &mdash; will they get an email about it?"</td><td><span class="ok">YES</span>, after our patch and SMTP configuration. They get a "new message" alert; the body is read in the portal.</td></tr>
+  <tr><td>"Where is SMTP configured?"</td><td>Admin &rarr; Globals &rarr; <b>Notifications</b> tab. Stored in <code>globals</code> table. Password is encrypted.</td></tr>
+  <tr><td>"Where do I see what went out?"</td><td><code>email_queue</code> (portal/recall notifications), <code>notification_log</code> (MedEx history).</td></tr>
+</table>';
+
+$html .= '<div class="small" style="margin-top:30px; text-align:center; color:#888;">Document generated '. date('Y-m-d H:i') .' &mdash; OpenEMR install at c:\\xampp\\htdocs\\open_cms</div>';
+
+$mpdf->WriteHTML($html);
+
+$outputPath = __DIR__ . '/messaging_flow.pdf';
+$mpdf->Output($outputPath, \Mpdf\Output\Destination::FILE);
+
+header('Content-Type: text/html; charset=utf-8');
+echo "<html><body style='font-family:sans-serif;padding:30px;'>";
+echo "<h2 style='color:#27ae60;'>PDF generated</h2>";
+echo "<p>Saved to: <code>$outputPath</code></p>";
+echo "<p><a href='messaging_flow.pdf' target='_blank'>Click here to open the PDF</a></p>";
+echo "<p style='color:#c0392b;'><b>Important:</b> Delete <code>generate_messaging_pdf.php</code> now &mdash; one-shot script.</p>";
+echo "</body></html>";

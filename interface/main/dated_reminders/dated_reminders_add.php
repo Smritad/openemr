@@ -60,7 +60,8 @@ if (isset($_GET['mID']) and is_numeric($_GET['mID'])) {
     }
 
     $forwarding = true;
-    $this_message = getReminderById($_GET['mID']);
+    $this_message = getReminderById($_GET['mID']) ?: [];
+    $this_message['dueDate'] = $this_message['dr_message_due_date'] ?? '';
 }
 
 // ---------------END FORWARDING MESSAGES ----------------

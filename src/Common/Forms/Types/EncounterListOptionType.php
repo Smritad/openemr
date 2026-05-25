@@ -87,7 +87,7 @@ class EncounterListOptionType implements IOptionFormType
 
         // Get encounters for the patient
         $encounters = $this->getEncounterService()->getPatientEncounterListWithCategories($this->pid);
-        $count = count($encounters);
+        $count = count($encounters['ids'] ?? []);
 
         // Build the options list
         $optionsList = [];

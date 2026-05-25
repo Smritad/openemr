@@ -190,12 +190,20 @@ class Header
         self::$scripts = [];
         self::$links = [];
 
-        self::parseConfigFile($map, $assets);
+        $foundAssets = [];
+        $excludedCount = 0;
+        self::parseConfigFile($map, $assets, $foundAssets, $excludedCount);
 
         /* adding custom assets in addition */
         if (is_file("{$GLOBALS['fileroot']}/custom/assets/custom.yaml")) {
             $customMap = self::readConfigFile("{$GLOBALS['fileroot']}/custom/assets/custom.yaml");
-            self::parseConfigFile($customMap, $assets);
+            self::parseConfigFile($customMap, $assets, $foundAssets, $excludedCount);
+        }
+
+        if (($missingCnt = count(array_diff($assets, $foundAssets))) > 0) {
+            if ($missingCnt !== $excludedCount) {
+                (new SystemLogger())->error("Not all selected assets were included in header", ['selectedAssets' => $assets, 'foundAssets' => $foundAssets]);
+            }
         }
 
         $linksStr = implode("", self::$links);
@@ -208,12 +216,14 @@ class Header
      *
      * @param array $map Assets to parse into self::$scripts and self::$links
      * @param array $selectedAssets
+     * @param array $foundAssets    Accumulator for assets that matched (by-ref)
+     * @param int   $excludedCount  Accumulator for explicitly excluded assets (by-ref)
      * @return void
      */
-    private static function parseConfigFile($map, $selectedAssets = [])
+    private static function parseConfigFile($map, $selectedAssets, &$foundAssets, &$excludedCount)
     {
-        $foundAssets = [];
-        $excludedCount = 0;
+        $foundAssets = $foundAssets ?? [];
+        $excludedCount = $excludedCount ?? 0;
 
         foreach ($map as $k => $opts) {
             $autoload = $opts['autoload'] ?? false;
@@ -260,12 +270,6 @@ class Header
                         }
                     }
                 }
-            }
-        }
-
-        if (($thisCnt = count(array_diff($selectedAssets, $foundAssets))) > 0) {
-            if ($thisCnt !== $excludedCount) {
-                (new SystemLogger())->error("Not all selected assets were included in header", ['selectedAssets' => $selectedAssets, 'foundAssets' => $foundAssets]);
             }
         }
     }
