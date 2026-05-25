@@ -91,7 +91,17 @@
       "Bash(where choco *)",
       "Bash(node serveccda.js)",
       "Bash(netstat -ano)",
-      "Bash(findstr :6661)"
+      "Bash(findstr :6661)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} | size %{size_download} bytes\\\\n\" http://localhost/open_cms/custom/assets/css/brand_theme.css)",
+      "Bash(grep -oE '[^,{}]*\\(menuLabel|menuSection|appMenu\\)[^,{}]*\\\\s*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '\\\\.menuLabel[^,{}]*\\\\s*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '[^,{}]*menuLabel[^,{}]*\\\\s*\\\\{[^}]*color[^;}]*[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(curl -s http://localhost/open_cms/custom/assets/css/brand_theme.css)",
+      "Bash(grep -oE '\\\\.activeMenu[^,{}]*[^}]*\\\\}|\\\\.menuLabel\\\\.activeMenu[^,{}]*\\\\{[^}]*\\\\}|\\\\.menuSection[^,{}]*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '\\\\.activeMenu[^,{}]*\\\\s*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '[^,{}]*activeMenu[^,{}]*\\\\s*\\\\{[^}]*\\\\}|[^,{}]*\\\\.appMenu[^,{}]*\\\\.active[^,{}]*\\\\s*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '\\\\.appMenu>span:hover[^,{}]*\\\\s*\\\\{[^}]*\\\\}|\\\\.appMenu li:hover[^,{}]*\\\\s*\\\\{[^}]*\\\\}|\\\\.menuSection>\\\\.menuLabel[^,{}]*\\\\s*\\\\{[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)",
+      "Bash(grep -oE '[^,{}]*\\(menuSection|appMenu\\)[^,{}]*\\\\s*\\\\{[^}]*background[^}]*\\\\}' /c/xampp/htdocs/open_cms/public/themes/style_matrix_bricks.css)"
     ],
     "additionalDirectories": [
       "C:\\xampp\\htdocs\\open_cms",

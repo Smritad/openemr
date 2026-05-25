@@ -105,7 +105,7 @@ nav.navbar, .navbar.bg-light, .navbar.navbar-light {
 .appMenu .menuLabel:hover,
 .appMenu > div:hover > .menuLabel,
 .appMenu .menuSection:hover > .menuLabel {
-    background-color: var(--brand-sky) !important;
+    background-color: #1a1a1a !important;
     color: #ffffff !important;
     cursor: pointer;
 }
@@ -138,8 +138,8 @@ nav.navbar, .navbar.bg-light, .navbar.navbar-light {
 
 .appMenu .menuEntries li:hover .menuLabel,
 .appMenu .dropdown-menu li:hover .menuLabel {
-    background-color: var(--brand-sky) !important;
-    color: #ffffff !important;
+    background-color: #fff8d9 !important;
+    color: #1a1a1a !important;
 }
 
 /* Disabled menu items */

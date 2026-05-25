@@ -63,10 +63,6 @@ assets:
         alreadyBuilt: true
         link: '%compact_header%'
         autoload: true
-    brand-theme:
-        basePath: '%webroot%/custom/assets/css/'
-        link: brand_theme.css
-        autoload: true
     tabs-theme:
         basePath: '%webroot%/public/themes/'
         link: '%theme_tabs_layout%'
