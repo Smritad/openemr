@@ -676,8 +676,9 @@ function resetCounter(username) {
 
                             if ($checkPassExp && !empty($iter["active"])) {
                                 $current_date = date("Y-m-d");
-                                $userSecure = privQuery("SELECT `last_update_password` FROM `users_secure` WHERE `id` = ?", [$iter['id']]);
-                                $pwd_expires = date("Y-m-d", strtotime($userSecure['last_update_password'] . "+" . $GLOBALS['password_expiration_days'] . " days"));
+                                $userSecure = privQuery("SELECT `last_update_password` FROM `users_secure` WHERE `id` = ?", [$iter['id']]) ?: [];
+                                $lastUpdatePassword = $userSecure['last_update_password'] ?? $current_date;
+                                $pwd_expires = date("Y-m-d", strtotime($lastUpdatePassword . "+" . $GLOBALS['password_expiration_days'] . " days"));
                                 $grace_time = date("Y-m-d", strtotime($pwd_expires . "+" . $GLOBALS['password_grace_time'] . " days"));
                             }
 
