@@ -1376,6 +1376,13 @@ $classpati = '';
 <input type="hidden" name="old_repeats" id="old_repeats" value="<?php echo attr($repeats); ?>" />
 <input type="hidden" name="rt2_flag2" id="rt2_flag2" value="<?php echo attr($rspecs['rt2_pf_flag'] ?? '0'); ?>" />
 <!-- End of addition by epsdky -->
+
+<!-- Top-of-form validation summary banner (populated by JS on submit) -->
+<div id="oe-validation-summary" role="alert" aria-live="polite">
+    <h6><?php echo xlt('Please fix the following before saving:'); ?></h6>
+    <ul></ul>
+</div>
+
 <div class="form-row mx-2">
     <div class="col-sm form-group">
         <label for='form_category'><?php echo xlt('Category'); ?>:</label>
@@ -1861,6 +1868,43 @@ function are_days_checked(){
 }
 
 /*
+* Inline validation summary helpers — show all errors in one prominent banner
+* at the top of the form so the user immediately sees what to fix.
+*/
+function oeShowValidationSummary(messages) {
+    var $box = $('#oe-validation-summary');
+    if (!$box.length || !messages || !messages.length) return;
+    var $ul = $box.find('ul').empty();
+    messages.forEach(function (m) {
+        $ul.append($('<li/>').text(m));
+    });
+    $box.addClass('show');
+    // scroll the banner into view so the user can't miss it
+    $box[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function oeClearValidationSummary() {
+    var $box = $('#oe-validation-summary');
+    if (!$box.length) return;
+    $box.removeClass('show').find('ul').empty();
+    // also clear any inline error spans/borders from a previous attempt
+    $('.error-message').remove();
+    $('.error-border').removeClass('error-border');
+}
+
+/* After validate.js attaches its per-field error spans, aggregate them
+   into the summary banner so the user has both: per-field flagging and
+   a one-stop summary at the top. */
+function oeCollectInlineErrorsToSummary() {
+    var msgs = [];
+    $('.error-message').each(function () {
+        var txt = $.trim($(this).text());
+        if (txt) msgs.push(txt);
+    });
+    if (msgs.length) oeShowValidationSummary(msgs);
+}
+
+/*
 * validation on the form with new client side validation (using validate.js).
 * this enable to add new rules for this form in the pageValidation list.
 * */
@@ -1910,9 +1954,13 @@ function validateform(event,valu){
     }
 
     $('#form_save').attr('disabled', true);
+
+    // Clear any previous validation summary before re-validating
+    oeClearValidationSummary();
+
     //Make sure if days_every_week is checked that at least one weekday is checked.
     if($('#days_every_week').is(':checked') && !are_days_checked()){
-        alert(<?php echo xlj("Must choose at least one day!"); ?>);
+        oeShowValidationSummary([<?php echo xlj("Must choose at least one day of the week for the recurring appointment."); ?>]);
         $('#form_save').attr('disabled', false);
         return false;
     }
@@ -1921,7 +1969,7 @@ function validateform(event,valu){
         //Prevent from user to change status to Arrive before the time
         //Dependent in globals setting - allow_early_check_in
         if($('#form_apptstatus').val() == '@' && new Date(DateToYYYYMMDD_js($('#form_date').val())).getTime() > new Date().getTime()){
-            alert(<?php echo xlj("You can not change status to 'Arrive' before the appointment's time."); ?>);
+            oeShowValidationSummary([<?php echo xlj("You cannot change status to 'Arrive' before the appointment's date/time."); ?>]);
             $('#form_save').attr('disabled', false);
             return false;
         }
@@ -1963,7 +2011,12 @@ function validateform(event,valu){
     ?>
 
     var submit = submitme(1, event, <?php echo js_escape($form_id); ?>, collectvalidation);
-    if(!submit)return $('#form_save').attr('disabled', false);
+    if(!submit){
+        // validate.js already attached per-field .error-message spans; aggregate
+        // them into the top-of-form summary banner so the user sees everything.
+        oeCollectInlineErrorsToSummary();
+        return $('#form_save').attr('disabled', false);
+    }
 
     $('#form_action').val(valu);
 

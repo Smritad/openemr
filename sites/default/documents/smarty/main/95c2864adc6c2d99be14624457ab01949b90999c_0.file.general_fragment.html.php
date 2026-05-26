@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.6, created on 2026-05-25 06:27:59
+/* Smarty version 4.5.6, created on 2026-05-25 13:06:33
   from 'C:\xampp\htdocs\open_cms\templates\prescription\general_fragment.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.6',
-  'unifunc' => 'content_6a13cfcfd48c98_08722932',
+  'unifunc' => 'content_6a142d399e9a65_58665158',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6a13cfcfd48c98_08722932 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6a142d399e9a65_58665158 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xlt.php','function'=>'smarty_function_xlt',),));
 if (empty($_smarty_tpl->tpl_vars['prescriptions']->value)) {
 echo smarty_function_xlt(array('t'=>'None'),$_smarty_tpl);?>

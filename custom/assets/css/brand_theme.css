@@ -1,5 +1,5 @@
 /*
- * OpenCMS Custom Brand Theme  —  Matrix Bricks minimal edition
+ * MatrixCMS Custom Brand Theme  —  Matrix Bricks minimal edition
  * Injected automatically via custom/assets/custom.yaml
  *
  * Strict three-color palette
@@ -838,7 +838,7 @@ hr {
 
 /* ─────────────────────────────────────────────
    27b. BRAND BADGE — hidden by request.
-   The "OpenCMS" pill next to the navbar-brand is no longer wanted.
+   The "MatrixCMS" pill next to the navbar-brand is no longer wanted.
    CSS guard in case a cached brand_init.js still injects it.
    ───────────────────────────────────────────── */
 #oc-brand-badge {
@@ -946,5 +946,653 @@ div.providerheader.providerday {
     body {
         background: #ffffff !important;
         color: #000000 !important;
+    }
+}
+
+/* ─────────────────────────────────────────────
+   26. CALENDAR APPOINTMENT FORM — polish + validation
+   Scoped to #theform / #theform_groups (the add/edit event form).
+   ───────────────────────────────────────────── */
+
+/* Form container — clean white card with breathing room */
+#theform,
+#theform_groups {
+    padding: 1rem 1.25rem 1.25rem !important;
+    background: #ffffff !important;
+}
+
+/* Each row of fields gets vertical breathing room */
+#theform .form-row,
+#theform_groups .form-row {
+    margin-bottom: 0.85rem !important;
+    align-items: flex-end;
+}
+
+/* Labels — clearer hierarchy */
+#theform label,
+#theform_groups label {
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 0.35rem !important;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+}
+
+/* Inputs / selects — consistent height, soft border, subtle hover */
+#theform .form-control,
+#theform_groups .form-control,
+#theform input[type="text"],
+#theform input[type="number"],
+#theform input[type="email"],
+#theform select,
+#theform textarea {
+    border: 1px solid #d0d7de !important;
+    border-radius: 6px !important;
+    padding: 0.45rem 0.65rem !important;
+    font-size: 0.9rem !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+}
+
+#theform .form-control:focus,
+#theform_groups .form-control:focus,
+#theform input:focus,
+#theform select:focus,
+#theform textarea:focus {
+    border-color: #cc0000 !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.12) !important;
+    outline: 0 !important;
+}
+
+/* Time / hour / minute inputs — tighter so they line up nicely */
+#theform input[name="form_hour"],
+#theform input[name="form_minute"],
+#theform input[name="form_duration"] {
+    max-width: 80px;
+    text-align: center;
+}
+
+/* Section separators (Patient / Provider / Schedule blocks) */
+#theform fieldset,
+#theform_groups fieldset {
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 0.9rem 1rem 0.4rem !important;
+    margin: 0.75rem 0 1rem !important;
+    background: #fbfbfc !important;
+}
+
+#theform legend,
+#theform_groups legend {
+    width: auto;
+    padding: 0 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #7b0000;
+    background: #ffffff;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+}
+
+/* Buttons row — sticky-ish action area at bottom */
+#theform .btn,
+#theform_groups .btn {
+    padding: 0.45rem 1.1rem !important;
+    font-weight: 500;
+}
+
+#theform #form_save,
+#theform_groups #form_save {
+    background-color: #cc0000 !important;
+    border-color: #cc0000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+#theform #form_save:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+#theform #form_save:hover:not(:disabled) {
+    background-color: #7b0000 !important;
+    border-color: #7b0000 !important;
+}
+
+/* ── VALIDATION ── */
+
+/* Prominent error border + soft glow so it's actually visible */
+.error-border,
+#theform .error-border,
+#theform_groups .error-border {
+    border: 1.5px solid #cc0000 !important;
+    background-color: #fff5f5 !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.18) !important;
+}
+
+/* The per-field error message — readable size with a warning icon */
+.error-message,
+#theform .error-message,
+#theform_groups .error-message {
+    display: block !important;
+    color: #7b0000 !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    margin-top: 0.25rem !important;
+    padding-left: 1.25rem;
+    white-space: normal !important;
+    position: relative;
+    line-height: 1.3;
+}
+
+.error-message::before {
+    content: "\26A0";  /* ⚠ */
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #cc0000;
+    font-weight: 700;
+}
+
+/* Top-of-form validation summary banner.
+   Inject a div with id="oe-validation-summary" via JS to use this. */
+#oe-validation-summary {
+    display: none;
+    margin: 0 0 1rem 0;
+    padding: 0.75rem 1rem;
+    background: #fff5f5;
+    border: 1px solid #cc0000;
+    border-left: 4px solid #cc0000;
+    border-radius: 6px;
+    color: #7b0000;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+#oe-validation-summary.show {
+    display: block;
+}
+
+#oe-validation-summary h6 {
+    color: #cc0000;
+    font-weight: 700;
+    margin: 0 0 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+#oe-validation-summary ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+#oe-validation-summary li {
+    margin-bottom: 0.15rem;
+}
+
+/* Inline info / dependency banner (e.g., "Select a patient first")
+   Use class "oe-inline-notice" on a div for soft yellow info note. */
+.oe-inline-notice {
+    background: #fff8d9;
+    border: 1px solid #f5a800;
+    border-left: 4px solid #f5a800;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    color: #6b4400;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+}
+
+.oe-inline-notice::before {
+    content: "\1F4A1  ";  /* 💡 */
+    margin-right: 0.25rem;
+}
+
+/* ─────────────────────────────────────────────
+   27. CALENDAR MODULE — full professional redesign (v2 — corrected selectors)
+   ───────────────────────────────────────────── */
+
+/* ---- Layout: sidebar + main area never overlap ---- */
+.sidebar-wrapper {
+    background: #ffffff !important;
+    border-right: 1px solid #e1e4e8 !important;
+    /* extra top padding so the mini-calendar isn't squashed against the
+       tab row — works for both day and month views which have different
+       header heights. */
+    padding: 1.25rem 0.5rem 0.75rem !important;
+    width: 19rem !important;
+    box-sizing: border-box;
+}
+
+.page-content-wrapper {
+    background: #ffffff !important;
+    /* match the sidebar's top spacing so the date heading lines up nicely */
+    padding-top: 0.5rem !important;
+}
+
+#wrapper {
+    display: flex !important;
+    align-items: stretch;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+/* Day-view specific: the date heading row needs breathing room from
+   the tab strip above it. */
+.calsearch_body,
+.container-fluid.sticky-top {
+    margin-top: 0.25rem;
+    /* keep the action row + date navigator visible while the calendar
+       grid scrolls underneath it */
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50;
+    background: #ffffff !important;
+}
+
+@media (max-width: 992px) {
+    .sidebar-wrapper {
+        width: 16rem !important;
+    }
+}
+
+/* ---- Top header bar (date nav + Day/Week/Month switcher) ---- */
+.calsearch_body,
+.container-fluid.sticky-top {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e1e4e8 !important;
+    padding: 0.5rem 1rem !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.calsearch_body h4,
+.calsearch_body .h4 {
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    margin: 0 !important;
+}
+
+/* Top action icon buttons (≡, +, 🔍, print, refresh) */
+.calsearch_body .btn,
+.container-fluid.sticky-top .btn {
+    background: #ffffff !important;
+    border: 1px solid #d0d7de !important;
+    color: #1a1a1a !important;
+    padding: 0.4rem 0.7rem !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    font-size: 0.875rem !important;
+    transition: all 0.15s ease;
+}
+
+.calsearch_body .btn:hover,
+.container-fluid.sticky-top .btn:hover {
+    background: #fff8d9 !important;
+    border-color: #cc0000 !important;
+    color: #cc0000 !important;
+}
+
+/* Day / Week / Month switcher pills */
+.btn-outline-dark {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border: 1px solid #d0d7de !important;
+    padding: 0.4rem 1.1rem !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+}
+
+.btn-outline-dark:hover {
+    background: #f5f5f5 !important;
+    border-color: #1a1a1a !important;
+    color: #1a1a1a !important;
+}
+
+.btn-outline-dark.active,
+.btn-outline-dark:active {
+    background: #cc0000 !important;
+    border-color: #cc0000 !important;
+    color: #ffffff !important;
+}
+
+/* ---- Mini-calendar in sidebar ---- */
+
+/* The "September" month name row */
+.tdMonthName-small {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0.5rem 0 !important;
+    text-align: center;
+}
+
+/* The "<" ">" navigation arrows */
+.tdDOW-small.tdDatePicker.tdNav,
+.tdDatePicker.tdNav {
+    color: #cc0000 !important;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem !important;
+    border: 0 !important;
+    width: 1.6rem;
+    text-align: center;
+}
+
+.tdDatePicker.tdNav:hover {
+    background: rgba(204, 0, 0, 0.08) !important;
+    border-radius: 4px;
+}
+
+/* M T W T F S S header row */
+.tdDOW-small {
+    font-size: 0.7rem !important;
+    color: #6a737d !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600 !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0.4rem 0.1rem !important;
+    text-align: center;
+}
+
+/* All mini-calendar day cells (current month) */
+.tdMonthDay-small,
+.tdWeekend-small,
+.tdHoliday-small {
+    font-size: 0.85rem !important;
+    color: #1a1a1a !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0.32rem 0.1rem !important;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.tdMonthDay-small:hover,
+.tdWeekend-small:hover,
+.tdHoliday-small:hover {
+    background: #fff8d9 !important;
+    color: #1a1a1a !important;
+}
+
+/* Weekend days — slightly muted */
+.tdWeekend-small {
+    color: #8c95a0 !important;
+}
+
+/* Holidays — accent */
+.tdHoliday-small {
+    color: #cc0000 !important;
+    font-weight: 600 !important;
+}
+
+/* Days from previous/next month — dimmed */
+.tdOtherMonthDay-small {
+    font-size: 0.85rem !important;
+    color: #c8ccd0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0.32rem 0.1rem !important;
+    text-align: center;
+}
+
+/* The currently-selected day in the mini-cal */
+.currentDate,
+td.currentDate {
+    background: #cc0000 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-radius: 50% !important;
+}
+
+/* ---- Sidebar sections (Providers / Facilities) ---- */
+
+/* Section headings ("Providers" label) */
+.sidebar-wrapper h5,
+.sidebar-wrapper .h5,
+.sidebar-wrapper > div > strong {
+    font-size: 0.78rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6a737d !important;
+    font-weight: 600 !important;
+    margin: 1rem 0 0.4rem 0.5rem !important;
+}
+
+/* All Facilities dropdown */
+.sidebar-wrapper select,
+.sidebar-wrapper .form-control {
+    border: 1px solid #d0d7de !important;
+    border-radius: 6px !important;
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem !important;
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-wrapper select:focus,
+.sidebar-wrapper .form-control:focus {
+    border-color: #cc0000 !important;
+    box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.12) !important;
+    outline: 0 !important;
+}
+
+/* Provider/User list */
+.sidebar-wrapper .list-group,
+.sidebar-wrapper .list-group-flush {
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 6px !important;
+    margin-bottom: 0.5rem;
+    background: #ffffff !important;
+}
+
+.sidebar-wrapper .list-group-item {
+    border: 0 !important;
+    border-bottom: 1px solid #eef0f2 !important;
+    padding: 0.5rem 0.75rem !important;
+    background: transparent !important;
+    font-size: 0.85rem;
+    color: #1a1a1a !important;
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.sidebar-wrapper .list-group-item:last-child {
+    border-bottom: 0 !important;
+}
+
+.sidebar-wrapper .list-group-item:hover {
+    background: #fff8d9 !important;
+}
+
+.sidebar-wrapper .list-group-item.active {
+    background: rgba(204, 0, 0, 0.08) !important;
+    color: #1a1a1a !important;
+    border-left: 3px solid #cc0000 !important;
+    padding-left: calc(0.75rem - 3px) !important;
+}
+
+/* Facility legend rows (CSAB Clinic, Matrix Health Clinic) */
+.sidebar-wrapper .list-group-item .facility-color,
+.sidebar-wrapper [class*="bgcolor"] {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* ---- Main calendar grid ---- */
+
+/* Provider header bar (the big bar reading "Administrator Administrator") */
+.providerheader,
+.providerday {
+    background: linear-gradient(180deg, #cc0000 0%, #b00000 100%) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 0.55rem 1rem !important;
+    font-size: 0.95rem !important;
+    text-align: center;
+    border: 0 !important;
+    letter-spacing: 0.01em;
+}
+
+/* Day-of-week column headers (Mon 09-21, Tue 09-22 ...) */
+.calendar_view th,
+table.calendar_view > thead > tr > th,
+th.tdDay {
+    background: #fbfbfc !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    padding: 0.55rem 0.4rem !important;
+    border: 1px solid #e1e4e8 !important;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+/* Today's column header */
+.tdDayToday,
+.today_th {
+    background: rgba(204, 0, 0, 0.06) !important;
+    color: #cc0000 !important;
+    font-weight: 700 !important;
+    border-top: 2px solid #cc0000 !important;
+}
+
+/* Time column (8:00, 8:15, ...) */
+.timeslot,
+td.timeslot,
+td.calendar_view_times {
+    color: #6a737d !important;
+    font-size: 0.72rem !important;
+    text-align: right !important;
+    padding: 0 0.6rem 0 0.4rem !important;
+    background: #fbfbfc !important;
+    border-right: 1px solid #e1e4e8 !important;
+    border-bottom: 1px dashed #eef0f2 !important;
+    width: 55px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Schedule cells (the empty cells where appointments live) */
+td.schedule {
+    border: 1px solid #eef0f2 !important;
+    background: #ffffff !important;
+    vertical-align: top;
+    transition: background 0.12s ease;
+    cursor: pointer;
+}
+
+td.schedule:hover {
+    background: #fbfbfc !important;
+}
+
+/* Weekend column shading */
+.weekend-day,
+td.weekend-day {
+    background: #fafafa !important;
+}
+
+/* Appointment tiles */
+.event_appointment {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-left: 3px solid #cc0000 !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 0.78rem !important;
+    line-height: 1.25 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 2px 1px !important;
+}
+
+.event_appointment:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    position: relative;
+}
+
+/* Cancelled / no-show events */
+del,
+s,
+.event_appointment del,
+.event_appointment s {
+    color: #999 !important;
+    opacity: 0.7;
+}
+
+/* Month-view day cells */
+.calendar_day {
+    padding: 4px 6px !important;
+    min-height: 90px;
+}
+
+.month_daylink a {
+    font-size: 0.9rem !important;
+    color: #6a737d !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+}
+
+.month_daylink a:hover {
+    color: #cc0000 !important;
+}
+
+/* "All day" event row at top of day/week view */
+.alldayevent {
+    background: #fff8d9 !important;
+    border-bottom: 2px solid #f5a800 !important;
+}
+
+/* ---- Tab strip at the very top (Cale… / Message C…) — fix overlap ---- */
+.tabSpan,
+.tabSpan.bgcolor2 {
+    margin-right: 2px !important;
+    padding: 0.3rem 0.75rem !important;
+    border-radius: 4px 4px 0 0 !important;
+    font-size: 0.85rem !important;
+    z-index: 1;
+}
+
+/* ---- Scrollbars polish ---- */
+.page-content-wrapper .table-responsive::-webkit-scrollbar,
+.sidebar-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.page-content-wrapper .table-responsive::-webkit-scrollbar-thumb,
+.sidebar-wrapper::-webkit-scrollbar-thumb {
+    background: #d0d7de;
+    border-radius: 4px;
+}
+.page-content-wrapper .table-responsive::-webkit-scrollbar-thumb:hover,
+.sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #b1b8c2;
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 1100px) {
+    .timeslot,
+    td.timeslot,
+    td.calendar_view_times {
+        width: 45px;
+        font-size: 0.68rem !important;
+    }
+    .event_appointment {
+        font-size: 0.72rem !important;
     }
 }

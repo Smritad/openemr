@@ -1,27 +1,24 @@
-[-*Smarty*-]
-[-*****************************************************************************-]
-[-* Copyright (C) 2005-2006 Rod Roark <rod@sunsetsystems.com> and others      *-]
-[-* Copyright (C) 2019 Jerry Padgett <sjpadgett@gmail.com>                    *-]
-[-*                                                                           *-]
-[-* This program is free software; you can redistribute it and/or             *-]
-[-* modify it under the terms of the GNU General Public License               *-]
-[-* as published by the Free Software Foundation; either version 2            *-]
-[-* of the License, or (at your option) any later version.                    *-]
-[-*****************************************************************************-]
-[-* add address to pop up, and to title if configured to month view*-]
-[-config_load file="default.conf"-]
-[-*Load the Language Definitions*-]
-[-config_load file="lang.$USER_LANG"-]
-[-include file="$TPL_NAME/views/header.html"-]
+<?php /* Smarty version 2.6.33, created on 2026-05-25 13:19:01
+         compiled from default/views/month/ajax_template.html */ ?>
+<?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
+smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/views/month/ajax_template.html', 12, false),array('function', 'xla', 'default/views/month/ajax_template.html', 164, false),array('function', 'xlt', 'default/views/month/ajax_template.html', 164, false),array('modifier', 'date_format', 'default/views/month/ajax_template.html', 345, false),array('modifier', 'string_format', 'default/views/month/ajax_template.html', 346, false),)), $this); ?>
+<?php echo smarty_function_config_load(array('file' => "default.conf"), $this);?>
 
-[-*Values used in setting timeslot and event heights*-]
-[-php-]
+<?php echo smarty_function_config_load(array('file' => "lang.".($this->_tpl_vars['USER_LANG'])), $this);?>
+
+<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['TPL_NAME'])."/views/header.html", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+
+<?php 
 /* if you change these be sure to change their matching values in
  * the CSS for the calendar, found in interface/themes/ajax_calendar.css
  */
 $timeslotHeightVal=20;
 $timeslotHeightUnit="px";
-[-/php-]
+ ?>
 
 <script>
  // This is called from the event editor popup.
@@ -48,18 +45,18 @@ $timeslotHeightUnit="px";
 
  function goPid(pid) {
   top.restoreSession();
-[-php-]
+<?php 
          echo "  top.RTop.location = '../../patient_file/summary/demographics.php' " .
            "+ '?set_pid=' + encodeURIComponent(pid);\n";
-[-/php-]
+ ?>
  }
 
  function goGid(gid) {
   top.restoreSession();
-[-php-]
+<?php 
         echo "  top.RTop.location = '" . $GLOBALS['rootdir'] . "/therapy_groups/index.php' " .
         "+ '?method=groupDetails&group_id=' + encodeURIComponent(gid);\n ";
-[-/php-]
+ ?>
  }
 
  function GoToToday(theForm){
@@ -83,7 +80,7 @@ $timeslotHeightUnit="px";
  }
 </script>
 
-[-php-]
+<?php 
 
  // this is my proposed setting in the globals config file so we don't
  // need to mess with altering the pn database AND the config file
@@ -144,7 +141,7 @@ if ( $_SESSION['pc_facility'] ) {
 $chevron_icon_left = $_SESSION['language_direction'] == 'ltr' ? 'fa-chevron-circle-left' : 'fa-chevron-circle-right';
 $chevron_icon_right = $_SESSION['language_direction'] == 'ltr' ? 'fa-chevron-circle-right' : 'fa-chevron-circle-left';
 
-[-/php-]
+ ?>
 <div id="wrapper">
 <!-- stuff form element here to avoid the margin padding it introduces into the page in some browsers -->
 <form name='theform' id='theform' action='index.php?module=PostCalendar&func=view&tplview=default&pc_category=&pc_topic=' method='post' onsubmit='return top.restoreSession()'>
@@ -154,42 +151,44 @@ $chevron_icon_right = $_SESSION['language_direction'] == 'ltr' ? 'fa-chevron-cir
 <div id="functions">
   <a id="menu-toggle" href="#" class="btn btn-outline-dark"><i class="fas fa-bars"></i></a>
 <input type="hidden" name="jumpdate" id="jumpdate" value="" />
-<input type="hidden" name="viewtype" id="viewtype" value="[-php-]echo attr($viewtype);[-/php-]" />
-    [-php-]
+<input type="hidden" name="viewtype" id="viewtype" value="<?php echo attr($viewtype); ?>" />
+    <?php 
     echo "<a href='#' title='" . xla("New Appointment") . "' onclick='newEvt(1, 9, 00, " . attr_js($Date) . ", 0, 0)' class='btn btn-primary'><i class='fa fa-plus'></i></a>\n";
     echo "<a href='#' title='" . xla("Search Appointment") . "'
     onclick='top.restoreSession();location=\"index.php?module=PostCalendar&func=search\"' class='btn btn-primary'><i class='fa fa-search'></i></a>\n";
     if ($Date <> date('Ymd')) {
-    [-/php-]
-    <a href='#' name='bnsubmit' value='[-xla t="Today"-]' onClick='GoToToday(theform);' class='btn btn-primary'>[-xlt t='Today'-]</a>
-    [-php-]
+     ?>
+    <a href='#' name='bnsubmit' value='<?php echo smarty_function_xla(array('t' => 'Today'), $this);?>
+' onClick='GoToToday(theform);' class='btn btn-primary'><?php echo smarty_function_xlt(array('t' => 'Today'), $this);?>
+</a>
+    <?php 
     }
-    [-/php-]
+     ?>
 
 </div>
 <div id="dateNAV">
-[-php-]
+<?php 
 echo "   <a id='prevmonth' href='$PREV_MONTH_URL' onclick='top.restoreSession()' title='" . xla("Previous Month") . "'><i class='fa " . attr($chevron_icon_left) . " chevron_color'></i></a>\n";;
 echo xlt(date('F', strtotime($Date))) . " " . text(date('Y', strtotime($Date)));
 echo "   <a id='nextmonth' href='$NEXT_MONTH_URL' onclick='top.restoreSession()' title='" . xla("Next Month") . "'><i class= 'fa " . attr($chevron_icon_right) . " chevron_color'></i></a>\n";
-[-/php-]
+ ?>
 </div>
 
 <div id="viewPicker">
-[-php-]
+<?php 
 echo "   <a href='#' id='printview' title='" . xla("View Printable Version") . "' class='btn btn-primary'><i class='fa fa-print'></i></a>\n";
 echo "   <a href='#' title='" . xla("Refresh") . "' onclick='javascript:refreshme()' class='btn btn-primary'><i class='fa fa-sync'></i></a>\n";
 echo "   <a href='#' type='button' id='dayview' title='" . xla('Day View') . "' class='btn btn-primary'>" . xlt('Day') . "</a>\n";
 echo "   <a href='#' type='button' id='weekview' title='" . xla('Week View') . "' class='btn btn-primary'>" . xlt('Week') . "</a>\n";
 echo "   <a href='#' type='button' id='monthview' title='" . xla('Month View') . "' class='btn btn-primary'>" . xlt('Month') . "</a>\n";
-[-/php-]
+ ?>
 </div>
 </div> <!-- end topToolbarRight -->
 </div>
 <div class="sticky-top">
 <div id="bottomLeft" class="sidebar-wrapper">
 <div id="datePicker">
-[-php-]
+<?php 
     // caldate depends on what the user has clicked
     $caldate = strtotime($Date);
     $cMonth = date("m", $caldate);
@@ -197,11 +196,11 @@ echo "   <a href='#' type='button' id='monthview' title='" . xla('Month View') .
     $cDay = date("d", $caldate);
 
     include_once($GLOBALS['fileroot'].'/interface/main/calendar/modules/PostCalendar/pntemplates/default/views/monthSelector.php');
-[-/php-]
+ ?>
 <div class="table-responsive">
 <table class='table table-sm table-borderless'>
 <tbody><tr>
-[-php-]
+<?php 
 
 // compute the previous month date
 // stay on the same day if possible
@@ -220,22 +219,22 @@ $nYear = $cYear;
 if ($nMonth > 12) { $nMonth = 1; $nYear = $cYear + 1; }
 while (! checkdate($nMonth, $nDay, $nYear)) { $nDay = $nDay - 1; }
 $nextMonth = sprintf("%d%02d%02d",$nYear,$nMonth,$nDay);
-[-/php-]
-<td class="tdDOW-small tdDatePicker tdNav" id="[-php-]echo attr($prevMonth)[-/php-]" title="[-php-]echo xla(date("F", strtotime($prevMonth)));[-/php-]">&lt;</td>
+ ?>
+<td class="tdDOW-small tdDatePicker tdNav" id="<?php echo attr($prevMonth) ?>" title="<?php echo xla(date("F", strtotime($prevMonth))); ?>">&lt;</td>
 <td colspan="5" class="tdMonthName-small">
-[-php-]
+<?php 
 echo xl(date('F', $caldate));
-[-/php-]
+ ?>
 </td>
-<td class="tdDOW-small tdDatePicker tdNav" id="[-php-]echo attr($nextMonth)[-/php-]" title="[-php-]echo xla(date("F", strtotime($nextMonth)));[-/php-]">&gt;</td>
+<td class="tdDOW-small tdDatePicker tdNav" id="<?php echo attr($nextMonth) ?>" title="<?php echo xla(date("F", strtotime($nextMonth))); ?>">&gt;</td>
 <tr>
-[-php-]
+<?php 
 foreach ($DOWlist as $dow) {
     echo "<td class='tdDOW-small'>" . text($this->_tpl_vars['A_SHORT_DAY_NAMES'][$dow]) . "</td>";
 }
-[-/php-]
+ ?>
 </tr>
-[-php-]
+<?php 
 $atmp = array_keys($A_EVENTS);
 
 foreach ($atmp as $currdate) {
@@ -279,7 +278,7 @@ foreach ($atmp as $currdate) {
     // end of week row
     if (date('w', $currdate) == $DOWlist[6]) echo "</tr>\n";
 }
-[-/php-]
+ ?>
 </tbody>
 </table>
 </div>
@@ -288,9 +287,9 @@ foreach ($atmp as $currdate) {
 </div>
 
 <div id="providerPicker">
-[-php-] echo xlt('Providers'); [-/php-]
+<?php  echo xlt('Providers');  ?>
 <div>
-[-php-]
+<?php 
 // ==============================
 // FACILITY FILTERING (lemonsoftware)
 // $facilities = getFacilities();
@@ -327,25 +326,25 @@ if (count($facilities) > 1) {
  }
  echo "   </select>\n";
 
-[-/php-]
+ ?>
 </div>
-[-php-]
+<?php 
 if($_SESSION['pc_facility'] == 0){
-[-/php-]
+ ?>
 <ul class="list-group list-group-flush" id="facilityColor">
-[-php-]
+<?php 
 foreach ($facilities as $f){
     echo "<li class='list-group-item' style='border-left: 35px solid ".$f['color'].";'>" . text($f['name'])."</li>";
 }
-[-/php-]
+ ?>
 </ul>
-[-php-]
+<?php 
 }
-[-/php-]
-[-assign var="dayname" value=$DATE|date_format:"%w"-]
-[-assign var="day"     value=$DATE|date_format:"%d"|string_format:"%1d"-]
-[-assign var="month"   value=$DATE|date_format:"%m"|string_format:"%1d"-]
-[-assign var="year"    value=$DATE|date_format:"%Y"|string_format:"%4d"-]
+ ?>
+<?php $this->assign('dayname', ((is_array($_tmp=$this->_tpl_vars['DATE'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%w") : smarty_modifier_date_format($_tmp, "%w"))); ?>
+<?php $this->assign('day', ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['DATE'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%d") : smarty_modifier_date_format($_tmp, "%d")))) ? $this->_run_mod_handler('string_format', true, $_tmp, "%1d") : smarty_modifier_string_format($_tmp, "%1d"))); ?>
+<?php $this->assign('month', ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['DATE'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%m") : smarty_modifier_date_format($_tmp, "%m")))) ? $this->_run_mod_handler('string_format', true, $_tmp, "%1d") : smarty_modifier_string_format($_tmp, "%1d"))); ?>
+<?php $this->assign('year', ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['DATE'])) ? $this->_run_mod_handler('date_format', true, $_tmp, "%Y") : smarty_modifier_date_format($_tmp, "%Y")))) ? $this->_run_mod_handler('string_format', true, $_tmp, "%4d") : smarty_modifier_string_format($_tmp, "%4d"))); ?>
 
 <div id="popup" class="pop-up">
     <img id="popupImage" alt="" />
@@ -356,7 +355,7 @@ foreach ($facilities as $f){
 <div class="page-content-wrapper">
 <div class="container-fluid calsearch_body">
 <div id="bigCal">
-[-php-]
+<?php 
 /* used in debugging
 foreach ($A_EVENTS as $date => $events) {
     echo $date." = ";
@@ -657,7 +656,7 @@ foreach ($providers as $provider) {
     echo "</div>";
 } // end provider
 
-[-/php-]
+ ?>
 </div>  <!-- end bigCal DIV -->
 </div>  <!-- end bottom DIV -->
 </div>
@@ -735,14 +734,14 @@ foreach ($providers as $provider) {
     /* pop up a window to print the current view
      */
     var PrintView = function (eventObject) {
-        printURL = "[-php-]echo pnModURL(__POSTCALENDAR__,'user','view',
+        printURL = "<?php echo pnModURL(__POSTCALENDAR__,'user','view',
                         array('tplview'=>($template_view ?? ''),
                         'viewtype'=>$viewtype,
                         'Date'=> $Date,
                         'print'=> 1,
                         'pc_username'=>($pc_username ?? ''),
                         'pc_category'=>($category ?? ''),
-                        'pc_topic'=>($topicv ?? '')));[-/php-]";
+                        'pc_topic'=>($topicv ?? ''))); ?>";
         window.open(printURL,'printwindow','width=740,height=480,toolbar=no,location=no,directories=no,status=no,menubar=yes,scrollbars=yes,copyhistory=no,resizable=yes');
         return false;
     }
@@ -751,13 +750,13 @@ foreach ($providers as $provider) {
      * the datepicker DIV
      */
     var ChangeDate = function(eObj) {
-        baseURL = "[-php-]echo pnModURL(__POSTCALENDAR__,'user','view',
+        baseURL = "<?php echo pnModURL(__POSTCALENDAR__,'user','view',
                         array('tplview'=>($template_view ?? ''),
                         'viewtype'=>$viewtype,
                         'Date'=> '~REPLACEME~',
                         'pc_username'=>($pc_username ?? ''),
                         'pc_category'=>($category ?? ''),
-                        'pc_topic'=>($topic ?? '')));[-/php-]";
+                        'pc_topic'=>($topic ?? ''))); ?>";
         newURL = baseURL.replace(/~REPLACEME~/, eObj.id);
         document.location.href=newURL;
     }

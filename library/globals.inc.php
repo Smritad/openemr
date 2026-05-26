@@ -442,7 +442,7 @@ $GLOBALS_METADATA = [
         'openemr_name' => [
             xl('Application Title'),
             'text',
-            'OpenEMR',
+            'MatrixCMS',
             xl('Application name used throughout the user interface.')
         ],
 
