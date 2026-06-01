@@ -834,16 +834,19 @@ if ($eid) {
     $repeats = $row['pc_recurrtype'];
     $multiple_value = $row['pc_multiple'];
 
-    // parse out the repeating data, if any
-    $rspecs = unserialize($row['pc_recurrspec'], ['allowed_classes' => false]); // extract recurring data
-    $repeattype = $rspecs['event_repeat_freq_type'];
-    $repeatfreq = $rspecs['event_repeat_freq'];
-    $repeatexdate = $rspecs['exdate']; // repeating date exceptions
+    // parse out the repeating data, if any.
+    // unserialize() returns false for empty/invalid input — coalesce to [].
+    $rspecs = !empty($row['pc_recurrspec'])
+        ? (@unserialize($row['pc_recurrspec'], ['allowed_classes' => false]) ?: [])
+        : [];
+    $repeattype   = $rspecs['event_repeat_freq_type'] ?? 0;
+    $repeatfreq   = $rspecs['event_repeat_freq']      ?? 0;
+    $repeatexdate = $rspecs['exdate']                 ?? ''; // repeating date exceptions
 
     // Adjustments for repeat type 2, a particular weekday of the month.
     if ($repeats == 2) {
-            $repeatfreq = $rspecs['event_repeat_on_freq'];
-        $repeattype = $rspecs['event_repeat_on_num'] < 5 ? 5 : 6;
+        $repeatfreq = $rspecs['event_repeat_on_freq']    ?? 0;
+        $repeattype = (($rspecs['event_repeat_on_num']   ?? 0) < 5) ? 5 : 6;
     }
 
     $recurrence_end_date = ($row['pc_endDate'] && $row['pc_endDate'] != '0000-00-00') ? $row['pc_endDate'] : null;
@@ -887,13 +890,13 @@ if ($eid) {
  // If we have a patient ID, get the name and phone numbers to display.
 if ($patientid) {
     $prow = sqlQuery("SELECT lname, fname, phone_home, phone_biz, DOB " .
-     "FROM patient_data WHERE pid = ?", [$patientid]);
-    $patientname = $prow['lname'] . ", " . $prow['fname'];
-    if ($prow['phone_home']) {
+     "FROM patient_data WHERE pid = ?", [$patientid]) ?: [];
+    $patientname = ($prow['lname'] ?? '') . ", " . ($prow['fname'] ?? '');
+    if (!empty($prow['phone_home'])) {
         $patienttitle['phone_home'] = xl("Home Phone") . ": " . $prow['phone_home'];
     }
 
-    if ($prow['phone_biz']) {
+    if (!empty($prow['phone_biz'])) {
         $patienttitle['phone_biz'] = xl("Work Phone") . ": " . $prow['phone_biz'];
     }
 }
@@ -1937,20 +1940,25 @@ function validateform(event,valu){
         }
     };
 
-    if ( allDay == true) {
-        collectvalidation.form_duration ={};
+    // Skip duration validation for "all day" events AND "In Office" availability
+    // blocks. "In Office" uses Time + End Time, not a separate duration field —
+    // the duration input is disabled in that case, so requiring it would
+    // unfairly fail validation with "is not valid".
+    var currentCatId = $('#form_category').val();
+    if (allDay == true || currentCatId == IN_OFFICE_CAT_ID) {
+        collectvalidation.form_duration = {};
     } else {
-    collectvalidation.form_duration = {
-        numericality: {
-            onlyInteger: true,
-            greaterThan: 0,
-            message: "Must be a positive number"
-        },
-        presence: {
-            allowEmpty: false,
-            message: "Duration is required"
-        }
-    };
+        collectvalidation.form_duration = {
+            numericality: {
+                onlyInteger: true,
+                greaterThan: 0,
+                message: "Must be a positive number"
+            },
+            presence: {
+                allowEmpty: false,
+                message: "Duration is required"
+            }
+        };
     }
 
     $('#form_save').attr('disabled', true);

@@ -107,7 +107,7 @@ if (!empty($_POST['show_address'])) {
 
 $provider  = $_POST['form_provider'] ?? null;
 //RM if 'all' selected set to null
-if ($provider[0] == '') {
+if (is_array($provider) && ($provider[0] ?? '') == '') {
     $provider = null;
 }
 
@@ -539,26 +539,31 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
 
         $cntr = 1; // column labels above start at 1
         foreach ($appointments as $appointment) {
+            // Defensive defaults — some columns may be missing from older
+            // appointment rows or grouped/summary rows
+            $apptStatusVal = $appointment['pc_apptstatus'] ?? '';
+            $apptPid       = $appointment['pid'] ?? 0;
+
             if (
-                $appointment['pc_apptstatus'] == "x"
+                $apptStatusVal == "x"
                 && empty($chk_with_canceled_appt)
             ) {
                 $canceledAppointments++;
                 continue;
             } elseif (
-                $appointment['pc_apptstatus'] == "x"
+                $apptStatusVal == "x"
                 && !empty($chk_with_canceled_appt)
             ) {
                 $canceledAppointments++;
             }
             $cntr++;
-            $pid_list[] = $appointment['pid'];
-            $apptdate_list[] = $appointment['pc_eventDate'];
-            $patient_id = $appointment['pid'];
-            $docname  = $appointment['ulname'] . ', ' . $appointment['ufname'] . ' ' . $appointment['umname'];
+            $pid_list[] = $apptPid;
+            $apptdate_list[] = $appointment['pc_eventDate'] ?? '';
+            $patient_id = $apptPid;
+            $docname  = ($appointment['ulname'] ?? '') . ', ' . ($appointment['ufname'] ?? '') . ' ' . ($appointment['umname'] ?? '');
 
             $errmsg  = "";
-            $pc_apptstatus = $appointment['pc_apptstatus'];
+            $pc_apptstatus = $apptStatusVal;
             ?>
 
             <tr valign='top' id='p1.<?php echo attr($patient_id) ?>' bgcolor='<?php echo attr($bgcolor ?? ''); ?>'>

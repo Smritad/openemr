@@ -634,9 +634,11 @@ function generate_receipt($patient_id, $encounter = 0): void
           "code_type = 'TAX'", [$form_pid,$form_encounter]);
 
         $form_amount = $_POST['form_amount'];
-        $lines = $_POST['line'];
+        $lines = $_POST['line'] ?? [];
 
-        for ($lino = 0; $lines[$lino]['code_type']; ++$lino) {
+        // Loop only while the current line exists AND has a code_type;
+        // PHP 8 warns on the old "rely on undefined array offset" idiom.
+        for ($lino = 0; !empty($lines[$lino]['code_type']); ++$lino) {
             $line = $lines[$lino];
             $code_type = $line['code_type'];
             $id        = $line['id'];

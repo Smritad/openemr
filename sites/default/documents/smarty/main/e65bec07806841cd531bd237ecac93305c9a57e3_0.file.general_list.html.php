@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.6, created on 2026-05-26 08:36:07
+/* Smarty version 4.5.6, created on 2026-05-29 07:53:01
   from 'C:\xampp\htdocs\open_cms\templates\practice_settings\general_list.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.6',
-  'unifunc' => 'content_6a153f57252ae4_06067666',
+  'unifunc' => 'content_6a1929bd4da2d4_76382839',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6a153f57252ae4_06067666 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6a1929bd4da2d4_76382839 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xlt.php','function'=>'smarty_function_xlt',),1=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.headerTemplate.php','function'=>'smarty_function_headerTemplate',),));
 ?>
 <!DOCTYPE html>

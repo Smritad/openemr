@@ -84,7 +84,7 @@ class MiscBillingOptions
         return QueryUtils::fetchRecords($query, []);
     }
 
-    public function genReferringProviderSelect(string $selname, string $toptext, int $default = 0, bool $disabled = false): void
+    public function genReferringProviderSelect(string $selname, string $toptext, ?int $default = 0, bool $disabled = false): void
     {
         $providers = $this->getReferringProviders();
         echo "<select name='" . attr($selname) . "' id='" . attr($selname) . "' class='form-control'";

@@ -137,15 +137,51 @@ if (!isset($_GET["mode"])) {
                 sort($provider_final_list);
                 $all4 = array_natsort($ret, 'pid', 'fulname', 'asc');
 
-                if ($_POST['end_of_day_provider_only'] == 1) {
+                // Initialize all accumulator variables to 0 — PHP 8 warns on
+                // first read of an unset variable. The original code relied on
+                // PHP 7's auto-zero behavior. Variables go up to us19/pro19.
+                $run_provider = 0;
+                $totals_only  = 0;
+                $line_total = 0;
+                $line_total_pay = 0;
+                $totals_fee = $totals_inspay = $totals_insadj = $totals_patadj = $totals_patpay = $totals_insref = $totals_patref = 0;
+
+                // Grand totals (used in summary rows at bottom of report)
+                $gtotal_fee    = 0;
+                $gtotal_insadj = 0;
+                $gtotal_inspay = 0;
+                $gtotal_insref = 0;
+                $gtotal_patadj = 0;
+                $gtotal_patpay = 0;
+                $gtotal_patref = 0;
+
+                for ($_n = 0; $_n < 20; $_n++) {
+                    foreach (['user','fee','inspay','insadj','patadj','patpay','insref','patref','provider','prov_fee'] as $_k) {
+                        $varU = 'us' . $_n . '_' . $_k;
+                        $varP = 'pro' . $_n . '_' . $_k;
+                        if (!isset($$varU)) $$varU = 0;
+                        if (!isset($$varP)) $$varP = 0;
+                    }
+                }
+
+                if ((isset($_POST['end_of_day_provider_only']) ? $_POST['end_of_day_provider_only'] : 0) == 1) {
                     $run_provider = 1;
                 }
 
-                if ($_POST['end_of_day_totals_only'] == 1) {
+                if ((isset($_POST['end_of_day_totals_only']) ? $_POST['end_of_day_totals_only'] : 0) == 1) {
                     $totals_only = 1;
                 }
 
                 foreach ($all4 as $iter) {
+                    // Defensive: fill in any missing keys with zero/empty defaults
+                    // so the accumulators below don't trigger PHP 8 warnings.
+                    foreach (['user','provider','provider_id','code_type','paytype'] as $_strKey) {
+                        if (!isset($iter[$_strKey])) $iter[$_strKey] = '';
+                    }
+                    foreach (['fee','ins_code','pat_code','ins_adjust_dollar','pat_adjust_dollar'] as $_numKey) {
+                        if (!isset($iter[$_numKey])) $iter[$_numKey] = 0;
+                    }
+
                     // Case statment to tally information by user
                     switch ($iter['user']) {
                         case $user_final_list[0]:

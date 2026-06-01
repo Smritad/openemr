@@ -1,0 +1,27 @@
+20260529:060515 _GET request 
+ srvinfo => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060515 _GET request 
+ loglist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060516 _GET request 
+ csvtbllist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060516 _GET request 
+ archlist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060516 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260529:060521 _GET request 
+ archlist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060521 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260529:060521 _GET request 
+ srvinfo => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060521 _GET request 
+ csvtbllist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:060521 _GET request 
+ loglist => yes  csrf_token_form => 6b39046d64c4c26645a72e210e9839a1c9609bc5 
+20260529:110525 _GET request 
+ archlist => yes  csrf_token_form => 6b354c51406ad4ba4f8b1653434d0430920e46fc 
+20260529:110525 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260529:110525 _GET request 
+ csvtbllist => yes  csrf_token_form => 6b354c51406ad4ba4f8b1653434d0430920e46fc 
+20260529:110525 _GET request 
+ srvinfo => yes  csrf_token_form => 6b354c51406ad4ba4f8b1653434d0430920e46fc 
+20260529:110525 _GET request 
+ loglist => yes  csrf_token_form => 6b354c51406ad4ba4f8b1653434d0430920e46fc 

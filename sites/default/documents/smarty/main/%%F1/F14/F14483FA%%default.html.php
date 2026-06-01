@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2026-05-25 13:19:01
+<?php /* Smarty version 2.6.33, created on 2026-06-01 06:33:45
          compiled from default/views/month/default.html */ ?>
 <?php $this->assign('MULTIDAY', true); ?>
   <?php if ($this->_tpl_vars['PRINT_VIEW'] == 1): ?>

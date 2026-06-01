@@ -1,0 +1,18 @@
+20260601:060656 _GET request 
+ csvtbllist => yes  csrf_token_form => 05cc0803044254b0152535e2c64ce9279593f51b 
+20260601:060656 _GET request 
+ srvinfo => yes  csrf_token_form => 05cc0803044254b0152535e2c64ce9279593f51b 
+20260601:060656 _GET request 
+ loglist => yes  csrf_token_form => 05cc0803044254b0152535e2c64ce9279593f51b 
+20260601:060657 _GET request 
+ archlist => yes  csrf_token_form => 05cc0803044254b0152535e2c64ce9279593f51b 
+20260601:060657 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260601:100608 _GET request 
+ srvinfo => yes  csrf_token_form => de84527d27300522e7604b78d3bf688aee56ca7e 
+20260601:100608 _GET request 
+ loglist => yes  csrf_token_form => de84527d27300522e7604b78d3bf688aee56ca7e 
+20260601:100608 _GET request 
+ archlist => yes  csrf_token_form => de84527d27300522e7604b78d3bf688aee56ca7e 
+20260601:100608 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260601:100608 _GET request 
+ csvtbllist => yes  csrf_token_form => de84527d27300522e7604b78d3bf688aee56ca7e 

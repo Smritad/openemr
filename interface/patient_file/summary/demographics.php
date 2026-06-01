@@ -85,7 +85,11 @@ if (isset($_GET['set_pid'])) {
     setpid($_GET['set_pid']);
     $ptService = new PatientService();
     $newPatient = $ptService->findByPid($pid);
-    $ptService->touchRecentPatientList($newPatient);
+    // Only touch the "recent patients" list if the patient actually exists.
+    // Otherwise the URL has a stale/invalid PID and we should not crash.
+    if (is_array($newPatient)) {
+        $ptService->touchRecentPatientList($newPatient);
+    }
     if (isset($_GET['set_encounterid']) && ((int)$_GET['set_encounterid'] > 0)) {
         $encounter = (int)$_GET['set_encounterid'];
         SessionUtil::setSession('encounter', $encounter);

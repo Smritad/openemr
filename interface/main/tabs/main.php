@@ -459,9 +459,9 @@ $twig = (new TwigContainer(null, $GLOBALS['kernel']))->getTwig();
     <div id="mainBox" <?php echo $disp_mainBox ?>>
         <nav class="navbar navbar-expand-xl navbar-light bg-light py-0">
             <?php if ($GLOBALS['display_main_menu_logo'] === '1') : ?>
-                <a class="navbar-brand" href="https://www.open-emr.org" title="MatrixCMS <?php echo xla("Website"); ?>" rel="noopener" target="_blank">
+                <span class="navbar-brand">
                     <img src="<?php echo $menuLogo; ?>" class="d-inline-block align-middle" height="16" alt="<?php echo xlt('Main Menu Logo'); ?>">
-                </a>
+                </span>
             <?php endif; ?>
             <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

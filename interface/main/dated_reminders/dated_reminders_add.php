@@ -260,6 +260,83 @@ if (isset($this_message['pid'])) {
         });
       })
 
+        /**
+         * Validate the Send-a-Reminder form on submit.
+         * Returns true → form submits, false → form blocked and errors shown.
+         * Uses global oeValidate helpers from custom/assets/js/brand_init.js
+         */
+        function validateReminderForm(event) {
+            // wrap in try so any helper-missing scenario degrades gracefully
+            if (typeof window.oeValidate === 'undefined') {
+                // fallback: just keep restoreSession behavior
+                top.restoreSession();
+                return true;
+            }
+            oeValidate.clear('#addDR');
+
+            var errors = [];
+
+            // 1. Patient — PatientID hidden must be > 0
+            var pid = parseInt($('#PatientID').val(), 10) || 0;
+            if (pid <= 0) {
+                oeValidate.addFieldError('patientName',
+                    <?php echo xlj('Please select a patient first.'); ?>);
+                errors.push(<?php echo xlj('Patient is required — click the patient field to choose one.'); ?>);
+            }
+
+            // 2. Recipient(s) — at least one entry in sendTo[]
+            var sendTo = $('#sendTo').val();
+            if (!sendTo || sendTo.length === 0) {
+                oeValidate.addFieldError('sendTo',
+                    <?php echo xlj('Select at least one recipient.'); ?>);
+                errors.push(<?php echo xlj('At least one recipient is required.'); ?>);
+            }
+
+            // 3. Due date — must match the date format (YYYY-MM-DD style)
+            var dueDate = $.trim($('#dueDate').val() || '');
+            var dateRe  = /^\d{4}[-\/]\d{2}[-\/]\d{2}$/;
+            if (!dueDate) {
+                oeValidate.addFieldError('dueDate',
+                    <?php echo xlj('Due date is required.'); ?>);
+                errors.push(<?php echo xlj('Due date is required.'); ?>);
+            } else if (!dateRe.test(dueDate)) {
+                oeValidate.addFieldError('dueDate',
+                    <?php echo xlj('Please enter a valid date.'); ?>);
+                errors.push(<?php echo xlj('Due date must be a valid date.'); ?>);
+            }
+
+            // 4. Priority — one of the three radios must be selected
+            if (!$('input[name="priority"]:checked').length) {
+                errors.push(<?php echo xlj('Please choose a priority (Low / Medium / High).'); ?>);
+                // visually mark the priority block
+                $('#priority_1').closest('.form-group').addClass('error-border');
+            }
+
+            // 5. Message body — non-empty, within max chars
+            var msg = $.trim($('#message').val() || '');
+            var maxChars = <?php echo (int)$max_reminder_words; ?>;
+            if (!msg) {
+                oeValidate.addFieldError('message',
+                    <?php echo xlj('Please type your message.'); ?>);
+                errors.push(<?php echo xlj('Message body is required.'); ?>);
+            } else if (msg.length > maxChars) {
+                oeValidate.addFieldError('message',
+                    <?php echo xlj('Message exceeds the allowed character limit.'); ?>);
+                errors.push(<?php echo xlj('Message is too long.'); ?>);
+            }
+
+            // If any errors → block submit and show summary
+            if (errors.length > 0) {
+                oeValidate.showSummary('#addDR', errors);
+                if (event && event.preventDefault) event.preventDefault();
+                return false;
+            }
+
+            // No errors — allow submit. Keep the original restoreSession call.
+            top.restoreSession();
+            return true;
+        }
+
         function sel_patient(){
            dlgopen('../../main/calendar/find_patient_popup.php', '_newDRPat', 650, 400, '', '');
         }
@@ -314,7 +391,7 @@ if (isset($this_message['pid'])) {
                         <h5 class="mb-0"><?php echo attr($reminder_title) ?></h5>
                     </div>
                     <div class="card-body">
-                        <form id="addDR" class="form-horizontal" method="post" onsubmit="return top.restoreSession()">
+                        <form id="addDR" class="form-horizontal" method="post" onsubmit="return validateReminderForm(event)">
                             <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
                             <fieldset id='error-info' class='oe-error-modal' style="display: none">

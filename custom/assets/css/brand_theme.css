@@ -142,10 +142,22 @@ nav.navbar, .navbar.bg-light, .navbar.navbar-light {
     color: #1a1a1a !important;
 }
 
-/* Disabled menu items */
-.menuDisabled {
-    color: #666666 !important;
-    pointer-events: none;
+/* Disabled menu items — visibly greyed out but still clickable so the
+   click handler can show a toast explaining WHY it's disabled. */
+.menuDisabled,
+.appMenu .menuDisabled,
+.appMenu .menuLabel.menuDisabled,
+.appMenu .menuEntries li .menuDisabled {
+    color: #b6bbc0 !important;
+    cursor: not-allowed !important;
+    opacity: 0.75;
+    font-style: italic;
+    background: transparent !important;
+}
+
+.appMenu .menuEntries li:hover .menuDisabled {
+    background: #f5f5f5 !important;
+    color: #b6bbc0 !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -1595,4 +1607,632 @@ s,
     .event_appointment {
         font-size: 0.72rem !important;
     }
+}
+
+/* ─────────────────────────────────────────────
+   28. TOAST NOTIFICATIONS (oeToast helper)
+   ───────────────────────────────────────────── */
+
+#oe-toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    pointer-events: none;
+    max-width: 380px;
+    width: 100%;
+}
+
+.oe-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-left: 4px solid #6a737d;
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem 0.75rem 0.85rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    font-size: 0.875rem;
+    color: #1a1a1a;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.oe-toast--visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.oe-toast--warning { border-left-color: #f5a800; }
+.oe-toast--error   { border-left-color: #cc0000; background: #fff5f5; }
+.oe-toast--success { border-left-color: #2e7d32; background: #f3fbf5; }
+.oe-toast--info    { border-left-color: #1976d2; }
+
+.oe-toast__icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    flex: 0 0 auto;
+    padding-top: 1px;
+}
+.oe-toast--warning .oe-toast__icon { color: #f5a800; }
+.oe-toast--error   .oe-toast__icon { color: #cc0000; }
+.oe-toast--success .oe-toast__icon { color: #2e7d32; }
+.oe-toast--info    .oe-toast__icon { color: #1976d2; }
+
+.oe-toast__body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.oe-toast__title {
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    color: #1a1a1a;
+}
+
+.oe-toast__message {
+    line-height: 1.35;
+}
+
+.oe-toast__hint {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #6a737d;
+    font-style: italic;
+}
+
+.oe-toast__close {
+    background: none;
+    border: 0;
+    color: #6a737d;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    flex: 0 0 auto;
+}
+.oe-toast__close:hover { color: #1a1a1a; }
+
+/* ─────────────────────────────────────────────
+   29. BILLING MANAGER — cleaner, more usable design
+   ───────────────────────────────────────────── */
+
+/* Page wrapper */
+form[name="bill_filter"],
+.billing_report_wrapper {
+    padding: 1rem 1.25rem !important;
+}
+
+/* "Billing Manager" page title */
+h2:contains("Billing Manager"),
+.billing_manager_title {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid #cc0000 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* The 3-panel layout (Choose Criteria / Current Criteria / Select Action) */
+.billing_filter_panel,
+table.billing_filter_table {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Each panel card */
+.billing_filter_panel > div,
+.criteria_panel,
+.action_panel {
+    background: #ffffff !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    min-height: 240px;
+}
+
+/* Panel headings */
+.billing_filter_panel h3,
+.criteria_panel h3,
+.action_panel h3 {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 0.75rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid #eef0f2 !important;
+}
+
+/* Lists inside the panels (criteria selectors) */
+select[size],
+select[multiple] {
+    width: 100% !important;
+    height: 200px !important;
+    border: 1px solid #d0d7de !important;
+    border-radius: 6px !important;
+    padding: 0.4rem !important;
+    font-size: 0.875rem !important;
+    background: #fbfbfc !important;
+}
+
+select[size] option,
+select[multiple] option {
+    padding: 0.35rem 0.5rem !important;
+    border-bottom: 1px solid #eef0f2 !important;
+    cursor: pointer;
+}
+
+select[size] option:hover,
+select[multiple] option:hover {
+    background: #fff8d9 !important;
+}
+
+select[size] option:checked,
+select[multiple] option:checked {
+    background: rgba(204, 0, 0, 0.08) !important;
+    color: #1a1a1a !important;
+    font-weight: 500;
+}
+
+/* Trash icons in Current Criteria */
+.criteria_actions .fa-trash {
+    cursor: pointer;
+    margin: 0 0.25rem;
+    transition: transform 0.12s ease;
+}
+
+.criteria_actions .fa-trash:hover {
+    transform: scale(1.15);
+}
+
+/* Action buttons on the right (Update List, View Report, etc.) */
+.action_panel a,
+.action_panel .action_link,
+.action_panel button {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem !important;
+    margin-bottom: 0.5rem !important;
+    background: #ffffff !important;
+    border: 1px solid #d0d7de !important;
+    border-radius: 6px !important;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease;
+    cursor: pointer;
+}
+
+.action_panel a:hover,
+.action_panel .action_link:hover,
+.action_panel button:hover {
+    background: #fff8d9 !important;
+    border-color: #cc0000 !important;
+    color: #cc0000 !important;
+}
+
+/* Highlight the primary action (e.g., "Update List") */
+.action_panel a:first-child,
+.action_panel .action_link:first-child {
+    background: #cc0000 !important;
+    border-color: #cc0000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.action_panel a:first-child:hover {
+    background: #7b0000 !important;
+    border-color: #7b0000 !important;
+    color: #ffffff !important;
+}
+
+/* Bottom toolbar (X12 OPTIONS / HCFA / Mark as Cleared / Re-Open) */
+.billing_actions_bar,
+.billing_form_actions {
+    background: #fbfbfc !important;
+    border-top: 1px solid #e1e4e8 !important;
+    padding: 0.65rem 1rem !important;
+    margin-top: 1rem !important;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.billing_actions_bar .btn,
+.billing_form_actions .btn {
+    padding: 0.4rem 0.85rem !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+}
+
+/* CMS Margins label fits the toolbar */
+.billing_actions_bar label,
+.billing_form_actions label {
+    font-size: 0.85rem;
+    color: #6a737d;
+    margin: 0 0.5rem;
+}
+
+.billing_actions_bar input[type="text"],
+.billing_form_actions input[type="text"] {
+    width: 70px !important;
+    padding: 0.35rem 0.5rem !important;
+    text-align: center;
+    border: 1px solid #d0d7de !important;
+    border-radius: 4px !important;
+}
+
+/* Billing results table (when claims are shown) */
+.billing_results_table,
+table.table-billing {
+    margin-top: 1rem !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.billing_results_table th,
+table.table-billing thead th {
+    background: #fbfbfc !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    padding: 0.6rem 0.75rem !important;
+    border-bottom: 2px solid #e1e4e8 !important;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.billing_results_table td,
+table.table-billing td {
+    padding: 0.55rem 0.75rem !important;
+    border-bottom: 1px solid #eef0f2 !important;
+    font-size: 0.875rem;
+}
+
+.billing_results_table tr:hover,
+table.table-billing tbody tr:hover {
+    background: #fff8d9 !important;
+}
+
+/* Day Sheet Report — make the warnings page at least readable */
+body > p > b,
+body > br + b {
+    display: block;
+    background: #fff5f5;
+    border-left: 3px solid #cc0000;
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+    font-size: 0.8rem;
+    color: #6a737d;
+    font-weight: normal !important;
+}
+
+/* Hide the deprecation warnings completely on the day sheet (after fix is deployed) */
+.daysheet_warnings { display: none; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .billing_filter_panel,
+    table.billing_filter_table {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+/* ─────────────────────────────────────────────
+   30. BILLING REPORT & DAY SHEET — minimal, non-destructive
+   Only adds typography polish — does NOT touch table layout.
+   ───────────────────────────────────────────── */
+
+/* Container padding */
+body[topmargin="0"],
+body[leftmargin="2"] {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    padding: 1.5rem 2rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Page title */
+font.title {
+    display: block;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid #cc0000;
+}
+
+body > a[href*="javascript"]:first-child {
+    text-decoration: none !important;
+}
+
+/* Patient name divider styling */
+hr {
+    border: 0 !important;
+    border-top: 1px solid #e1e4e8 !important;
+    margin: 1.5rem 0 1rem !important;
+    height: 0;
+}
+
+/* Day Sheet Report table — use the existing Bootstrap .table class properly */
+.table-responsive .table {
+    width: 100% !important;
+    background: #ffffff;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.table-responsive .table td {
+    padding: 0.55rem 0.75rem !important;
+    border-bottom: 1px solid #eef0f2 !important;
+    border-right: 0;
+    border-left: 0;
+    vertical-align: middle !important;
+    font-size: 0.875rem;
+}
+
+/* Header rows (where font-weight-bold class is on td) */
+.table-responsive .table td.font-weight-bold {
+    background: #fbfbfc !important;
+    color: #1a1a1a !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.78rem !important;
+    border-bottom: 2px solid #cc0000 !important;
+    font-weight: 700 !important;
+}
+
+/* COPAY rows — light tint */
+.table-responsive .table tr:hover {
+    background: #fff8d9 !important;
+}
+
+/* Summary section at bottom (User / Charges / Payments columns) */
+body > table:last-of-type,
+.daysheet_summary {
+    margin-top: 2rem;
+    border-top: 2px solid #e1e4e8;
+    padding-top: 1rem;
+}
+
+/* Bold accents in summary (Total Charges, Total Payments etc.) */
+b {
+    color: #1a1a1a;
+}
+
+/* Section header text */
+font.font-weight-bold {
+    display: block;
+    font-size: 0.78rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6a737d !important;
+    margin: 1rem 0 0.4rem !important;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #eef0f2;
+    font-weight: 700 !important;
+}
+
+/* Field labels in patient data */
+span.bold {
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    font-size: 0.78rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* Field values */
+span.text {
+    color: #1a1a1a !important;
+}
+
+/* Small text (dates in parens) */
+span.small {
+    color: #6a737d !important;
+    font-size: 0.78rem !important;
+    font-style: italic;
+}
+
+/* Print mode */
+@media print {
+    body { padding: 0 !important; font-size: 10pt; }
+    font.title { border-bottom-color: #000 !important; }
+    .table-responsive .table td.font-weight-bold {
+        border-bottom-color: #000 !important;
+        background: #f0f0f0 !important;
+    }
+}
+
+/* ─────────────────────────────────────────────
+   31. BUTTON ICON SPACING — fix UTF-8 "ÂÂ" display
+   The SCSS uses content: "icon\00a0\00a0" (two non-breaking
+   spaces) for icon+text spacing. When the page lacks a proper
+   UTF-8 charset declaration the NBSPs decode as "Â". Replace
+   with margin-based spacing.
+   ───────────────────────────────────────────── */
+.btn-show::before,
+.btn-undo::before,
+.btn-add::before,
+.btn-cancel::before,
+.btn-search::before,
+.btn-save::before,
+.btn-edit::before,
+.btn-print::before,
+.btn-back::before,
+.btn-transmit::before,
+.btn-receive::before,
+.btn-download::before,
+.btn-update::before,
+.btn-graph::before,
+.btn-refresh::before,
+.btn-filter::before,
+.btn-setting::before,
+.btn-bars::before {
+    margin-right: 0.45em !important;
+    /* Strip the NBSP spacing by overriding the content's trailing chars */
+    letter-spacing: 0 !important;
+}
+
+/* For buttons whose existing pseudo-element ends in spaces, hide the trailing
+   space using a white-space rule */
+.btn-show, .btn-undo, .btn-add, .btn-cancel, .btn-search, .btn-save,
+.btn-edit, .btn-print, .btn-back, .btn-transmit, .btn-receive,
+.btn-download, .btn-update, .btn-graph, .btn-refresh, .btn-filter,
+.btn-setting, .btn-bars {
+    /* Ensure proper text alignment with icon */
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.3em;
+}
+
+/* Hide stray non-breaking spaces appearing as 'Â' on misencoded pages */
+.btn-show::after,
+.btn-undo::after,
+.btn-add::after,
+.btn-cancel::after {
+    content: '';
+}
+
+/* ─────────────────────────────────────────────
+   29. PROFESSIONAL PATIENT-DASHBOARD POLISH
+   Scoped to #container_div (Patient ▸ Dashboard) so
+   forms, modals and other pages are NOT affected.
+   Safe to remove this whole block to revert.
+   ───────────────────────────────────────────── */
+
+/* Give the dashboard a calm, even background and breathing room */
+#container_div {
+    padding: 14px 14px 28px !important;
+}
+
+/* Card = clean, defined panel with a soft border + layered shadow */
+#container_div .card {
+    border: 1px solid #e7e8ee !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 2px rgba(16,24,40,0.04),
+                0 4px 14px rgba(16,24,40,0.06) !important;
+    margin-bottom: 18px !important;
+    overflow: hidden !important;
+    transition: box-shadow .18s ease, transform .18s ease !important;
+}
+
+/* Subtle lift on hover for a modern, interactive feel */
+#container_div .card:hover {
+    box-shadow: 0 2px 4px rgba(16,24,40,0.06),
+                0 10px 26px rgba(16,24,40,0.10) !important;
+    transform: translateY(-2px);
+}
+
+/* Header: light gradient, a red accent bar on the left, clear divider */
+#container_div .card > .card-header {
+    background: linear-gradient(180deg, #ffffff 0%, #f7f8fa 100%) !important;
+    border-bottom: 1px solid #ececf1 !important;
+    border-left: 4px solid #cc0000 !important;
+    padding: 12px 16px !important;
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    letter-spacing: .01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Header title links/text — strong, readable, brand-toned on hover */
+#container_div .card > .card-header,
+#container_div .card > .card-header a,
+#container_div .card > .card-header .text-dark,
+#container_div .card > .card-header span {
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+}
+#container_div .card > .card-header a:hover {
+    color: #cc0000 !important;
+}
+
+/* Collapse caret / icons in the header sit neatly to the right */
+#container_div .card > .card-header .fa,
+#container_div .card > .card-header i {
+    color: #cc0000 !important;
+}
+
+/* Body: comfortable padding and tidy typography */
+#container_div .card > .card-body {
+    padding: 14px 16px 16px !important;
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+}
+
+/* Inner lists/labels in widgets read as clean rows */
+#container_div .card > .card-body table td,
+#container_div .card > .card-body table th {
+    padding: 6px 8px !important;
+    border-color: #f0f1f4 !important;
+    vertical-align: middle !important;
+}
+
+/* Small section labels inside widgets become quiet captions */
+#container_div .card > .card-body .label,
+#container_div .card > .card-body .font-weight-bold,
+#container_div .card > .card-body strong {
+    color: #344054 !important;
+}
+
+/* Empty-state text (e.g. "None", "No data") looks intentional, not broken */
+#container_div .card > .card-body .text-muted,
+#container_div .card > .card-body em {
+    color: #98a2b3 !important;
+    font-style: normal !important;
+}
+
+/* The patient name/header strip at the very top — make it a clean title band */
+#container_div .patient-title,
+#container_div .title,
+#container_div h2.title {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+/* Action buttons inside dashboard cards: consistent, rounded, brand red */
+#container_div .card .btn-primary,
+#container_div .card .btn-add,
+#container_div .card .btn-save {
+    background: #cc0000 !important;
+    border-color: #cc0000 !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+}
+#container_div .card .btn-secondary,
+#container_div .card .btn-outline-secondary {
+    border-radius: 6px !important;
+}
+
+/* Responsive gutters so two-column card layouts breathe */
+#container_div .row > [class*="col-"] {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
 }

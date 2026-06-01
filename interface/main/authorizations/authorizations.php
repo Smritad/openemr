@@ -93,6 +93,14 @@ if ($imauthorized && $see_auth > 1) {
 //  pnotes
 //  transactions
 
+// Initialize result holders so the empty-result case doesn't trigger PHP 8
+// "Undefined variable" warnings.
+$result1 = [];
+$result2 = [];
+$result3 = [];
+$result4 = [];
+$authorize = [];
+
 //fetch billing information:
     if (
         $res = sqlStatement("select *, concat(u.fname,' ', u.lname) as user " .

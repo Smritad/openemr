@@ -1,0 +1,70 @@
+20260528:110557 _GET request 
+ csvtbllist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110557 _GET request 
+ srvinfo => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110557 _GET request 
+ archlist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110557 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260528:110558 _GET request 
+ loglist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110530 _GET request 
+ csvtbllist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110530 _GET request 
+ srvinfo => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110530 _GET request 
+ loglist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110531 _GET request 
+ archlist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110531 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260528:110535 _GET request 
+ csvtbllist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110535 _GET request 
+ csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201  process_html => htm  process_err => err  ProcessFiles => ProcessNew 
+20260528:110535 User: ::1 - May 28, 2026, 11:14 am
+20260528:110535 edih_disp_file_process GET vars csrf_token_form 6ef9e992f6cbc6970bdb4f241b0501609d99f201  process_html htm  process_err err  ProcessFiles ProcessNew  
+20260528:110535 csv_processed_files_list: csv file does not exist files_f837.csv
+20260528:110547 _GET request 
+ getnotes => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110547 User: ::1 - May 28, 2026, 11:14 am
+20260528:110549 _POST request 
+ putnotes => yes  tnotes =>   csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110549 User: ::1 - May 28, 2026, 11:14 am
+20260528:110549 User: ::1 - May 28, 2026, 11:14 am
+20260528:110549 Unknown POST value: 
+putnotes : yes 
+tnotes :  
+csrf_token_form : 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+
+20260528:110553 _GET request 
+ getnotes => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110553 User: ::1 - May 28, 2026, 11:14 am
+20260528:110554 _POST request 
+ putnotes => yes  tnotes =>   csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110554 User: ::1 - May 28, 2026, 11:14 am
+20260528:110554 User: ::1 - May 28, 2026, 11:14 am
+20260528:110554 Unknown POST value: 
+putnotes : yes 
+tnotes :  
+csrf_token_form : 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+
+20260528:110557 _GET request 
+ archivelog => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:110557 User: ::1 - May 28, 2026, 11:14 am
+20260528:110557 _GET request 
+ loglist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120533 _GET request 
+ srvinfo => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120533 _GET request 
+ loglist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120533 _GET request 
+ archlist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120533 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260528:120533 _GET request 
+ csvtbllist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120518 _GET request 
+ csvtbllist => yes  csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201 
+20260528:120518 _GET request 
+ csrf_token_form => 6ef9e992f6cbc6970bdb4f241b0501609d99f201  process_html => htm  process_err => err  ProcessFiles => ProcessNew 
+20260528:120518 User: ::1 - May 28, 2026, 12:24 pm
+20260528:120518 edih_disp_file_process GET vars csrf_token_form 6ef9e992f6cbc6970bdb4f241b0501609d99f201  process_html htm  process_err err  ProcessFiles ProcessNew  
+20260528:120518 csv_processed_files_list: csv file does not exist files_f837.csv

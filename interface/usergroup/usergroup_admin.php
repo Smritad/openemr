@@ -77,8 +77,10 @@ if (!empty($_POST['access_group']) && is_array($_POST['access_group'])) {
     $bg_count = count($_POST['access_group']);
     $mail_id = explode(".", (string) $SMTP_HOST);
     for ($i = 0; $i < $bg_count; $i++) {
-        if (($_POST['access_group'][$i] == "Emergency Login") && ($_POST['active'] == 'on') && ($_POST['pre_active'] == 0)) {
-            if (($_POST['get_admin_id'] == 1) && ($_POST['admin_id'] != "")) {
+        if (($_POST['access_group'][$i] == "Emergency Login")
+            && (($_POST['active'] ?? '') == 'on')
+            && (($_POST['pre_active'] ?? 0) == 0)) {
+            if ((($_POST['get_admin_id'] ?? 0) == 1) && (($_POST['admin_id'] ?? '') != "")) {
                 $res = sqlStatement("select username from users where id= ? ", [$_POST["id"]]);
                 $row = sqlFetchArray($res);
                 $uname = $row['username'];

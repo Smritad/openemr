@@ -61,13 +61,17 @@ function doOneDay($catid, $udate, $starttime, $duration, $prefcatid): void
     }
 
     for (; $i < $iend; ++$i) {
+        // Ensure $slots[$i] is initialized so |= doesn't warn on undefined key
+        if (!isset($slots[$i])) {
+            $slots[$i] = 0;
+        }
         if ($catid == 2) {        // in office
             // If a category ID was specified when this popup was invoked, then select
             // only IN events with a matching preferred category or with no preferred
             // category; other IN events are to be treated as OUT events.
             if ($input_catid) {
                 if ($prefcatid == $input_catid || !$prefcatid) {
-                    if ($slots[$i] ?? '') {
+                    if ($slots[$i]) {
                         $slots[$i] |= 1;
                     } else {
                         $slots[$i] = 1;

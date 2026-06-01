@@ -385,9 +385,17 @@ $(function () {
         $(this).removeClass('yellow');
     });
     $("[name='new_recall_when']").change(function () {
-        var dolv = moment($("#DOLV").val());
-        now = dolv.add($(this).val(), 'days').format(format_date_moment_js);
-        $("#form_recall_date").val(now);
+        // If Last Visit is empty, fall back to today so the radio still
+        // computes a usable "plus X" date instead of "Invalid date".
+        var dolvVal = $("#DOLV").val();
+        var dolv = (dolvVal && moment(dolvVal).isValid()) ? moment(dolvVal) : moment();
+        if (!dolvVal) {
+            // also prefill the Last Visit field with today so the user can see
+            // what the calculation is based on
+            $("#DOLV").val(dolv.format(format_date_moment_js));
+        }
+        var newDate = dolv.add($(this).val(), 'days').format(format_date_moment_js);
+        $("#form_recall_date").val(newDate);
     });
     $(".update").on('change', function (e) {
         var formData = $("form#save_prefs").serialize();

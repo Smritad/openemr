@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2026-05-25 13:19:01
+<?php /* Smarty version 2.6.33, created on 2026-06-01 06:33:45
          compiled from default/views/month/ajax_template.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/views/month/ajax_template.html', 12, false),array('function', 'xla', 'default/views/month/ajax_template.html', 164, false),array('function', 'xlt', 'default/views/month/ajax_template.html', 164, false),array('modifier', 'date_format', 'default/views/month/ajax_template.html', 345, false),array('modifier', 'string_format', 'default/views/month/ajax_template.html', 346, false),)), $this); ?>

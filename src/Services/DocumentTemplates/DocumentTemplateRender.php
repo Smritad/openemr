@@ -71,11 +71,13 @@ class DocumentTemplateRender
     {
         $formData = [];
         // Get patient demographic info. pd.ref_providerID
-        $this->ptrow = sqlQuery("SELECT pd.*, " . "ur.fname AS ur_fname, ur.mname AS ur_mname, ur.lname AS ur_lname, ur.title AS ur_title, ur.specialty AS ur_specialty " . "FROM patient_data AS pd " . "LEFT JOIN users AS ur ON ur.id = ? " . "WHERE pd.pid = ?", [$this->user, $this->pid]);
+        // Default to empty array so template tags don't crash when previewing
+        // without a real patient context (e.g., editing the template itself).
+        $this->ptrow = sqlQuery("SELECT pd.*, " . "ur.fname AS ur_fname, ur.mname AS ur_mname, ur.lname AS ur_lname, ur.title AS ur_title, ur.specialty AS ur_specialty " . "FROM patient_data AS pd " . "LEFT JOIN users AS ur ON ur.id = ? " . "WHERE pd.pid = ?", [$this->user, $this->pid]) ?: [];
 
         $this->hisrow = sqlQuery("SELECT * FROM history_data WHERE pid = ? " . "ORDER BY date DESC LIMIT 1", [
             $this->pid
-        ]);
+        ]) ?: [];
 
         $this->enrow = [];
         // Get some info for the currently selected encounter.
@@ -335,14 +337,14 @@ class DocumentTemplateRender
                 $sigfld .= '</span>';
                 $s = $this->keyReplace($s, $sigfld);
             } elseif ($this->keySearch($s, '{PatientName}')) {
-                $tmp = $this->ptrow['fname'];
-                if ($this->ptrow['mname']) {
+                $tmp = $this->ptrow['fname'] ?? '';
+                if (!empty($this->ptrow['mname'])) {
                     if ($tmp) {
                         $tmp .= ' ';
                     }
                     $tmp .= $this->ptrow['mname'];
                 }
-                if ($this->ptrow['lname']) {
+                if (!empty($this->ptrow['lname'])) {
                     if ($tmp) {
                         $tmp .= ' ';
                     }
@@ -350,34 +352,34 @@ class DocumentTemplateRender
                 }
                 $s = $this->keyReplace($s, $this->dataFixup($tmp, xl('Name')));
             } elseif ($this->keySearch($s, '{PatientID}')) {
-                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['pubpid'], xl('Chart ID')));
+                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['pubpid'] ?? '', xl('Chart ID')));
             } elseif ($this->keySearch($s, '{Address}')) {
-                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['street'], xl('Street')));
+                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['street'] ?? '', xl('Street')));
             } elseif ($this->keySearch($s, '{City}')) {
-                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['city'], xl('City')));
+                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['city'] ?? '', xl('City')));
             } elseif ($this->keySearch($s, '{State}')) {
-                $s = $this->keyReplace($s, $this->dataFixup(getListItemTitle('state', $this->ptrow['state']), xl('State')));
+                $s = $this->keyReplace($s, $this->dataFixup(getListItemTitle('state', $this->ptrow['state'] ?? ''), xl('State')));
             } elseif ($this->keySearch($s, '{Zip}')) {
-                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['postal_code'], xl('Postal Code')));
+                $s = $this->keyReplace($s, $this->dataFixup($this->ptrow['postal_code'] ?? '', xl('Postal Code')));
             } elseif ($this->keySearch($s, '{PatientPhone}')) {
-                $ptphone = $this->ptrow['phone_contact'];
+                $ptphone = $this->ptrow['phone_contact'] ?? '';
                 if (empty($ptphone)) {
-                    $ptphone = $this->ptrow['phone_home'];
+                    $ptphone = $this->ptrow['phone_home'] ?? '';
                 }
                 if (empty($ptphone)) {
-                    $ptphone = $this->ptrow['phone_cell'];
+                    $ptphone = $this->ptrow['phone_cell'] ?? '';
                 }
                 if (empty($ptphone)) {
-                    $ptphone = $this->ptrow['phone_biz'];
+                    $ptphone = $this->ptrow['phone_biz'] ?? '';
                 }
                 if (preg_match("/([2-9]\d\d)\D*(\d\d\d)\D*(\d\d\d\d)/", (string) $ptphone, $tmp)) {
                     $ptphone = '(' . $tmp[1] . ')' . $tmp[2] . '-' . $tmp[3];
                 }
                 $s = $this->keyReplace($s, $this->dataFixup($ptphone, xl('Phone')));
             } elseif ($this->keySearch($s, '{PatientDOB}')) {
-                $s = $this->keyReplace($s, $this->dataFixup(oeFormatShortDate($this->ptrow['DOB']), xl('Birth Date')));
+                $s = $this->keyReplace($s, $this->dataFixup(oeFormatShortDate($this->ptrow['DOB'] ?? ''), xl('Birth Date')));
             } elseif ($this->keySearch($s, '{PatientSex}')) {
-                $s = $this->keyReplace($s, $this->dataFixup(getListItemTitle('sex', $this->ptrow['sex']), xl('Sex')));
+                $s = $this->keyReplace($s, $this->dataFixup(getListItemTitle('sex', $this->ptrow['sex'] ?? ''), xl('Sex')));
             } elseif ($this->keySearch($s, '{DOS}')) {
                 // $s = @$this->keyReplace($s, $this->dataFixup(oeFormatShortDate(substr($this->enrow['date'], 0, 10)), xl('Service Date')));     // changed DOS to todays date- add future enc DOS
                 $s = @$this->keyReplace($s, $this->dataFixup(oeFormatShortDate(substr(date("Y-m-d"), 0, 10)), xl('Service Date')));

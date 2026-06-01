@@ -219,14 +219,14 @@ function fetchEvents($from_date, $to_date, $where_param = null, $orderby_param =
       //////
             case '1':
             case '3':
-                $event_recurrspec = @unserialize($event['pc_recurrspec'], ['allowed_classes' => false]);
+                $event_recurrspec = @unserialize($event['pc_recurrspec'], ['allowed_classes' => false]) ?: [];
 
                 if (checkEvent($event['pc_recurrtype'], $event_recurrspec)) {
                     break; }
 
-                $rfreq = $event_recurrspec['event_repeat_freq'];
-                $rtype = $event_recurrspec['event_repeat_freq_type'];
-                $exdate = $event_recurrspec['exdate'];
+                $rfreq  = $event_recurrspec['event_repeat_freq']      ?? 0;
+                $rtype  = $event_recurrspec['event_repeat_freq_type'] ?? 0;
+                $exdate = $event_recurrspec['exdate']                 ?? '';
 
                 [$ny, $nm, $nd] = explode('-', (string) $event['pc_eventDate']);
         //        $occurance = Date_Calc::dateFormat($nd,$nm,$ny,'%Y-%m-%d');

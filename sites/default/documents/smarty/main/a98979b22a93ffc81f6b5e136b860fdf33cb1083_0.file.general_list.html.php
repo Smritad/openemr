@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.6, created on 2026-05-26 08:36:06
+/* Smarty version 4.5.6, created on 2026-05-29 07:53:01
   from 'C:\xampp\htdocs\open_cms\templates\pharmacies\general_list.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.6',
-  'unifunc' => 'content_6a153f56dbf9c9_98391957',
+  'unifunc' => 'content_6a1929bd31f8c3_52118264',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6a153f56dbf9c9_98391957 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6a1929bd31f8c3_52118264 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xlt.php','function'=>'smarty_function_xlt',),));
 ?>
 <a href="<?php echo $_smarty_tpl->tpl_vars['CURRENT_ACTION']->value;?>

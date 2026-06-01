@@ -370,13 +370,35 @@ function menuActionClick(data,evt)
     }
     else
     {
-        if(data.requirement === 1)
-        {
-            alert((top.jsGlobals.enable_group_therapy == 1) ? xl('You must first select or add a patient or therapy group.') : xl('You must first select or add a patient.'));
-        }
-        else if((data.requirement === 2)||data.requirement === 3)
-        {
-            alert(xl('You must first select or create an encounter.'));
+        // Use the branded toast notification if available, fall back to alert()
+        var menuLabel = (data.label && data.label()) || '';
+        if (data.requirement === 1) {
+            var needsGroup = (top.jsGlobals.enable_group_therapy == 1);
+            var msg = needsGroup
+                ? xl('To open this you must first select or add a patient or therapy group.')
+                : xl('To open this you must first select or add a patient.');
+            if (top.oeToast) {
+                top.oeToast({
+                    type: 'warning',
+                    title: menuLabel + ' — ' + xl('Patient required'),
+                    message: msg,
+                    hint: xl('Click Patient → New/Search to pick a patient, then try again.')
+                });
+            } else {
+                alert(msg);
+            }
+        } else if (data.requirement === 2 || data.requirement === 3) {
+            var msg2 = xl('To open this you must first select or create an encounter (visit).');
+            if (top.oeToast) {
+                top.oeToast({
+                    type: 'warning',
+                    title: menuLabel + ' — ' + xl('Encounter required'),
+                    message: msg2,
+                    hint: xl('Open a patient, then Patient → Visits → Create Visit.')
+                });
+            } else {
+                alert(msg2);
+            }
         }
     }
 

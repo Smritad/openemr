@@ -238,9 +238,11 @@ $obj = $formid ? formFetch("form_misc_billing_options", $formid) : [];
                             <label class="form-inline"><?php echo xlt('Box 17. Provider') ?>:</label>
                             <?php
                             if (!empty($obj["provider_id"])) {
-                                $MBO->genReferringProviderSelect('provider_id', '-- ' . xl("Please Select") . ' --', $obj["provider_id"]);
+                                $MBO->genReferringProviderSelect('provider_id', '-- ' . xl("Please Select") . ' --', (int)$obj["provider_id"]);
                             } else { // defalut to the patient's ref_prov
-                                $MBO->genReferringProviderSelect('provider_id', '-- ' . xl("Please Select") . ' --', getPatientData($pid, "ref_providerID")['ref_providerID']);
+                                $refProvData = getPatientData($pid, "ref_providerID");
+                                $refProvId   = is_array($refProvData) ? (int)($refProvData['ref_providerID'] ?? 0) : 0;
+                                $MBO->genReferringProviderSelect('provider_id', '-- ' . xl("Please Select") . ' --', $refProvId);
                             } ?>
                         </div>
                         <div class="form-group">

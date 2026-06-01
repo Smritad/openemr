@@ -643,6 +643,7 @@ $billresult = BillingUtilities::getBillingByEncounter($fs->pid, $fs->encounter, 
 ?>
 <html>
 <head>
+<meta charset="utf-8">
 <?php Header::setupHeader(['common', 'knockout', 'jquery-ui', 'jquery-ui-base']);?>
 <script>
 var mypcc = <?php echo js_escape($GLOBALS['phone_country_code']); ?>;

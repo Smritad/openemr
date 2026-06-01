@@ -1,0 +1,205 @@
+/* ============================================================
+   HEADER LIGHT OVERRIDE  (custom/assets/css/header_light.css)
+   Goal: lighten the top menu bar + the tab strip, and make
+   hover text DARK so it stays visible (it was turning white).
+   Loaded on top of the active theme via custom.yaml.
+   Remove this file's entry from custom.yaml to revert.
+   ============================================================ */
+
+/* ---- Brand palette used here ---- */
+/* light surfaces: #ffffff / #f4f5f7 ; text: #1a1a1a ; accent: #cc0000 */
+
+/* ─────────────────────────────────────────
+   1. TOP MENU BAR (the red bar) → light
+   ───────────────────────────────────────── */
+nav.navbar,
+.navbar.bg-light,
+.navbar.navbar-light {
+    background: #ffffff !important;
+    border-bottom: 2px solid #e7e8ee !important;
+    box-shadow: 0 1px 3px rgba(16,24,40,0.05) !important;
+}
+
+/* Top menu links (Calendar, Finder, …) → dark, readable */
+.navbar.bg-light .nav-link,
+.navbar.bg-light a,
+.navbar .menuLabel,
+.appMenu .menuLabel,
+#mainMenu .nav-link,
+#mainMenu a {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+}
+
+/* Hover / active on top menu → light grey background, RED text (never white) */
+.navbar.bg-light .nav-link:hover,
+.navbar.bg-light .nav-link:focus,
+.navbar.bg-light a:hover,
+#mainMenu .nav-link:hover,
+.appMenu .menuLabel:hover,
+.navbar .menuLabel:hover {
+    color: #cc0000 !important;
+    background: #f4f5f7 !important;
+    border-radius: 6px !important;
+}
+
+/* Dropdown menu items under the top menu → dark text, light hover */
+.appMenu .dropdown-menu,
+.navbar .dropdown-menu {
+    background: #ffffff !important;
+    border: 1px solid #e7e8ee !important;
+}
+.appMenu .dropdown-menu .menuLabel,
+.navbar .dropdown-menu a,
+.appMenu .menuEntries li .menuLabel {
+    color: #1a1a1a !important;
+}
+.appMenu .dropdown-menu .menuLabel:hover,
+.navbar .dropdown-menu a:hover,
+.appMenu .menuEntries li:hover .menuLabel {
+    background: #fdeaea !important;   /* very light red */
+    color: #cc0000 !important;        /* visible, not white */
+}
+
+/* Search box + account icon area stay readable on the light bar */
+.navbar .form-control,
+#anySearchBox {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border: 1px solid #ced2da !important;
+}
+
+/* ─────────────────────────────────────────
+   2. TAB STRIP (the orange bar) → light
+   ───────────────────────────────────────── */
+#tabs_div,
+.body_title {
+    background: #f4f5f7 !important;
+    border-bottom: 1px solid #e7e8ee !important;
+}
+
+/* Each tab pill → light with dark text */
+.tabSpan,
+.tabSpan.bgcolor2 {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border: 1px solid #e2e4ea !important;
+    border-bottom: none !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+.tabSpan .tabTitle,
+.tabSpan .fa {
+    color: #1a1a1a !important;
+}
+
+/* HOVER FIX: keep tab text DARK on hover (was turning white = invisible) */
+.tabSpan:hover,
+.tabSpan:hover.bgcolor2 {
+    background: #fdeaea !important;   /* light red tint */
+}
+.tabSpan:hover .tabTitle,
+.tabSpan:hover .fa,
+.tabSpan:focus .tabTitle {
+    color: #cc0000 !important;        /* readable accent, NOT white */
+}
+
+/* Active / selected tab → clear red underline, dark text stays visible */
+.tabSpan.tabchosen,
+.tabSpan.current,
+.tabSpan[style*="bold"] {
+    background: #ffffff !important;
+    border-top: 3px solid #cc0000 !important;
+}
+.tabSpan.tabchosen .tabTitle,
+.tabSpan.current .tabTitle {
+    color: #cc0000 !important;
+    font-weight: 700 !important;
+}
+
+/* ─────────────────────────────────────────
+   3. FIX "GREY / DISABLED-LOOKING" MENU ITEMS
+   Force every top-menu and dropdown item to be
+   dark and fully opaque so none look greyed out.
+   ───────────────────────────────────────── */
+.navbar .nav-link,
+.navbar .menuLabel,
+.navbar a,
+#mainMenu .nav-link,
+#mainMenu a,
+.appMenu .menuLabel,
+.appMenu .menuEntries li .menuLabel,
+.appMenu .dropdown-menu li .menuLabel,
+.navbar .nav-link.disabled,
+.navbar .menuLabel.menuDisabled,
+.appMenu .menuLabel.menuDisabled,
+.menuDisabled,
+.menuLabel.menuDisabled,
+li.disabled .menuLabel,
+.nav-item.disabled .nav-link {
+    color: #1a1a1a !important;   /* dark, not grey */
+    opacity: 1 !important;        /* remove faded/disabled look */
+    filter: none !important;
+}
+
+/* Keep them clickable-looking too */
+.navbar .nav-link.disabled,
+.menuDisabled,
+.menuLabel.menuDisabled,
+li.disabled .menuLabel {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* ─────────────────────────────────────────
+   4. POPUP "TOAST" NOTIFICATIONS
+   (e.g. "Payment — Patient required")
+   These styles live in brand_theme.css which is
+   currently OFF, so the popup was rendering as bare
+   text. Re-adding them here makes it a clean popup.
+   ───────────────────────────────────────── */
+#oe-toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    pointer-events: none;
+    max-width: 380px;
+    width: 100%;
+}
+.oe-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-left: 4px solid #6a737d;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 8px 24px rgba(16,24,40,0.16);
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.oe-toast--visible { transform: translateX(0); opacity: 1; }
+.oe-toast--warning { border-left-color: #f5a800; background: #fffdf5; }
+.oe-toast--error   { border-left-color: #cc0000; background: #fff5f5; }
+.oe-toast--success { border-left-color: #2e7d32; background: #f3fbf5; }
+.oe-toast--info    { border-left-color: #1976d2; background: #f5faff; }
+.oe-toast__icon { font-size: 1.25rem; line-height: 1; flex: 0 0 auto; padding-top: 1px; }
+.oe-toast--warning .oe-toast__icon { color: #f5a800; }
+.oe-toast--error   .oe-toast__icon { color: #cc0000; }
+.oe-toast--success .oe-toast__icon { color: #2e7d32; }
+.oe-toast--info    .oe-toast__icon { color: #1976d2; }
+.oe-toast__body { flex: 1 1 auto; min-width: 0; }
+.oe-toast__title { font-weight: 700; margin-bottom: 0.15rem; color: #1a1a1a; }
+.oe-toast__message { line-height: 1.4; }
+.oe-toast__hint { margin-top: 0.4rem; font-size: 0.8rem; color: #6a737d; font-style: italic; }
+.oe-toast__close { background: none; border: 0; color: #6a737d; font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 0 0.25rem; flex: 0 0 auto; }
+.oe-toast__close:hover { color: #1a1a1a; }

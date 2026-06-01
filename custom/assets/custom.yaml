@@ -5,8 +5,12 @@ assets:
     brand-theme:
         basePath: '%webroot%/custom/assets/'
         link: css/brand_theme.css
-        autoload: true
+        autoload: false
     brand-scripts:
         basePath: '%webroot%/custom/assets/'
         script: js/brand_init.js
+        autoload: true
+    header-light:
+        basePath: '%webroot%/custom/assets/'
+        link: css/header_light.css
         autoload: true

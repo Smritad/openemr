@@ -521,8 +521,8 @@ function restoreSession() {
                                 echo text(oeFormatDateTime($iter['update_date']));
                                 echo "  </td>\n";
                                 echo "  <td class='notecell'>";
-                                $updateBy = $userService->getUser($iter['update_by']);
-                                echo !is_null($updateBy) ? text($updateBy['fname']) . ' ' . text($updateBy['lname']) : '';
+                                $updateBy = !empty($iter['update_by']) ? $userService->getUser($iter['update_by']) : null;
+                                echo is_array($updateBy) ? text($updateBy['fname'] ?? '') . ' ' . text($updateBy['lname'] ?? '') : '';
                                 echo "  </td>\n";
                                 echo " </tr>\n";
                             }
