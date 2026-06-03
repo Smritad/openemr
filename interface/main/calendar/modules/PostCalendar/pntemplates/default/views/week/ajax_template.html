@@ -726,7 +726,7 @@ foreach ($providers as $provider) {
 
             // the divTitle is what appears when the user hovers the mouse over the DIV
             $divTitle = date("D, d M Y", strtotime($date));
-	    $result = sqlStatement("SELECT name,id,color FROM facility WHERE id=(SELECT pc_facility FROM openemr_postcalendar_events WHERE pc_eid=?)", [$eventid]);
+	    $result = sqlStatement("SELECT name,id,color FROM facility WHERE id=(SELECT pc_facility FROM openemr_postcalendar_events WHERE pc_eid=? LIMIT 1)", [$eventid]);
 	    $row = sqlFetchArray($result);
 	    $color=$event["catcolor"];
 	    if($GLOBALS['event_color']==2)

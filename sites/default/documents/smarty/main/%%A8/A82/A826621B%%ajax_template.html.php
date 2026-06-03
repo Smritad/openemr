@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2026-06-01 06:33:45
+<?php /* Smarty version 2.6.33, created on 2026-06-03 09:32:37
          compiled from default/views/month/ajax_template.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/views/month/ajax_template.html', 12, false),array('function', 'xla', 'default/views/month/ajax_template.html', 164, false),array('function', 'xlt', 'default/views/month/ajax_template.html', 164, false),array('modifier', 'date_format', 'default/views/month/ajax_template.html', 345, false),array('modifier', 'string_format', 'default/views/month/ajax_template.html', 346, false),)), $this); ?>
@@ -529,7 +529,7 @@ foreach ($providers as $provider) {
 
             // the divTitle is what appears when the user hovers the mouse over the DIV
                 $divTitle = dateformat (strtotime($date),true);
-            $result = sqlStatement("SELECT name,id,color FROM facility WHERE id=(SELECT pc_facility FROM openemr_postcalendar_events WHERE pc_eid=?)", [$eventid]);
+            $result = sqlStatement("SELECT name,id,color FROM facility WHERE id=(SELECT pc_facility FROM openemr_postcalendar_events WHERE pc_eid=? LIMIT 1)", [$eventid]);
             $row = sqlFetchArray($result);
             $color=$event["catcolor"];
             if($GLOBALS['event_color']==2)

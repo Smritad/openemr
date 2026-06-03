@@ -1,0 +1,49 @@
+20260603:080659 _GET request 
+ archlist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:080659 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260603:080659 _GET request 
+ srvinfo => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:080600 _GET request 
+ loglist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:080600 _GET request 
+ csvtbllist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090621 _GET request 
+ srvinfo => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090621 _GET request 
+ csvtbllist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090621 _GET request 
+ archlist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090621 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260603:090622 _GET request 
+ loglist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090622 _GET request 
+ srvinfo => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090622 _GET request 
+ loglist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090623 _GET request 
+ archlist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090623 csv_archive_select_list: using C:/xampp/htdocs/open_cms/sites/default\documents\edi\history\archive
+20260603:090623 _GET request 
+ csvtbllist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090633 _GET request 
+ csvtbllist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090634 _GET request 
+ csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132  process_html => htm  process_err => err  ProcessFiles => ProcessNew 
+20260603:090634 User: ::1 - June 3, 2026, 9:31 am
+20260603:090634 edih_disp_file_process GET vars csrf_token_form 3ec93c10f66c932a07138e5ab172b3508ca49132  process_html htm  process_err err  ProcessFiles ProcessNew  
+20260603:090634 csv_processed_files_list: csv file does not exist files_f837.csv
+20260603:090638 _POST request 
+ csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132  NewFiles => ProcessNew 
+20260603:090638 User: ::1 - June 3, 2026, 9:31 am
+20260603:090638 edih_upload_files: _FILES error mime-type Oleane Logo.png mime-type image/png
+20260603:090644 _GET request 
+ csvtbllist => yes  csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132 
+20260603:090644 _GET request 
+ csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132  process_html => htm  process_err => err  ProcessFiles => ProcessNew 
+20260603:090644 User: ::1 - June 3, 2026, 9:31 am
+20260603:090644 edih_disp_file_process GET vars csrf_token_form 3ec93c10f66c932a07138e5ab172b3508ca49132  process_html htm  process_err err  ProcessFiles ProcessNew  
+20260603:090644 csv_processed_files_list: csv file does not exist files_f837.csv
+20260603:090649 _POST request 
+ csrf_token_form => 3ec93c10f66c932a07138e5ab172b3508ca49132  NewFiles => ProcessNew 
+20260603:090649 User: ::1 - June 3, 2026, 9:31 am
+20260603:090649 edih_upload_files: _FILES error  No file was uploaded

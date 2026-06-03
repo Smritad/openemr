@@ -471,7 +471,7 @@ if (!empty($_POST['form_submit']) && !empty($_POST['form_line'])) {
 
                     $query_test = sqlFetchArray(sqlStatement("select deleted from forms where form_id=? and formdir='procedure_order'", [$order_id]));
                     // skip the procedure that has been deleted from the encounter form
-                    if ($query_test['deleted'] == 1) {
+                    if (($query_test['deleted'] ?? 0) == 1) {
                         continue;
                     }
 

@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.6, created on 2026-05-29 13:49:21
+/* Smarty version 4.5.6, created on 2026-06-03 09:37:17
   from 'C:\xampp\htdocs\open_cms\templates\documents\general_list.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.6',
-  'unifunc' => 'content_6a197d418c1363_43644111',
+  'unifunc' => 'content_6a1fd9ad94dd26_87383594',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6a197d418c1363_43644111 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6a1fd9ad94dd26_87383594 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.headerTemplate.php','function'=>'smarty_function_headerTemplate',),1=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xlt.php','function'=>'smarty_function_xlt',),2=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xla.php','function'=>'smarty_function_xla',),3=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.xlj.php','function'=>'smarty_function_xlj',),4=>array('file'=>'C:\\xampp\\htdocs\\open_cms\\library\\smarty\\plugins\\function.datetimepickerSupport.php','function'=>'smarty_function_datetimepickerSupport',),));
 ?>
 <html>

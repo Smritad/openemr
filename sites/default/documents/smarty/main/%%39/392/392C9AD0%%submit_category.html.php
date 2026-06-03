@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2026-05-29 07:43:15
+<?php /* Smarty version 2.6.33, created on 2026-06-03 09:32:31
          compiled from default/admin/submit_category.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/admin/submit_category.html', 4, false),array('function', 'headerTemplate', 'default/admin/submit_category.html', 26, false),array('modifier', 'text', 'default/admin/submit_category.html', 27, false),array('modifier', 'attr', 'default/admin/submit_category.html', 54, false),)), $this); ?>

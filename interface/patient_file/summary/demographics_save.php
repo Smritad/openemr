@@ -58,7 +58,8 @@ foreach ($_POST as $key => $val) {
 
 // Update patient_data and employer_data
 $newdata = [];
-$newdata['patient_data']['id'] = $_POST['db_id'];
+$newdata['employer_data'] = [];
+$newdata['patient_data']['id'] = $_POST['db_id'] ?? null;
 
 // Arrays to hold special field types for processing after main data save
 $addressFieldsToSave = [];
@@ -187,7 +188,7 @@ while ($frow = sqlFetchArray($fres)) {
 try {
     updatePatientData($pid, $newdata['patient_data']);
     if (!$GLOBALS['omit_employers']) {
-        updateEmployerData($pid, [], $newdata['employer_data']);
+        updateEmployerData($pid, [], $newdata['employer_data'] ?? []);
     }
 } catch (Exception $e) {
     $logger->error("Error updating patient/employer data", [

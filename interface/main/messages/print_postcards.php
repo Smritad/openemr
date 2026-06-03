@@ -24,7 +24,7 @@ $facility = sqlQuery($sql);
 
 $sql = "SELECT * FROM medex_prefs";
 $prefs = sqlQuery($sql);
-$postcard_top = $prefs['postcard_top'] ?: '';
+$postcard_top = is_array($prefs) ? ($prefs['postcard_top'] ?? '') : '';
 
 $postcard_message = $postcard_top . "\n" . xl('Please call our office to schedule') . "\n" . xl('your next appointment at') . " " . $facility['phone'] . ".
 	\n\n" . $facility['street'] . "\n
@@ -32,6 +32,7 @@ $postcard_message = $postcard_top . "\n" . xl('Please call our office to schedul
 $postcard_message = "\n\n" . $postcard_message . "\n\n";
 
 foreach ($pid_list as $pid) {
+    $prov_name = '';
     $pdf->AddPage();
     $patdata = sqlQuery("SELECT " .
         "p.fname, p.mname, p.lname, p.pubpid, p.DOB, " .

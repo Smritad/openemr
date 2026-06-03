@@ -354,9 +354,18 @@ function fetchAllEvents($from_date, $to_date, $provider_id = null, $facility_id 
 
     $where = "";
 
-    if ($provider_id) {
-        $where .= " AND e.pc_aid = ?";
-        array_push($sqlBindArray, $provider_id);
+    if (!empty($provider_id)) {
+        // provider_id can be a single value or an array of provider ids
+        if (is_array($provider_id)) {
+            $placeholders = implode(', ', array_fill(0, count($provider_id), '?'));
+            $where .= " AND e.pc_aid IN ($placeholders)";
+            foreach ($provider_id as $x) {
+                array_push($sqlBindArray, $x);
+            }
+        } else {
+            $where .= " AND e.pc_aid = ?";
+            array_push($sqlBindArray, $provider_id);
+        }
     }
 
     if ($facility_id) {
